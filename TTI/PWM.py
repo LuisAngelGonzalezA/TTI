@@ -6,7 +6,7 @@ http://www.electronicwings.com
 import RPi.GPIO as GPIO
 from time import sleep
 
-ledpin = 12						# PWM pin connected to LED
+ledpin = 12					# PWM pin connected to LED
 GPIO.setwarnings(False)			#disable warnings
 GPIO.setmode(GPIO.BOARD)		#set pin numbering system
 GPIO.setup(ledpin,GPIO.OUT)
