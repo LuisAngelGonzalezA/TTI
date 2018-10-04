@@ -3,7 +3,7 @@
 
 int main (void)
 {
-   printf ("Raspberry Pi wiringPi test program\n");
+   printf ("Colocando Ángulos\n");
    wiringPiSetupGpio();
    pinMode (18, PWM_OUTPUT) ;
    pwmSetMode (PWM_MODE_MS);
