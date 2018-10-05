@@ -27,10 +27,10 @@ int main()
 	pthread_t tids[2];
 	int nh[2]={0 , 1},*hilo;
 	
-	unsigned char dato;
+	//unsigned char dato;
 	
 
-	fd_serie = config_serial( "/dev/S0", B9600 );
+	fd_serie = config_serial( "/dev/ttyS0", B9600 );
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 	pthread_create(&tids[0],NULL,mando,(void *) & nh[0]);
 	pthread_create(&tids[1],NULL,recibo,(void *) & nh[1]);
@@ -44,15 +44,6 @@ int main()
 
 
 	//Leemos N datos del UART
-		dato = 0x55;
-	for( ; EVER; )
-	{
-		read ( fd_serie, &dato, 1 );
-		printf("%c", dato);
-		//write( fd_serie, &dato, 1 );
-		//sleep(1);
-	}
-	close( fd_serie );
 
 	return 0;
 }
@@ -66,7 +57,7 @@ void * mando( void *idh )
 	if(matar_envio==0)
 	{
 		
-		printf("0x%X\n",dato_mandar);
+		printf("-->MANDANDO ---> 0x%X\n",dato_mandar);
 		write( fd_serie, &dato_mandar, 1 );
 	}
 	sleep(1);
@@ -90,29 +81,35 @@ void * recibo( void *idh )
 	//scanf("%s",&dato);
 	read ( fd_serie, &dato, 1 );
 	printf("Dato ingresado--->%c    %X\n",dato,dato);
-	if(dato == comparacion_inicio)
-	{
+	//if(dato == comparacion_inicio)
+	//{
 		printf("\tRecibiendo datos\n");
 		
-		matar_envio=1;
-		for ( i = 0; i <=7; i++)
+		//matar_envio=1;
+		for ( i = 0; i <7; i++)
 		{
 			//comparacion=0x30;
 			
 			fflush( stdin );
 			//scanf("%s",&dato);
+			printf("ESPERANDO DATOS\n");
 			read ( fd_serie, &dato, 1 );
-
+			sleep(.010);
 			printf("Dato ingresado [%d]: %c --->%X--------->%c<<---\n",i,dato,dato,comparacion_final);
-			if(dato == comparacion_final)
+			if(dato == comparacion_final && i==5)
 			{
 				printf("EXITO AL FINALIZAR\n");
+				sleep(100);
 				matar_envio=0;
 				break;
 			}
 		}
-		
-	}
+		close(fd_serie);
+		printf("\ncerrando el descriptor");
+		sleep(.1);	
+		fd_serie = config_serial( "/dev/ttyS0", B9600 );
+		printf("\nAbriendo el descriptor : %d" , fd_serie);
+	//}
 	}
 	pthread_exit(idh);
 	
@@ -201,4 +198,3 @@ int config_serial( char *dispositivo_serial, speed_t baudios )
 //Retorna el descriptor de archivo
 	return fd;
 }
-
