@@ -19,25 +19,25 @@ int main()
 	static unsigned char dato,dato_envio;
 	unsigned short int tempL, tempH, temp;
 
-	fd_serie = config_serial( "/dev/ttyUSB0", B9600 );
+	fd_serie = config_serial( "/dev/ttyS0", B9600 );
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
 	//Leemos N datos del UART
 		dato_envio = 0xE1;
 		dato=0x00;
 	for( ; EVER; )
-	{
+	{	sleep(.10);
 		write( fd_serie, &dato_envio, 1 );
 		printf("0x%X\n", dato_envio);
-		if(printf("%c", dato)>0)
-		{
+		//if(printf("%c", dato)>0)
+		//{
 
 		for(i=0;i<9-1;i++)
 		{
 		read ( fd_serie, &dato, 1 );
 		printf("0x%X\n", dato);
 		}
-		}
+		//}
 		//write( fd_serie, &dato, 1 );
 		sleep(1);
 		printf("--->finaliza la transmision\n");
