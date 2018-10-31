@@ -8,7 +8,7 @@ int main (void)
    pinMode (18, PWM_OUTPUT) ;
    pwmSetMode (PWM_MODE_MS);
    pwmSetRange (2000);
-   pwmSetClo ck (192);
+   pwmSetClock (192);
    pwmWrite(18,50);
    delay(1000);
    pwmWrite(18,245);
