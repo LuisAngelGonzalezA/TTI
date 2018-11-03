@@ -63,29 +63,29 @@ int main()
 											*/
 		printf("0x%X\n", dato_envio);
 		
-		/* En la parte de la validación vamos a recibir 8 datos
-			-C1 apertura
-			-Parte alta del voltaje
-			-Parte baja del voltaje
-			-Parte alta de la corriente
-			-Parte baja de la corriente
-			-Parte alta de la temperatura
-			-Parte baja de la temperatura 
-			-C2 el cierre de la comunicación
-			
-		->Ilustración
+/* En la parte de la validación vamos a recibir 8 datos
+	-C1 apertura
+	-Parte alta del voltaje
+	-Parte baja del voltaje
+	-Parte alta de la corriente
+	-Parte baja de la corriente
+	-Parte alta de la temperatura
+	-Parte baja de la temperatura 
+	-C2 el cierre de la comunicación
+	
+->Ilustración
 
 
 
-				    Envió                   | E1 --------------->     |Recibé
-				    Empieza comunicaión	    |    <-------------- C1   |Envió de aceptación
-					Recibé Alta Voltaje     | 	 <-------------- Dato |Parte Alta Voltaje
-					Recibé Baja Voltaje     | 	 <-------------- Dato |Parte Baja Voltaje
-         Raspberry	Recibé Alta Corriente   | 	 <-------------- Dato |Parte Alta Corriente    PIC16F876A
-				    Recibé Baja Corriente   | 	 <-------------- Dato |Parte Baja Corriente
-				    Recibé Alta Temperatura | 	 <-------------- Dato |Parte Alta Temperatura
-					Recibé Baja Temperatura | 	 <-------------- Dato |Parte Baja Temperatura
-					Termina recepción       | 	 <-------------- C2   |Envió de terminación
+		    Envió                   | E1 --------------->     |Recibé
+		    Empieza comunicaión	    |    <-------------- C1   |Envió de aceptación
+			Recibé Alta Voltaje     | 	 <-------------- Dato |Parte Alta Voltaje
+			Recibé Baja Voltaje     | 	 <-------------- Dato |Parte Baja Voltaje
+ Raspberry	Recibé Alta Corriente   | 	 <-------------- Dato |Parte Alta Corriente    PIC16F876A
+		    Recibé Baja Corriente   | 	 <-------------- Dato |Parte Baja Corriente
+		    Recibé Alta Temperatura | 	 <-------------- Dato |Parte Alta Temperatura
+			Recibé Baja Temperatura | 	 <-------------- Dato |Parte Baja Temperatura
+			Termina recepción       | 	 <-------------- C2   |Envió de terminación
 
 
 
