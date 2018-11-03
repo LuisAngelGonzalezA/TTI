@@ -12,6 +12,7 @@
 
 int main()
 {
+
 	register int validacion;           /*Se realizara la validación en la entrada de los datos los cuales nos
 							             indicaran :
 								   			-Si el dato de entrada es diferente del de apertura en 
@@ -54,6 +55,7 @@ int main()
 	/* inicio de un ciclo infinito el cual se va a estar conmutando con los demas moódulos de medición*/
 	for( ; EVER; )
 	{	
+		
 		write( puerto_serial, &dato_envio, 1 );
 											/*
 											En la parte del write enviamos el dato de referencia de la variable
@@ -70,9 +72,37 @@ int main()
 			-Parte alta de la temperatura
 			-Parte baja de la temperatura 
 			-C2 el cierre de la comunicación
+			
+		->Ilustración
+
+
+
+				    Envió                   | E1 --------------->     |Recibé
+				    Empieza comunicaión	    |    <-------------- C1   |Envió de aceptación
+					Recibé Alta Voltaje     | 	 <-------------- Dato |Parte Alta Voltaje
+					Recibé Baja Voltaje     | 	 <-------------- Dato |Parte Baja Voltaje
+         Raspberry	Recibé Alta Corriente   | 	 <-------------- Dato |Parte Alta Corriente    PIC16F876A
+				    Recibé Baja Corriente   | 	 <-------------- Dato |Parte Baja Corriente
+				    Recibé Alta Temperatura | 	 <-------------- Dato |Parte Alta Temperatura
+					Recibé Baja Temperatura | 	 <-------------- Dato |Parte Baja Temperatura
+					Termina recepción       | 	 <-------------- C2   |Envió de terminación
+
+
+
+
+
+
 		*/
 		for(validacion = 0; validacion < 8 ; validacion++ )
 		{
+			int datos_recibidos_UART[6];       /*Almacenar los datos leídos de la Raspberry para posteriormente ser
+										llamados en las funciones de:
+														- void hexadecimal_a_voltaje
+														- void hexadecimal_a_corriente
+														- void hexadecimal_a_temperatura
+
+
+											*/
 			/*
 			En la primera parte de la lectura lo que se procesa es la captura del datos el cual si al iniciar
 			la comunicación es diferente al de apertura el dato recibido no es adecuado para la comunicación,
@@ -120,6 +150,11 @@ int main()
 			*/
 			else if(dato_recibido == 194 && validacion == 7)
 			{
+				//printf("\"Datos leídos\"\n\n");
+				hexadecimal_a_voltaje(datos_recibidos_UART[0],datos_recibidos_UART[1]);
+				hexadecimal_a_corriente(datos_recibidos_UART[2],datos_recibidos_UART[3]);
+				hexadecimal_a_temperatura(datos_recibidos_UART[4],datos_recibidos_UART[5]);
+
 				printf("Terminando Trasmición %X\n",dato_recibido);
 			}
 			/*
@@ -142,8 +177,10 @@ int main()
 			else
 			{
 			printf("0x%d     %c\n", dato_recibido,dato_recibido);
+			datos_recibidos_UART[validacion-1]=(int)dato_recibido;
 			
 			}
+		
 		}
 		/* Esperamos dos segundo para la siguiente lectura de datos*/
 		sleep(2);

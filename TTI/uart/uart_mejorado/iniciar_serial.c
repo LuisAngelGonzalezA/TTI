@@ -80,3 +80,71 @@ int config_serial( char *dispositivo_serial, speed_t baudios )
 	return fd;
 }
 
+
+
+void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
+{
+  /*En la comparación de voltaje alto es por si el voltaje fuera menor a 9 en este caso al tratar de 
+    visualizar el valor no se podria y se confundiria con el noventa si solo se convierte directo,
+    esto quiere decir que entonces estaríamos leyendo datos sumamente diferente con respecto a lo
+    medido*/
+  if(voltaje_bajo <=9) 
+  {
+    printf("%d.0%d\n",voltaje_alto,voltaje_bajo);
+  }
+  /*En el caso contrario lo que se esta analizando en esta parte es que el valor leído atraves del UART despúes
+  para procesar en el printf lo que se hace es 
+  
+   ->Como es un valor entero al hacer la división del divisor entre el dividendo obtenemos el cociente 
+   ->Siguiendo la logica el residuo seria nuestra parte de decimal el cual nos sirve para despues solo unirlo
+
+
+  */
+  else printf("%d.0%d\n",voltaje_alto,voltaje_bajo);
+
+}
+void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
+{
+  int valor;
+  valor=corriente_alto;
+  /*En la parte de corriemiento para que unamos la parte alta y baja de los datos leídos del modulo RS-232
+  atraves del módulo UART de la raspberry el cual se va a agregar los siguientes 8 bits .
+  */
+  valor=corriente_alto<<8;
+  /*¿Porque se usa un or?
+	Bueno principalmente para que nuestros datos de corrimiento no se vean afectados ademas que la operacion 
+	booleana de or es una suma de numero.
+	*/
+  valor=valor | corriente_bajo;
+  //valor=valor & BAJO;
+  if(valor <=9)
+  {
+    printf("0.00%d A\n",valor);
+  }
+  else if(valor <=99)
+  {
+    printf("0.0%d A\n",valor);
+  }
+  /*
+  Se hace en el envio de el PIC16F876A es enviar todo el valor pero lo que se hace es mandar
+  el dato en hexadecima para despues solo convertirlo en decimal y ese valor sea nuestra corriente
+  como en el caso del voltaje.
+  */
+  else printf("%d.%d A\n",valor/1000,valor%1000);
+
+}
+void hexadecimal_a_temperatura(int temperatura_alto,int temperatura_bajo)
+{
+    /*
+	La parte de la medición de datos es la siguiente dato que se leé de parte alta como parte baja 
+	va a dar como resultado su total en decimal es por eso que solo se imprime lo que nos manda los
+	como se muestra es solo un print de esos valore hexadecimales convertidos a enteros.
+
+    */
+    printf("%d.%d\n",temperatura_alto,temperatura_bajo);
+
+
+}
+
+
+
