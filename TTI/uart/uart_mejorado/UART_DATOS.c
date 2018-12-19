@@ -33,7 +33,7 @@ int main()
 											  do el cual es de un rango de -128 a 127 el cual al transformat el
 											  C1 a un entero es 193 y el cierre es a 194 */
 
-	puerto_serial = config_serial( "/dev/ttyUSB0", B9600 );
+	puerto_serial = config_serial( "/dev/ttyS0", B9600 );
 	 										/*
 												Al llamar a la función de config_serial esta nos puede devolver
 												 -Error al abrir el dispositivo
@@ -176,7 +176,7 @@ int main()
 			*/
 			else
 			{
-			printf("0x%d     %c\n", dato_recibido,dato_recibido);
+			//printf("0x%d     %c\n", dato_recibido,dato_recibido);
 			datos_recibidos_UART[validacion-1]=(int)dato_recibido;
 			
 			}

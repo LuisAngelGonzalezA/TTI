@@ -90,7 +90,7 @@ void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
     medido*/
   if(voltaje_bajo <=9) 
   {
-    printf("%d.0%d\n",voltaje_alto,voltaje_bajo);
+    printf("%d.0%d V\n",voltaje_alto,voltaje_bajo);
   }
   /*En el caso contrario lo que se esta analizando en esta parte es que el valor leído atraves del UART despúes
   para procesar en el printf lo que se hace es 
@@ -100,7 +100,7 @@ void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
 
 
   */
-  else printf("%d.0%d\n",voltaje_alto,voltaje_bajo);
+  else printf("%d.%d V\n",voltaje_alto,voltaje_bajo);
 
 }
 void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
@@ -141,7 +141,7 @@ void hexadecimal_a_temperatura(int temperatura_alto,int temperatura_bajo)
 	como se muestra es solo un print de esos valore hexadecimales convertidos a enteros.
 
     */
-    printf("%d.%d\n",temperatura_alto,temperatura_bajo);
+    printf("%d.%d °C\n",temperatura_alto,temperatura_bajo);
 
 
 }

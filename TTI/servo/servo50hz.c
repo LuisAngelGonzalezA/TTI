@@ -7,21 +7,19 @@ int main (void)
    wiringPiSetupGpio();
    pinMode (18, PWM_OUTPUT) ;
    pwmSetMode (PWM_MODE_MS);
-   pwmSetRange (2000);
+   pwmSetRange (200);
    pwmSetClock (192);
-   pwmWrite(18,50);
+   pwmWrite(18,15);
    delay(1000);
-   pwmWrite(18,150);
+   pwmWrite(18,20);
    delay(1000);
-
-   pwmWrite(18,243);
+   pwmWrite(18,10);
    delay(1000);
-   
    return 0;
 }
-
-
 /*
+
+
 
 According to this formula:
 

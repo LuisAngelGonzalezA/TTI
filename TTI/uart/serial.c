@@ -16,18 +16,32 @@ int main()
 {
 	register int i;
 	int fd_serie;
-	unsigned char dato;
+	unsigned char dato,dato2=0xE1;
 	unsigned short int tempL, tempH, temp;
 
-	fd_serie = config_serial( "/dev/ttyUSB0", B9600 );
+	fd_serie = config_serial( "/dev/ttyS0", B9600 );
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
 	//Leemos N datos del UART
 		dato = 0x55;
 	for( ; EVER; )
-	{
+	{	
+		write( fd_serie, &dato2, 1 );
+		
 		read ( fd_serie, &dato, 1 );
-		printf("%c", dato);
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
+		read ( fd_serie, &dato, 1 );
+		printf("-->%c\n", dato);
 		//write( fd_serie, &dato, 1 );
 		//sleep(1);
 	}

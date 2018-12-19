@@ -18,13 +18,13 @@ int main (void)   {
     for (num = 0 ; num < 1024 ; ++num)
     {
       pwmWrite (1, num) ;
-      delay (1) ;
+      delay (1000) ;
     }
     delay(1000);
     for (num = 1023 ; num >= 0 ; --num)
     {
       pwmWrite (1, num) ;
-      delay (1) ;
+      delay (1000) ;
     }
 
     delay(1000);
