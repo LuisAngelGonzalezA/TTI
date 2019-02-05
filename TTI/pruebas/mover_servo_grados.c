@@ -2,7 +2,7 @@
  * 
  * Recordar
  * compilar con
- *    gcc -lwiringPi servo_final.c -o servo_final -lpthread `mysql_config --cflags` `mysql_config --libs`
+ *    gcc -lwiringPi mover_servo_grados.c -o prueba_hora -lpthread `mysql_config --cflags` `mysql_config --libs`
 
   Guardar el service 
   * /etc/systemd/system/tu servicio
@@ -27,6 +27,7 @@
 #include <syslog.h>
 #include <pthread.h>
 #include <mysql/mysql.h>
+#include <time.h>
 int grado=90,grados_y=90;
 
 int divisor = 390;
@@ -36,6 +37,7 @@ void * movimiento_x(void *arg);
 void * movimiento_y(void *arg);
 void * prueba(void *arg);
 void demonio();
+void mover_servo();
 int main(int argc, char* argv[])
 {
   demonio();
@@ -56,11 +58,77 @@ int main(int argc, char* argv[])
   for(;;) {
     
 
-    mysql();
-    syslog(LOG_INFO,"%d  --  %d\n",grado,grados_y);
-    delay(250);
+    mover_servo();
     }
 }
+
+void mover_servo()
+{
+    time_t t;
+  struct tm *tm;
+  char fechayhora[100];
+  int tiempo_estimado=1;
+  int h,m,s;
+  int min_bandera;
+  t=time(NULL);
+  tm=localtime(&t);
+  strftime(fechayhora, 100, "%H", tm);
+  h=atoi(fechayhora);
+  strftime(fechayhora, 100, "%M", tm);
+  m=atoi(fechayhora);
+  min_bandera=m+tiempo_estimado;
+  if(min_bandera>=59)
+  {
+    min_bandera=min_bandera - 60;
+  }
+  //else
+    
+  
+  strftime(fechayhora, 100, "%S", tm);
+  s=atoi(fechayhora);
+
+  
+  syslog(LOG_INFO,"Hoy es: %d : %d : %d\n\n", h,m,s);
+  syslog(LOG_INFO,"\nTiempo para acabar = %d  min\n",min_bandera);
+ 	
+  while(1)
+ 	{
+    
+  syslog(LOG_INFO,"\nTiempo para acabar = %d  min\n",min_bandera);
+  //printf("-->\n");
+  t=time(NULL);
+  tm=localtime(&t);
+
+      if(m==min_bandera)
+     {
+ 			//printf("\nYa a pasado el tiempo ya volvemos a monitorear\n");
+ 			syslog(LOG_INFO,"\n Ya a pasado el tiempo ya volvemos a monitorear\n");
+      mysql();
+      syslog(LOG_INFO,"%d  --  %d\n",grado,grados_y);
+      delay(250);
+      min_bandera=m+tiempo_estimado;
+      if(min_bandera>=59)
+      {
+        min_bandera=min_bandera - 60;
+      }
+  
+ 			
+ 		}
+ 		strftime(fechayhora, 100, "%M", tm);
+ 	 	m=atoi(fechayhora);
+    strftime(fechayhora, 100, "%S", tm);
+    s=atoi(fechayhora);
+ 	 	usleep(1000000);
+ 	 	
+    //printf ("\r\t->Hoy es:  %d  :  %d\r", m,s);
+    
+
+
+
+ 	}
+
+}
+
 
 
 int posicion_panel(int grado)
@@ -131,7 +199,16 @@ void mysql()
 		syslog(LOG_INFO,"%s\n",row[0]);
     //printf("%s\n",row[0]);
   */
-
+    
+    
+    if(mysql_query(con, "insert into posicion_servo values (1,1,1)")!=0)//,grado,grados_y)!=0)
+    {
+      syslog(LOG_INFO,"%s\n", mysql_error(con));
+      exit(1);
+      
+    }
+  
+  
 	 if (mysql_query(con, "SELECT * FROM posicion_servo")) 
   {
       mysql_error(con);
