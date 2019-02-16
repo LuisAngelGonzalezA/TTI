@@ -26,22 +26,16 @@
 #include <signal.h>
 #include <syslog.h>
 #include <pthread.h>
-#include <fcntl.h>
-#include <errno.h>
-
+#include <mysql/mysql.h>
 int grado=90,grados_y=90;
 
 int divisor = 390;
 int range = 1024;
-
-
-short existe(char *fname);
-int posicion_panel(int grado);
+void mysql();
 void * movimiento_x(void *arg);
 void * movimiento_y(void *arg);
 void * prueba(void *arg);
 void demonio();
-void datos_archivo();
 int main(int argc, char* argv[])
 {
   demonio();
@@ -54,13 +48,17 @@ int main(int argc, char* argv[])
   pwmSetRange(range);
 
   pthread_t tids[2];
-
+  //pthread_create(&tids[0],NULL,prueba,NULL);
   pthread_create(&tids[0],NULL,movimiento_x,NULL);
   pthread_create(&tids[1],NULL,movimiento_y,NULL);
 
   //pthread_join(tids,NULL);
-  for(;1;) {
-    datos_archivo();
+  for(;;) {
+    
+
+    mysql();
+    syslog(LOG_INFO,"%d  --  %d\n",grado,grados_y);
+    delay(250);
     }
 }
 
@@ -76,7 +74,9 @@ void * prueba(void *arg)
   int i=0;
   for(;1;)
   {
-    
+    printf("\n-->%d\n",i);
+    i++;
+    delay(2000);
   }
   
 }
@@ -86,8 +86,9 @@ void * movimiento_x(void *arg)
   while(1)
   {
     int posicion=posicion_panel(grado);
+    syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grado);
     pwmWrite(18,posicion);
-    usleep(1000000);
+    delay(1000);
   }
 }
 void * movimiento_y(void *arg)
@@ -95,106 +96,75 @@ void * movimiento_y(void *arg)
   while(1)
   {
     int posicion=posicion_panel(grados_y);
-    syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
     pwmWrite(13,posicion);
-    usleep(1000000);
+    delay(1000);
   }
 }
 
-
-void datos_archivo()
+void mysql()
 {
+  MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tt1Pruebas";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		//fprintf(stderr, "%s\n", mysql_error(con));
+    syslog(LOG_INFO,"%s\n", mysql_error(con));
+	}
+
+	/*if(mysql_query(con,"show databases"))
+	{
+		//fprintf(stderr, "%s\n", mysql_error(con));
+    syslog(LOG_INFO,"%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		syslog(LOG_INFO,"%s\n",row[0]);
+    //printf("%s\n",row[0]);
+  */
+
+	 if (mysql_query(con, "SELECT * FROM posicion_servo")) 
+  {
+      mysql_error(con);
+  }
   
-	char *archivo="/home/pi/Desktop/archivo.txt";
-	int archivo_exixte=existe(archivo);
-	usleep(1000000);
-	if(archivo_exixte==0){
-		/*Existe el archivo se inicializo al comienzo del inicio del sistema o incluso al inicio del horario
-		 * destinado para el comienzo, entonces se puede realizar la busqueda para una posición adecuada
-		 * para obtener una mayor irradiación posible*/
-		FILE *fichero=fopen(archivo,"r");
-		
-		if(fichero>0){//Si el fichero se abre mal devuelve NULL
-	    
-			printf("File Open\n");
-			int i=0;
-			char lectura[100]={};
-			
-		
-			while(!feof(fichero)){//Esperamos el fin del fichero
-				//Leemos el fichero y lo printamos
-				printf("-->%s", fgets(lectura, 99, fichero));
-				if(i==0)
-				{
-					//sscanf(lectura,"%f",&voltaje_ingresado);
-					grado=(int)atof(lectura);
-					i++;
-				}
-				else if(i==1) 
-				{	
-					//sscanf(lectura,"%f",&voltaje_deseado);
-					grados_y=(int)atof(lectura);
-	
-	
-					i++;
-				}	
-			}
-			if(i<2)
-			{
-				grado=0.0;
-				grados_y=0.0;
-				printf("\n\nError faltan datos\n");
-				
-			}
+  res = mysql_store_result(con);
+  
+  if (res == NULL) 
+  {
+      mysql_error(con);
+  }
 
-	}else{
-	    grado=0.0;
-	    grados_y=0.0;
-	    printf("File not Open\n");
-	    //syslog(LOG_INFO,"File not Open");
-	}
-	
-	printf("\nValores obtenidos del archvio son %d",grado);
-	printf("\nValores obtenidos del archvio son %d\n",grados_y);	 
-	 	 
-		
-	}
-	else if(archivo_exixte==-1)
-	{
-			/*No existe se ejecuta el comando para que se inicie los valores de default al posicionamiento 
-			 * del panel solar como un default al comienzo del día.*/
-		
-	}
-	else
-	{
-		/*Error con el archivo no se pudo leer debemos de atender este siniestro para poder seguir con la 
-		 * ejecución del programa para el posicionamiento adecuado y así efectuar el movimiento del panel 
-		 * para que simule el comportamiento del panel solar.*/
-		 
-		 
-		 
-	}
+  int num_fields = mysql_num_fields(res);
+  
+  while ((row = mysql_fetch_row(res))) 
+  { 
+      /*for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+      */
+      grado=atoi(row[0]);
+      grados_y=atoi(row[1]);
+      
+  }
 
+	mysql_free_result(res);
+	mysql_close(con);
 
+  
 }
-
-short existe(char *fname)
-{
-	int fd=open(fname,O_RDONLY);
-	if(fd<0)
-		return (errno==ENOENT)?-1:-2;
-	return 0; 
-	
-	
-	
-	
-	return 0;
-}
-
-
-
-
-
 
 
 void demonio()

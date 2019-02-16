@@ -20,19 +20,18 @@ int main(int argc, char* argv[])
   for(;;) {
     int grado=0,grados_y=0;
     int posicion=0;
-    printf("
-    Grados en X:\n");
+    printf("Grados en X:\n");
     scanf("%d",&grado);
     printf("Grados en Y:\n");
     scanf("%d",&grados_y);
 
     posicion=posicion_panel(grado);
     pwmWrite(18,posicion);
-    delay(10);
+    delay(1000);
 
     posicion=posicion_panel(grados_y);
     pwmWrite(13,posicion);
-    delay(10);
+    delay(1000);
     }
 }
 
