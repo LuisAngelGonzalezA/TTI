@@ -1,0 +1,95 @@
+#include <wiringPi.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+int main(int argc, char* argv[])
+{
+
+  int div = 390;
+  int range = 1024;
+  int duty=1024;
+  float pendiente=0.0;
+  float b1=0.0;
+  float b2=0.0;
+  float b_a_usar=0.0;
+
+  float voltaje_ingresado=0.0;
+  float voltaje_deseado=0.0;
+  float voltaje_min=0.0;
+  
+  
+  wiringPiSetupGpio();
+
+  pinMode(12,PWM_OUTPUT);
+  pwmSetMode(PWM_MODE_MS);
+  pwmSetClock(div);
+  pwmSetRange(range);
+  pwmWrite(12,duty);
+  delay(1000);
+
+
+    float grado=0;
+    int redondeo=0;
+    printf("Grados en X:\n");
+    scanf("%f",&grado);
+    redondeo=round(grado);
+    printf("-->%d\n",redondeo);
+
+
+    while(1)
+    {
+	}
+	printf("Voltaje Maximo:\n");
+    	scanf("%f",&voltaje_ingresado);
+	printf("Voltaje deseado:\n");
+    	scanf("%f",&voltaje_deseado);
+        if (voltaje_deseado <= voltaje_ingresado)
+            {
+            pendiente=((1024-0)/(voltaje_min-voltaje_ingresado));
+            printf("%f\n",pendiente);
+            
+            b1=(100.0-pendiente*(voltaje_min));
+            printf("-->%f\n",b1);
+            b2=0-pendiente*(voltaje_ingresado);
+            printf("-->%f\n",b2);
+            duty=round(pendiente*(voltaje_ingresado)+(b1));
+            printf("duty--->%d\n",duty);
+            
+            if(duty>=0 && duty <= 1)
+            {
+                
+                printf("si entro en b1");
+                printf("Duty vale -- >%d\n",duty);
+                b_a_usar=b1;
+            }
+            else
+            {
+                duty=round(pendiente*(voltaje_ingresado)+(b2));
+                if(duty>=0 && duty <= 1)
+		{
+                    printf("si entro en b2");
+                    printf("Duty vale -- >%d\n",duty);
+                    b_a_usar=b2;
+		}
+            }
+            
+                
+            printf("B a usar-->%f\n",b_a_usar);
+            duty=round(pendiente*(voltaje_deseado)+b_a_usar);
+            
+            if(duty >= 1024)
+                duty=1024;
+            printf("Duty : -->%d\n",duty);
+            pwmWrite(12,duty);
+            delay(1000);             
+            }
+        else
+	{
+	    pwmWrite(12,1024);
+            delay(1000);
+         
+    	}
+ 
+    }
+}
+

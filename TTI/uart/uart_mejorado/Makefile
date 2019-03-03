@@ -1,6 +1,8 @@
 PROYECTO=UART_DATOS
 DESTDIR=/usr/local/bin
-CFLAGS=-Wall 
+CFLAGS=-Wall
+Hilo=-lpthread
+
 CC=gcc
 FILES := $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -10,7 +12,7 @@ all: $(PROYECTO)
 	$(CC) -c $< $(CFLAGS)
 
 $(PROYECTO): $(FILES)
-	$(CC) $^ -o $@ 
+	$(CC) $^ -o $@ $(Hilo) 
 
 	
 #EN FILES se obtienen todos los archivos con la terminación .c gracias a $(wildcard *-c), 
