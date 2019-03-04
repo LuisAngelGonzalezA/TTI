@@ -11,3 +11,4 @@ select mes,estacion,fecha_inicio from posicion_servo where fecha_inicio>= Date_f
 
 select mes,estacion,fecha_inicio from posicion_servo having Date_format(now(),'%d-%m') between fecha_inicio and fecha_fin;
 
+
