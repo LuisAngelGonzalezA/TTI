@@ -29,7 +29,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-int grado=90,grados_y=90;
+int grado,grados_y;
 
 int divisor = 390;
 int range = 1024;
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
   pwmSetMode(PWM_MODE_MS);
   pwmSetClock(divisor);
   pwmSetRange(range);
-
+  datos_archivo();
   pthread_t tids[2];
 
   pthread_create(&tids[0],NULL,movimiento_x,NULL);
@@ -87,7 +87,7 @@ void * movimiento_x(void *arg)
   {
     int posicion=posicion_panel(grado);
     pwmWrite(18,posicion);
-    usleep(1000000);
+    usleep(50);
   }
 }
 void * movimiento_y(void *arg)
@@ -97,7 +97,7 @@ void * movimiento_y(void *arg)
     int posicion=posicion_panel(grados_y);
     syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
     pwmWrite(13,posicion);
-    usleep(1000000);
+    usleep(500);
   }
 }
 
@@ -107,8 +107,8 @@ void datos_archivo()
   
 	char *archivo="/home/pi/Desktop/archivo.txt";
 	int archivo_exixte=existe(archivo);
-	usleep(1000000);
-	if(archivo_exixte==0){
+	sleep(1);
+	char lectura[100]={};
 		/*Existe el archivo se inicializo al comienzo del inicio del sistema o incluso al inicio del horario
 		 * destinado para el comienzo, entonces se puede realizar la busqueda para una posición adecuada
 		 * para obtener una mayor irradiación posible*/
@@ -116,14 +116,15 @@ void datos_archivo()
 		
 		if(fichero>0){//Si el fichero se abre mal devuelve NULL
 	    
-			printf("File Open\n");
+			//printf("File Open\n");
 			int i=0;
-			char lectura[100]={};
+			
 			
 		
 			while(!feof(fichero)){//Esperamos el fin del fichero
 				//Leemos el fichero y lo printamos
-				printf("-->%s", fgets(lectura, 99, fichero));
+				syslog(LOG_INFO,"-->%s", fgets(lectura, 99, fichero));
+				//printf("-->%s", fgets(lectura, 99, fichero));
 				if(i==0)
 				{
 					//sscanf(lectura,"%f",&voltaje_ingresado);
@@ -143,38 +144,18 @@ void datos_archivo()
 			{
 				grado=0.0;
 				grados_y=0.0;
-				printf("\n\nError faltan datos\n");
+				syslog(LOG_INFO,"\n\nError faltan datos\n");
+				//printf("\n\nError faltan datos\n");
 				
 			}
 
-	}else{
-	    grado=0.0;
-	    grados_y=0.0;
-	    printf("File not Open\n");
-	    //syslog(LOG_INFO,"File not Open");
-	}
+		    }
 	
 	printf("\nValores obtenidos del archvio son %d",grado);
 	printf("\nValores obtenidos del archvio son %d\n",grados_y);	 
 	 	 
+	fclose(fichero);	
 		
-	}
-	else if(archivo_exixte==-1)
-	{
-			/*No existe se ejecuta el comando para que se inicie los valores de default al posicionamiento 
-			 * del panel solar como un default al comienzo del día.*/
-		
-	}
-	else
-	{
-		/*Error con el archivo no se pudo leer debemos de atender este siniestro para poder seguir con la 
-		 * ejecución del programa para el posicionamiento adecuado y así efectuar el movimiento del panel 
-		 * para que simule el comportamiento del panel solar.*/
-		 
-		 
-		 
-	}
-
 
 }
 
@@ -182,13 +163,13 @@ short existe(char *fname)
 {
 	int fd=open(fname,O_RDONLY);
 	if(fd<0)
+	{
+		close(fd);
 		return (errno==ENOENT)?-1:-2;
+	}
+	close(fd);
 	return 0; 
 	
-	
-	
-	
-	return 0;
 }
 
 

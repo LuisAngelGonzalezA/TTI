@@ -121,7 +121,7 @@ void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
   {
     printf("%d.0%d V\n",voltaje_alto,voltaje_bajo);
     char temporal[100]={};
-    char datos[100]="insert into panel_registro values(1,";
+    char datos[100]="insert into sensadoP(id_panel,voltaje,hora) values(1,";
     sprintf(temporal,"%d",voltaje_alto);
     strcat(datos,temporal);
     sprintf(temporal,".0%d,",voltaje_bajo);
@@ -141,7 +141,7 @@ void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
   {
     printf("%d.%d V\n",voltaje_alto,voltaje_bajo);
     char temporal[100]={};
-    char datos[100]="insert into panel_registro values(1,";
+    char datos[100]="insert into sensadoP(id_panel,voltaje,hora) values(1,";
     sprintf(temporal,"%d",voltaje_alto);
     strcat(datos,temporal);
     sprintf(temporal,".%d,",voltaje_bajo);
@@ -176,7 +176,8 @@ void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
   /*
   Se hace en el envio de el PIC16F876A es enviar todo el valor pero lo que se hace es mandar
   el dato en hexadecima para despues solo convertirlo en decimal y ese valor sea nuestra corriente
-  como en el caso del voltaje.
+  como en el caso del voltaje.| estado_fase             |
+
   */
   else printf("%d.%d A\n",valor/1000,valor%1000);
 
