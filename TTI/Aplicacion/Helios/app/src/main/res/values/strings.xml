@@ -1,0 +1,71 @@
+<resources>
+    <!--TITULO DE LA APP-->
+    <string name="app_name">Tornasol</string>
+
+    <!--Campos obligatorios-->
+    <string name="camposObligatorios">Los datos marcados con * son obligatorios</string>
+
+    <!--Seleccione una funcion-->
+    <string name="seleccioneFuncion">Seleccione una funcion</string>
+
+    <!--OPERACIONES-->
+    <string name="OP_ACEPTAR">Aceptar</string>
+    <string name="OP_CALCULAR">Calcular</string>
+
+    <!--CATALOGOS-->
+
+    <!--Tipo de Periodo-->
+    <string-array name="CTG_PERIODO">
+        <item>Dia</item>
+        <item>Semana</item>
+        <item>Mes</item>
+    </string-array>
+
+
+    <!--IUF1 Gestionar Funcionalidades -->
+    <string name="IUF1_TITLE">Tornasol</string>
+    <string name="IUF1_BTN1">Noticias</string>
+    <string name="IUF1_BTN2">Paneles \n Fotovoltaicos</string>
+    <string name="IUF1_BTN3">Orientacion Inicial</string>
+    <string name="IUF1_BTN4">Monitorear Mecanismo</string>
+
+    <!--IUF1.1 Mostrar Noticias-->
+    <string name="IUF1_1_TITLE">Noticias</string>
+
+    <!--IUF1.2 Mostrar Funcionamiento de los Paneles Fotovoltaicos-->
+    <string name="IUF1_2_TITLE">Paneles \n Fotovoltaicos</string>
+    <string name="IUF1_2_LBL1">Funcionamiento</string>
+    <string name="IUF1_2_LBL2">Instalacion</string>
+
+    <!--IUF1.3 Indicar inclinacion optima de un Panel Fotovoltaico-->
+    <string name="IUF1_3_TITLE">Orientacion \ninicial</string>
+    <string name="IUF1_3_LB1">Ubicacion</string>
+    <string name="IUF1_3_LB2">Estacion del año</string>
+    <string name="IUF1_3_BTN1">Calcular</string>
+    <string name="IUF1_3_LB3">La orientacion del panel fotovoltaico debe de ser %d al %d</string>
+
+    <!--IUMG1 Monitorear mecanismo de generacion de energia-->
+    <string name="IUMG1_TITLE">Monitorear Mecanismo de Generacion de Energia</string>
+    <string name="IUMG1_BTN1">Panel Fotovoltaico</string>
+    <string name="IUMG1_BTN2">Bateria</string>
+    <string name="IUMG1_LBL1">Codigo de vinculacion</string>
+    <string name="IUMG1_LBL2">Codigo</string>
+
+
+    <!--IUMG1.1 Monitorear bateria-->
+    <string name="IUMG1_1_TITLE">Monitorear Bateria</string>
+    <string name="IUMG1_1_LBL1">Estado de la bateria</string>
+    <string name="IUMG1_1_LBL2">Capacidad de carga</string>
+    <string name="IUMG1_1_LBL3">Tipo de periodo</string>
+    <string name="IUMG1_1_LBL4">Rendimiento</string>
+
+    <!--IUMG1.2 Monitorear panel fotovoltaico-->
+    <string name="IUMG1_2_TITLE">Monitorear Panel Fotovoltaico</string>
+    <string name="IUMG1_2_LBL1">Tipo de periodo</string>
+    <string name="IUMG1_2_LBL2">Rendimiento</string>
+    <string name="title_activity_maps">Map</string>
+
+
+
+    <!-- -->
+</resources>
