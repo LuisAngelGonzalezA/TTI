@@ -25,20 +25,47 @@
 #include <time.h>
 #include <string.h>
 #include <mysql/mysql.h>
+#include <wiringPi.h>
+#include <pthread.h>
 
 
+/*---------Funciones de lógica de servo-----------*/
 short existe(char *fname);
 double mysql_voltaje();
-void recalcular(double voltaje_ref,int x,int y);
+void recalcular();
 void guardar_datos(int x,int y);
-int * recalcular_y(double voltaje_ref,int x,int y);
-int * puntos_optimos_y(int * censo_de_datos);
-int * puntos_optimos_x(int * censo_de_datos);
+void recalcular_y();
+void recalcular_x();
+
+/*---------Funciones de servo---------------------*/
+int posicion_panel(int grado);
+void * movimiento_x(void *arg);
+void * movimiento_y(void *arg);
+
+
 double voltaje_mayor_y,voltaje_mayor_x;
 int grados_dados=10;
+int grado_x,grados_y;
+int divisor = 390;
+int range = 1024;
+int tiempo_espera=4;
+
+
 int main()
 {
 	
+	wiringPiSetupGpio();
+
+	pinMode(18,PWM_OUTPUT);
+	pinMode(13,PWM_OUTPUT);
+	pwmSetMode(PWM_MODE_MS);
+	pwmSetClock(divisor);
+	pwmSetRange(range);
+	pthread_t tids[2];
+
+	pthread_create(&tids[0],NULL,movimiento_x,NULL);
+	pthread_create(&tids[1],NULL,movimiento_y,NULL);
+
 	char *archivo="/home/pi/Desktop/archivo.txt";
 	int archivo_exixte=existe(archivo);
 
@@ -91,8 +118,10 @@ int main()
 	
 	printf("\nValores obtenidos del archvio son %d\n",posicion_servo_x);
 	printf("\nValores obtenidos del archvio son %d\n",posicion_servo_y);
-	double voltaje_incial=mysql_voltaje();
-	recalcular(voltaje_incial,posicion_servo_x,posicion_servo_y);
+	grado_x=posicion_servo_x;
+	grados_y=posicion_servo_y;
+	sleep(1);
+	recalcular();
 	}
 	else if(archivo_exixte==-1)
 	{
@@ -170,17 +199,123 @@ double mysql_voltaje()
 }
 
 
-int * recalcular_y(double voltaje_ref,int x,int y)
+void recalcular_y()
 {
 	printf("\nCalculando parte de y\n");
-	double voltaje_referencia=voltaje_ref;
-	int max_x1=0,max_x2=0,max_y1=0,max_y2=0;
-	int posicion_temporal_x=x;
-	int posicion_temporal_y=y + grados_dados;
+	double voltaje_referencia=mysql_voltaje(),voltaje_positivo_max,voltaje_negativo_max;
+	int posicion_temporal_y_positiva=grados_y,posicion_temporal_y_negativa=grados_y;
+	int bandera1=0,bandera2=0,bandera3=0,bandera4=0;
 	double voltaje_temporal;
-	int *datos_censado;
-	int bandera_positiva=0,bandera_negativa=0;
-	guardar_datos(posicion_temporal_x,posicion_temporal_y);
+	if(posicion_temporal_y_positiva<180)
+	{
+		posicion_temporal_y_positiva=posicion_temporal_y_positiva+grados_dados;
+		if(posicion_temporal_y_positiva>=180)
+		{
+			bandera2=1;
+			posicion_temporal_y_positiva=180;
+		}
+	}
+	else 
+	{
+		bandera1=1;
+		posicion_temporal_y_positiva=180;
+	}
+	grados_y=posicion_temporal_y_positiva;
+	sleep(tiempo_espera);
+	while(1)
+	{
+		voltaje_temporal=mysql_voltaje();
+		sleep(tiempo_espera);
+		printf("\nValore de comparación   %f :: %f\n",voltaje_temporal,voltaje_referencia);
+		
+		if(voltaje_temporal>voltaje_referencia )
+		{	
+			
+			
+			if(posicion_temporal_y_positiva>=180)
+			{
+				voltaje_referencia=voltaje_temporal;
+				printf("\nSe llegó al limite del panel en y : 180\n");
+				posicion_temporal_y_positiva=180;
+				grados_y=posicion_temporal_y_positiva;
+				bandera3=1;
+			}
+			else
+			{
+				bandera4=1;
+				voltaje_referencia=voltaje_temporal;
+				printf("\nValores censados  positivos %d  <-> %d\n",grado_x,posicion_temporal_y_positiva);
+
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva+grados_dados;
+				if(posicion_temporal_y_positiva>=180)
+				{
+					posicion_temporal_y_positiva=180;
+				}
+				grados_y=posicion_temporal_y_positiva;
+				sleep(tiempo_espera);
+			}
+		}
+		else if(voltaje_referencia>=voltaje_temporal)
+		{	
+			voltaje_positivo_max=voltaje_referencia;
+			
+			if(bandera1==1)
+			{
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva;
+				
+			}
+			else if(bandera2==1 && bandera3==1)
+			{
+				
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva;
+				
+			}
+			else if(bandera2==1)
+			{
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva-grados_dados;
+				
+			}
+			else if(bandera4==1 && bandera3==1)
+			{
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva;
+			}
+			else if(bandera4==4)
+			{
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva-grados_dados;
+				
+			}
+			else
+			{
+				posicion_temporal_y_positiva=posicion_temporal_y_positiva-grados_dados;
+			}
+			printf("\n-->Fin--- El voltaje máximo obtenido es =%f con las posiciones x:%d <=> y:%d\n",voltaje_positivo_max,grado_x,posicion_temporal_y_positiva );
+			break;
+			
+		}	
+	}//while de positivo
+	bandera1=0;bandera2=0;bandera3=0;bandera4=0;
+	printf("\nCensando parte negativa\n");
+	grados_y=posicion_temporal_y_negativa;
+	sleep(tiempo_espera);
+	voltaje_referencia=mysql_voltaje();
+	sleep(1);
+
+	if(posicion_temporal_y_negativa>0)
+	{
+		posicion_temporal_y_negativa=posicion_temporal_y_negativa-grados_dados;
+		if(posicion_temporal_y_negativa<0)
+		{
+			posicion_temporal_y_negativa=0;
+			bandera2=1;
+		}
+	}
+	else
+	{
+		posicion_temporal_y_negativa=0;
+		bandera1=1;
+	}
+	grados_y=posicion_temporal_y_negativa;
+	sleep(1);
 	while(1)
 	{
 		voltaje_temporal=mysql_voltaje();
@@ -191,338 +326,314 @@ int * recalcular_y(double voltaje_ref,int x,int y)
 		{	
 			
 			
-			if(posicion_temporal_y>=180)
+			if(posicion_temporal_y_negativa<0)
 			{
 				voltaje_referencia=voltaje_temporal;
-				printf("Se ha censado y no cambió el valor mayor 1\n");
-				max_x1=posicion_temporal_x;
-				max_y1=180;
-				
+				printf("\nSe llegó al limite del panel en y : 0\n");
+				posicion_temporal_y_negativa=0;
+				grados_y=posicion_temporal_y_negativa;
+				sleep(tiempo_espera);
+				bandera3=1;
 			}
 			else
 			{
-				bandera_positiva=1;
+				bandera4=1;
 				voltaje_referencia=voltaje_temporal;
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
-				printf("\nvalores censados  positivos %d  <-> %d\n",posicion_temporal_x,posicion_temporal_y);
-				guardar_datos(posicion_temporal_x,posicion_temporal_y);
-				posicion_temporal_y=posicion_temporal_y+grados_dados;
+				printf("\nValores censados  positivos %d  <-> %d\n",grado_x,posicion_temporal_y_negativa);
+
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa-grados_dados;
+				if(posicion_temporal_y_negativa<0)
+				{
+					posicion_temporal_y_negativa=0;
+				}
+				grados_y=posicion_temporal_y_negativa;
+				sleep(tiempo_espera);
 			}
 		}
 		else if(voltaje_referencia>=voltaje_temporal)
 		{	
-			
-			
-			if(bandera_positiva==0)
+			voltaje_negativo_max=voltaje_referencia;
+			/*if(bandera1==1)
 			{
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa;
+				
 			}
-			if(max_y1>=180)
+			else if(bandera2==1 && bandera3==1)
 			{
-				max_y1=180;
+				
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa;
+				
 			}
-			else max_y1=max_y1-grados_dados;
-			printf("\nSe obtuvo el voltaje maximo\n");
-			
-			break;
-			
-		}	
-	}//while de positivo
-	printf("\nCensando parte negativa\n");
-	usleep(1000000);
-	posicion_temporal_y=y-grados_dados;
-	guardar_datos(posicion_temporal_x,posicion_temporal_y);
-	while(1)
-	{
-		voltaje_temporal=mysql_voltaje();
-		printf("\nValore de comparación   %f :: %f\n",voltaje_temporal,voltaje_referencia);
-		if(voltaje_temporal>voltaje_referencia)
-		{	
-			
-			
-			if(posicion_temporal_y<=0)
+			else if(bandera2==1)
 			{
-				voltaje_referencia=voltaje_temporal;
-				printf("Se ha censado y no cambió el valor mayor 2\n");
-				max_x2=posicion_temporal_x;
-				max_y2=0;
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa-grados_dados;
+				
+			}
+			else if(bandera4==1 && bandera3==1)
+			{
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa;
+			}
+			else if(bandera4==4)
+			{
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa-grados_dados;
 				
 			}
 			else
 			{
-				bandera_negativa=1;
-				voltaje_referencia=voltaje_temporal;
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
-				printf("\nvalores censados  negativos %d  <->   %d\n",posicion_temporal_x,posicion_temporal_y);
-				guardar_datos(posicion_temporal_x,posicion_temporal_y);
-				posicion_temporal_y=posicion_temporal_y-grados_dados;
-			}
-		}
-		else if(voltaje_referencia>=voltaje_temporal)
-		{	
-			
-			
-			if(bandera_negativa==0)
-			{
-				max_x2=posicion_temporal_x;
-				max_y2=posicion_temporal_y;
-			}
-			if(max_y2<=0)
-			{
-				max_y2=0;
-			}
-			else max_y2=max_y2+grados_dados;
-			printf("\nSe obtuvo el voltaje maximo\n");
-			
-			printf("\nValore de comparación final   %f :: %f\n",voltaje_temporal,voltaje_referencia);
-			
-			
+				posicion_temporal_y_negativa=posicion_temporal_y_negativa+grados_dados;
+			}*/
+			printf("\n-->fin negativo El voltaje máximo obtenido es =%f con las posiciones x:%d <=> y:%d\n",voltaje_negativo_max,grado_x,posicion_temporal_y_negativa );
 			break;
 			
 		}	
 	}//while de negativo
-	guardar_datos(x,y);
-	
-	datos_censado=(int*)malloc(4*sizeof(int));
-	datos_censado[0]=max_x1;
-	datos_censado[1]=max_y1;
-	datos_censado[2]=max_x2;
-	datos_censado[3]=max_y2;
-	printf("%d  <->  %d \n  %d  <->  %d \n",datos_censado[0],datos_censado[1],datos_censado[2],datos_censado[3]);
-	return datos_censado;
+
+
+	if(voltaje_positivo_max>voltaje_negativo_max)
+	{
+		grados_y=posicion_temporal_y_positiva;
+		
+	}
+	else if(voltaje_negativo_max>voltaje_positivo_max)
+	{
+		grados_y=posicion_temporal_y_negativa;
+	}
+	else
+	{
+		grados_y=posicion_temporal_y_positiva;
+	}
+
+	sleep(tiempo_espera);
+	printf("\n\n ----------------Los valores que se obtuvieron son x : %d    y : %d\n\n",grado_x,grados_y);
 	
 	
 	
 }
 
 
-int * recalcular_x(double voltaje_ref,int x,int y)
+void recalcular_x()
 {
 	printf("\nCalculando parte de x\n");
-	double voltaje_referencia=voltaje_ref;
-	int max_x1=0,max_x2=0,max_y1=0,max_y2=0;
-	int posicion_temporal_x=x + grados_dados;
-	int posicion_temporal_y=y;
+	double voltaje_referencia=mysql_voltaje(),voltaje_positivo_max,voltaje_negativo_max;
+	int posicion_temporal_x_positiva=grado_x,posicion_temporal_x_negativa=grado_x;
+	int bandera1=0,bandera2=0,bandera3=0,bandera4=0;
 	double voltaje_temporal;
-	int *datos_censado;
-	int bandera_positiva=0,bandera_negativa=0;
-	guardar_datos(posicion_temporal_x,posicion_temporal_y);
+	if(posicion_temporal_x_positiva<180)
+	{
+		posicion_temporal_x_positiva=posicion_temporal_x_positiva+grados_dados;
+		if(posicion_temporal_x_positiva>=180)
+		{
+			posicion_temporal_x_positiva=180;
+			bandera2=1;
+		}
+	}
+	else
+	{
+		posicion_temporal_x_positiva=180;
+		bandera1=1;
+	}
+	grado_x=posicion_temporal_x_positiva;
+	sleep(tiempo_espera);
 	while(1)
 	{
 		voltaje_temporal=mysql_voltaje();
+		sleep(1);
 		printf("\nValore de comparación   %f :: %f\n",voltaje_temporal,voltaje_referencia);
+		
 		if(voltaje_temporal>voltaje_referencia )
 		{	
 			
 			
-			if(posicion_temporal_x>=180)
+			if(posicion_temporal_x_positiva>=180)
 			{
 				voltaje_referencia=voltaje_temporal;
-				printf("Se ha censado y no cambió el valor mayor 1\n");
-				max_x1=180;
-				max_y1=posicion_temporal_y;
-				
+				printf("\nSe llegó al limite del panel en y : 180\n");
+				posicion_temporal_x_positiva=180;
+				grado_x=posicion_temporal_x_positiva;
+				bandera3=1;
+				sleep(tiempo_espera);
 			}
 			else
 			{
-				bandera_positiva=1;
+				bandera4=1;
 				voltaje_referencia=voltaje_temporal;
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
-				printf("\nvalores censados  positivos %d  <-> %d\n",posicion_temporal_x,posicion_temporal_y);
-				guardar_datos(posicion_temporal_x,posicion_temporal_y);
-				posicion_temporal_x=posicion_temporal_x+grados_dados;
+				printf("\nValores censados  positivos %d  <-> %d\n",posicion_temporal_x_positiva,grados_y);
+
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva+grados_dados;
+				if(posicion_temporal_x_positiva>=180)
+				{
+					posicion_temporal_x_positiva=180;
+				}
+				grado_x=posicion_temporal_x_positiva;
+				sleep(tiempo_espera);
 			}
 		}
 		else if(voltaje_referencia>=voltaje_temporal)
 		{	
-			
-			
-			if(bandera_positiva==0)
+			voltaje_positivo_max=voltaje_referencia;
+			if(bandera1==1)
 			{
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva;
+				
 			}
-			if(max_x1>=180)
+			else if(bandera2==1 && bandera3==1)
 			{
-				max_x1=180;
+				
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva;
+				
 			}
-			else max_x1=max_x1-grados_dados;
-			printf("\nSe obtuvo el voltaje maximo\n");
-			printf("\nValore de comparación final  %f :: %f\n",voltaje_temporal,voltaje_referencia);
+			else if(bandera2==1)
+			{
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva-grados_dados;
+				
+			}
+			else if(bandera4==1 && bandera3==1)
+			{
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva;
+			}
+			else if(bandera4==4)
+			{
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva-grados_dados;
+				
+			}
+			else
+			{
+				posicion_temporal_x_positiva=posicion_temporal_x_positiva-grados_dados;
+			}
+			printf("\n-->Fin El voltaje máximo obtenido es =%f con las posiciones x:%d <=> y:%d\n",voltaje_positivo_max,posicion_temporal_x_positiva,grados_y);
 			break;
 			
 		}	
 	}//while de positivo
+	bandera1=0;bandera2=0;bandera3=0;bandera4=0;
 	printf("\nCensando parte negativa\n");
-	usleep(1000000);
-	posicion_temporal_x=x-grados_dados;
-	guardar_datos(posicion_temporal_x,posicion_temporal_y);
+	
+	grado_x=posicion_temporal_x_negativa;
+	sleep(tiempo_espera);
+	voltaje_referencia=mysql_voltaje();
+	sleep(1);
+
+	if(posicion_temporal_x_negativa>0)
+	{
+		posicion_temporal_x_negativa=posicion_temporal_x_negativa-grados_dados;
+		if(posicion_temporal_x_negativa<0)
+		{
+			posicion_temporal_x_negativa=0;
+			bandera2=1;
+		}
+	}
+	else
+	{
+		bandera1=1;
+		posicion_temporal_x_negativa=0;
+	}
+	grado_x=posicion_temporal_x_negativa;
+	sleep(tiempo_espera);
 	while(1)
 	{
 		voltaje_temporal=mysql_voltaje();
+		sleep(1);
 		printf("\nValore de comparación   %f :: %f\n",voltaje_temporal,voltaje_referencia);
-		if(voltaje_temporal>voltaje_referencia)
+		
+		if(voltaje_temporal>voltaje_referencia )
 		{	
 			
 			
-			if(posicion_temporal_x<=0)
+			if(posicion_temporal_x_negativa<0)
 			{
 				voltaje_referencia=voltaje_temporal;
-				printf("Se ha censado y no cambió el valor mayor 2\n");
-				max_x2=0;
-				max_y2=posicion_temporal_y;
+				printf("\nSe llegó al limite del panel en y : 0\n");
+				posicion_temporal_x_negativa=0;
+				grado_x=posicion_temporal_x_negativa;
+				bandera3=1;
+				sleep(tiempo_espera);
 				
 			}
 			else
 			{
-				bandera_negativa=1;
+				bandera4=1;
 				voltaje_referencia=voltaje_temporal;
-				max_x1=posicion_temporal_x;
-				max_y1=posicion_temporal_y;
-				printf("\nvalores censados  negativos %d  <->   %d\n",posicion_temporal_x,posicion_temporal_y);
-				guardar_datos(posicion_temporal_x,posicion_temporal_y);
-				posicion_temporal_x=posicion_temporal_x-grados_dados;
+				printf("\nValores censados  positivos %d  <-> %d\n",posicion_temporal_x_negativa,grados_y);
+
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa-grados_dados;
+				if(posicion_temporal_x_negativa<0)
+				{
+					posicion_temporal_x_negativa=0;
+				}
+				grado_x=posicion_temporal_x_negativa;
+				sleep(tiempo_espera);
 			}
 		}
 		else if(voltaje_referencia>=voltaje_temporal)
 		{	
 			
-			
-			if(bandera_negativa==0)
+			voltaje_negativo_max=voltaje_referencia;
+			/*if(bandera1==1)
 			{
-				max_x2=posicion_temporal_x;
-				max_y2=posicion_temporal_y;
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa;
+				
 			}
-			if(max_x2<=0)
+			else if(bandera2==1 && bandera3==1)
 			{
-				max_x2=0;
+				
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa;
+				
 			}
-			else max_x2=max_x2+grados_dados;
-			printf("\nSe obtuvo el voltaje maximo\n");
-			printf("\nValore de comparación finales   %f :: %f\n",voltaje_temporal,voltaje_referencia);
+			else if(bandera2==1)
+			{
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa-grados_dados;
+				
+			}
+			else if(bandera4==1 && bandera3==1)
+			{
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa;
+			}
+			else if(bandera4==4)
+			{
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa+grados_dados;
+				
+			}
+			else
+			{
+				posicion_temporal_x_negativa=posicion_temporal_x_negativa+grados_dados;
+			}*/
+			printf("\n-->Fin El voltaje máximo obtenido es =%f con las posiciones x:%d <=> y:%d\n",voltaje_negativo_max,posicion_temporal_x_negativa,grados_y);
 			break;
 			
 		}	
 	}//while de negativo
-	guardar_datos(x,y);
-	
-	datos_censado=(int*)malloc(4*sizeof(int));
-	datos_censado[0]=max_x1;
-	datos_censado[1]=max_y1;
-	datos_censado[2]=max_x2;
-	datos_censado[3]=max_y2;
-	printf("%d  <->  %d \n  %d  <->  %d \n",datos_censado[0],datos_censado[1],datos_censado[2],datos_censado[3]);
-	return datos_censado;
-	
-	
+
+
+	if(voltaje_positivo_max>voltaje_negativo_max)
+	{
+		grado_x=posicion_temporal_x_positiva;
+		
+	}
+	else if(voltaje_negativo_max>voltaje_positivo_max)
+	{
+		grado_x=posicion_temporal_x_negativa;
+	}
+	else
+	{
+		grado_x=posicion_temporal_x_positiva;
+	}
+	sleep(tiempo_espera);
+	printf("\n\n ----------------Los valores que se obtuvieron son x : %d    y : %d\n\n",grado_x,grados_y);
 	
 }
-
-void recalcular(double voltaje_ref,int x,int y)
+void recalcular()
 {
-	int *censo_de_datos=recalcular_y(voltaje_ref,x,y);
-	int *censo_de_datos_x;
-	int *censo_de_datos_x_puntos;
-	printf("%d  <->  %d \n  %d  <->  %d \n",censo_de_datos[0],censo_de_datos[1],censo_de_datos[2],censo_de_datos[3]);
-	int * censo_de_datos_y=puntos_optimos_y(censo_de_datos);//,voltaje_mayor_x=0.0;
-	printf("----------->%d  <->  %d \n \n",censo_de_datos_y[0],censo_de_datos_y[1]);
 	while(1)
 	{
-		censo_de_datos_x=recalcular_x(voltaje_mayor_y,censo_de_datos_y[0],censo_de_datos_y[1]);
-		censo_de_datos_x_puntos=puntos_optimos_x(censo_de_datos_x);
-		guardar_datos(censo_de_datos_x[0],censo_de_datos_x[1]);
-		censo_de_datos=recalcular_y(voltaje_ref,censo_de_datos_x_puntos[0],censo_de_datos_x_puntos[1]);
-		censo_de_datos_y=puntos_optimos_y(censo_de_datos);
-		
+
+		recalcular_y();
+		sleep(tiempo_espera);
+		recalcular_x();
+		guardar_datos(grado_x,grados_y);
 	}
 	
 	
-}
-int * puntos_optimos_y(int * censo_de_datos)
-{
-	double voltaje_1=0.0,voltaje_2=0.0;	
-	printf("\nValor rápido inserta uno bajo y luego uno alto\n");
-	guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-	usleep(1000000);
-	voltaje_1=mysql_voltaje();
-	printf("\nEspero ya lo cambiaras se acaba el tiempo \n");
 	
-	guardar_datos(censo_de_datos[2],censo_de_datos[3]);
-	usleep(1000000);
-	voltaje_2=mysql_voltaje();
-	
-	int * puntos_maximos=(int*)malloc(2*sizeof(int));
-	
-	if(voltaje_1>voltaje_2)
-	{
-		
-		guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-		puntos_maximos[0]=censo_de_datos[0];
-		puntos_maximos[1]=censo_de_datos[1];
-		voltaje_mayor_y=voltaje_1;
-		
-	}
-	else if(voltaje_2>voltaje_1)
-	{
-		guardar_datos(censo_de_datos[2],censo_de_datos[3]);
-		puntos_maximos[0]=censo_de_datos[2];
-		puntos_maximos[1]=censo_de_datos[3];
-		voltaje_mayor_y=voltaje_2;
-	}
-	else
-	{
-		guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-		puntos_maximos[0]=censo_de_datos[0];
-		puntos_maximos[1]=censo_de_datos[1];
-		voltaje_mayor_y=voltaje_1;
-	}
-	return puntos_maximos;
-
-
-}
-
-
-int * puntos_optimos_x(int * censo_de_datos)
-{
-	double voltaje_1=0.0,voltaje_2=0.0;	
-	guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-	usleep(1000000);
-	voltaje_1=mysql_voltaje();
-	guardar_datos(censo_de_datos[2],censo_de_datos[3]);
-	usleep(1000000);
-	voltaje_2=mysql_voltaje();
-	int * puntos_maximos=(int*)malloc(2*sizeof(int));
-	
-	if(voltaje_1>voltaje_2)
-	{
-		
-		guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-		puntos_maximos[0]=censo_de_datos[0];
-		puntos_maximos[1]=censo_de_datos[1];
-		voltaje_mayor_x=voltaje_1;
-		
-	}
-	else if(voltaje_2>voltaje_1)
-	{
-		guardar_datos(censo_de_datos[2],censo_de_datos[3]);
-		puntos_maximos[0]=censo_de_datos[2];
-		puntos_maximos[1]=censo_de_datos[3];
-		voltaje_mayor_x=voltaje_2;
-	}
-	else
-	{
-		guardar_datos(censo_de_datos[0],censo_de_datos[1]);
-		puntos_maximos[0]=censo_de_datos[0];
-		puntos_maximos[1]=censo_de_datos[1];
-		voltaje_mayor_x=voltaje_1;
-	}
-	return puntos_maximos;
-
-
 }
 
 void guardar_datos(int x,int y)
@@ -534,8 +645,35 @@ void guardar_datos(int x,int y)
 	sprintf(lectura,"%d\n%d",x,y);
 	fputs(lectura,fichero);
 	fclose(fichero);
-	usleep(5000000);
-	
-	
-	
+	usleep(1000000);
+
 }
+
+
+
+int posicion_panel(int grado)
+{
+	int posicion=(.522*grado)+29;
+	return posicion;
+}
+
+void * movimiento_x(void *arg)
+{
+  while(1)
+  {
+    int posicion=posicion_panel(grado_x);
+    pwmWrite(18,posicion);
+    usleep(50);
+  }
+}
+void * movimiento_y(void *arg)
+{
+  while(1)
+  {
+    int posicion=posicion_panel(grados_y);
+    //syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
+    pwmWrite(13,posicion);
+    usleep(50);
+  }
+}
+ 

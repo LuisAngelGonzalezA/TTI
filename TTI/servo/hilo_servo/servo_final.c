@@ -65,11 +65,7 @@ int main(int argc, char* argv[])
 }
 
 
-int posicion_panel(int grado)
-{
-	int posicion=(.522*grado)+29;
-	return posicion;
-}
+
 
 void * prueba(void *arg)
 {
@@ -79,6 +75,11 @@ void * prueba(void *arg)
     
   }
   
+}
+int posicion_panel(int grado)
+{
+	int posicion=(.522*grado)+29;
+	return posicion;
 }
 
 void * movimiento_x(void *arg)
