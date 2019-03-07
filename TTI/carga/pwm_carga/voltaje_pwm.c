@@ -1,3 +1,16 @@
+
+/*
+ * 
+ * 
+ * 	gcc voltaje_pwm.c -o voltaje_pwm -lm -lwiringPi `mysql_config --cflags` `mysql_config --libs`
+ * 
+ * 
+ * 
+ * */
+
+
+
+
 #include <wiringPi.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,9 +21,10 @@
 #include <string.h>
 #include <signal.h>
 #include <syslog.h>
-
+#include <mysql/mysql.h>
 
 void demonio();
+double mysql_voltaje();
 
 
 
@@ -46,46 +60,8 @@ int main(int argc, char* argv[])
     while(1)
     {
 	
-	FILE *fichero;
-	
-	char lectura[100];
-	
-	fichero=fopen("/home/pi/Downloads/pwm_carga/archivo.txt","r"); //Abrimos el fichero para solo lectura
-	if(fichero>0){//Si el fichero se abre mal devuelve NULL
-	    
-	    syslog(LOG_INFO, "File Open\n");
-	    int i=0;
-	
-	    while(!feof(fichero)){//Esperamos el fin del fichero
-	        //Leemos el fichero y lo printamos
-		syslog(LOG_INFO,"-->%s", fgets(lectura, 99, fichero));
-		if(i==0)
-		{
-  			//sscanf(lectura,"%f",&voltaje_ingresado);
-			voltaje_ingresado=(float)atof(lectura);
-			i++;
-		}
-		else if(i==1) 
-		{	
-			//sscanf(lectura,"%f",&voltaje_deseado);
-			voltaje_deseado=(float)atof(lectura);
-			i++;
-		}	
-	    }
-	    if(i<2)
-	    {
-		voltaje_ingresado=0.0;
-	        voltaje_deseado=0.0;
-		syslog(LOG_INFO,"\n\nError faltan datos\n");
-	        
-	    }
-
-	}else{
-	    voltaje_ingresado=0.0;
-	    voltaje_deseado=0.0;
-	    //printf("File not Open\n");
-	    syslog(LOG_INFO,"File not Open");
-	}
+	voltaje_ingresado=mysql_voltaje();
+	voltaje_deseado=1;
 
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
@@ -103,14 +79,14 @@ int main(int argc, char* argv[])
             
 	    syslog(LOG_INFO,"%f\n",pendiente);
             
-            b1=(100.0-pendiente*(voltaje_min));
+            b1=(1024.0-pendiente*(voltaje_min));
             syslog(LOG_INFO,"-->%f\n",b1);
 	    b2=0-pendiente*(voltaje_ingresado);
             syslog(LOG_INFO,"-->%f\n",b2);
             duty=round(pendiente*(voltaje_ingresado)+(b1));
             syslog(LOG_INFO,"-->%d\n",duty);
             
-            if(duty>=0 && duty <= 1)
+            if(duty>=0 && duty <= 1)   
             {
                 
 	        syslog(LOG_INFO,"si entro en b1");
@@ -149,6 +125,47 @@ int main(int argc, char* argv[])
 	//delay(1000);
  
     }
+}
+
+
+double mysql_voltaje()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+	}
+
+	if(mysql_query(con,"select*from sensadoP order by hora desc limit 1"))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			printf("%s\n",row[3]);
+			 dato=atof(row[3]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
 }
 
 
