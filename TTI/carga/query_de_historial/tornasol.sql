@@ -362,3 +362,16 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-03-09 23:07:32
+
+
+
+
+
+
+
+insert into sensadoP values(null,(select id_panel from historial_bateria_panel where activo=1),now(),0.1);
+
+
+insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),2.1,2.1,2.3);
+
+

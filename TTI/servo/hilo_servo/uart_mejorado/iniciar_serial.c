@@ -222,19 +222,81 @@ void hexadecimal_a_temperatura(int temperatura_alto,int temperatura_bajo)
 
 }
 
+
+void procesar_datos(int * datos_recibidos_UART,unsigned char dato_envio)
+{
+  switch(dato_envio)
+	  { 
+		  case 0xE1:
+					guardar_datos_voltaje(datos_recibidos_UART);
+					break;
+		  case 0xE2:
+					guardar_datos_bateria(datos_recibidos_UART);
+					break;
+		  case 0xE3:
+					guardar_datos_bateria_descarga(datos_recibidos_UART);
+					break;
+		  default:
+					break;
+		  
+	
+		  
+	  }
+  
+ 
+  
+  
+}
+
 void guardar_datos_voltaje(int * datos_recibidos_UART)
 {
   hexadecimal_a_voltaje(datos_recibidos_UART[0],datos_recibidos_UART[1]);
   
+  /*
+   * query de insert en sensadoP
+   * 
+   * ->   insert into sensadoP values(null,select id_panel from historial_bateria_panel where activo=1,now(),V)
+   * 
+   * */
+  char temporal[100]={};
+  char datos[100]="insert into sensadoP values(null,select id_panel from historial_bateria_panel where activo=1,now(),";
+  sprintf(temporal,"%lf",voltaje_mysql);
+  strcat(datos,temporal);	
+  strcat(datos,")");
+  insert_voltaje(datos);
+  
+  
+  
   
   
 }
+
+
 
 void guardar_datos_bateria(int * datos_recibidos_UART)
 {
   hexadecimal_a_voltaje(datos_recibidos_UART[0],datos_recibidos_UART[1]);
   hexadecimal_a_corriente(datos_recibidos_UART[2],datos_recibidos_UART[3]);
   hexadecimal_a_temperatura(datos_recibidos_UART[4],datos_recibidos_UART[5]);
+  
+  -/*
+  
+  -> query de bateria
+  * 
+  * 	insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),V,I,T);
+
+  
+  */
+  char temporal[100]={};
+  char datos[100]="insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),";
+  sprintf(temporal,"%lf",voltaje_mysql);
+  strcat(datos,temporal);
+  	
+  strcat(datos,")");
+  insert_voltaje(datos);
+  
+  
+  
   
   
 }
@@ -440,8 +502,8 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 			else if(dato_recibido == 194 && validacion == 7)
 			{
 				//printf("\"Datos leídos\"\n\n");
-				guardar_datos_voltaje(datos_recibidos_UART);
-				bandera_de_salida=1;
+				procesar_datos(datos_recibidos_UART,dato_envio);
+				bandera_de_salida=2;
 				printf("Terminando Trasmición %X\n",dato_recibido);
 				espera_de_recepcion=0;
 			}
@@ -471,8 +533,8 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 		
 		}
 		/* Esperamos dos segundo para la siguiente lectura de datos*/
-		usleep(300000);
-		if(bandera_de_salida==2)
+		usleep(400000);
+		if(bandera_de_salida==1)
 		{
 		break;
 		}
