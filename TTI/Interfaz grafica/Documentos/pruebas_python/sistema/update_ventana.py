@@ -49,20 +49,17 @@ def update_ven(self):
 		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
 		self.nombre = Tk.Label(self.dialogo, text="Nombre del panel:",font="Arial 14",justify=Tk.CENTER) 
 		self.nombre_insergrado_entry = Tk.Entry(self.dialogo, textvariable=self.nombre_insergrado,justify=Tk.CENTER) 
-		self.nombre.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
-		self.nombre_insergrado_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
 		Boton_PANEL=Tk.Button(self.dialogo, text ="Insertar Panel Fotovoltaicos", command =action_insert_ventana_panel, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 		Boton_Baterias=Tk.Button(self.dialogo, text ="Insertar Bateria", command = action_insert_ventana_bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 		Boton_Aceptar=Tk.Button(self.dialogo, text ="Visualizar", command =ver, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-
-
-
-
 		
 		self.Letrero.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		imagen_inicio.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		self.has_mem.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		has_memo.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.nombre.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.nombre_insergrado_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		Boton_PANEL.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
 		Boton_Baterias.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
 		Boton_Aceptar.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
