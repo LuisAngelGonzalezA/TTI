@@ -20,7 +20,7 @@ def update_ven(self):
 		self.nombre_insergrado =StringVar()
 		self.voltaje_ingresado =StringVar()
 		self.corriente_ingresado =StringVar()
-		self.respaldo=StringVar
+		self.respaldo=StringVar()
 
 		action_cambio = partial(ver_lista, self)
 		self.has_memoria.trace('w', action_cambio)
@@ -81,7 +81,7 @@ def update_ven(self):
 		#self.update_label()
 
 		#
-		elf.dialogo.overrideredirect(0)
+		self.dialogo.overrideredirect(0)
 		
 
 		  # El método grab_set() asegura que no haya eventos 
@@ -133,64 +133,73 @@ def ver_lista(self,*args):
 	
 
 def update_datos_panel(self):
+	resultado=0
 	
-	consulta="select * from panel_solar where nombre ='{nombre}'".format(nombre=self.nombre_insergrado.get())
-	print(consulta)
-	mysql=mysql_conection.mysql_conexion_tornasol()
-	cursor = mysql.cursor()
-	resultado=cursor.execute(consulta)
-	if resultado == 0:
+	
+	if not self.respaldo.get().strip():
+		messagebox.showinfo("Error","Seleccione panel a actualizar")
+		
+		
+	else :
+		if self.nombre_insergrado.get()!=self.respaldo.get():
+			consulta="select * from panel_solar where nombre ='{nombre}'".format(nombre=self.nombre_insergrado.get())
+			mysql=mysql_conection.mysql_conexion_tornasol()
+			cursor = mysql.cursor()
+			resultado=cursor.execute(consulta)
+			print(consulta)
+	
+		if resultado == 0:
 
-		consulta="update panel_solar set nombre ='{nombre}',voltaje_max={voltaje},corriente_max={corriente} where nombre = '{rempazado}'".format(nombre=self.nombre_insergrado_entry.get(),voltaje=self.voltaje_ingresado.get(),corriente=self.corriente_insergrado_entry.get(),rempazado=self.respaldo.get())
-		print(consulta)
-		mysql=mysql_conection.mysql_conexion_tornasol()
-		cursor = mysql.cursor()
-		resultado=cursor.execute(consulta)
-		mysql.commit()
-		print(resultado)
-		if resultado>0:
-			messagebox.showinfo("Exito","Panel Actualizado")
-			self.nombre_insergrado=Tk.StringVar()
-			self.nombre_insergrado.set("")
-			self.respaldo=Tk.StringVar()
-			self.respaldo.set("")
-			self.voltaje_ingresado.set("")
-			self.corriente_ingresado.set("")
-			
-			self.nombre_insergrado_entry.configure(textvariable=self.nombre_insergrado)
-			self.voltaje_insergrado_entry.configure(textvariable=self.voltaje_ingresado)
-			self.corriente_insergrado_entry.configure(textvariable=self.corriente_ingresado)
-			
-			
-			
-			db =mysql_conection.mysql_conexion_tornasol()
-			cursor = db.cursor()
-			cursor.execute("select nombre from panel_solar")
-			print("--->",type(cursor))
-			print("\n\n")
-			lista=tuple()
-			for row in cursor:
+			consulta="update panel_solar set nombre ='{nombre}',voltaje_max={voltaje},corriente_max={corriente} where nombre = '{rempazado}'".format(nombre=self.nombre_insergrado_entry.get(),voltaje=self.voltaje_ingresado.get(),corriente=self.corriente_insergrado_entry.get(),rempazado=self.respaldo.get())
+			print(consulta)
+			mysql=mysql_conection.mysql_conexion_tornasol()
+			cursor = mysql.cursor()
+			resultado=cursor.execute(consulta)
+			mysql.commit()
+			print(resultado)
+			if resultado>0:
+				messagebox.showinfo("Exito","Panel Actualizado")
+				self.nombre_insergrado=Tk.StringVar()
+				self.nombre_insergrado.set("")
+				self.respaldo=Tk.StringVar()
+				self.respaldo.set("")
+				self.voltaje_ingresado.set("")
+				self.corriente_ingresado.set("")
+				
+				self.nombre_insergrado_entry.configure(textvariable=self.nombre_insergrado)
+				self.voltaje_insergrado_entry.configure(textvariable=self.voltaje_ingresado)
+				self.corriente_insergrado_entry.configure(textvariable=self.corriente_ingresado)
+				
+				
+				
+				db =mysql_conection.mysql_conexion_tornasol()
+				cursor = db.cursor()
+				cursor.execute("select nombre from panel_solar")
+				print("--->",type(cursor))
+				print("\n\n")
+				lista=tuple()
+				for row in cursor:
+					lista=list(lista)
+					lista.append(row[0])
+					lista=tuple(lista)
+					#lista.extend(row[0])
+					#print(row[0])
 				lista=list(lista)
-				lista.append(row[0])
-				lista=tuple(lista)
-				#lista.extend(row[0])
-				#print(row[0])
-			lista=list(lista)
-			
-			menu = self.has_memo["menu"]
-			menu.delete(0, "end")
-			for string in lista:
-				menu.add_command(label=string,command=lambda value=string: self.has_memoria.set(value))
-			
-			
-			
-			
-			
-			#self.dialogo.destroy()
+				
+				menu = self.has_memo["menu"]
+				menu.delete(0, "end")
+				for string in lista:
+					menu.add_command(label=string,command=lambda value=string: self.has_memoria.set(value))
+				
+				
+				
+				
+				
+				#self.dialogo.destroy()
+			else:
+				messagebox.showinfo("Error","Panel no Actualizado")	
 		else:
-			messagebox.showinfo("Error","Panel no Actualizado")	
-	else:
-		messagebox.showinfo("Error","Panel ya registrado")
+			messagebox.showinfo("Error","Panel ya registrado")
 
 
 
