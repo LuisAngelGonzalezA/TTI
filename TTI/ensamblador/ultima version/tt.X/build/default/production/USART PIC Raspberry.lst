@@ -1,0 +1,3299 @@
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;============================================================
+                      00002 ; Autores: Ismael Cervantes de Anda.
+                      00003 ;          Caballero Huesca Carlos Eduardo
+                      00004 ;          Gonzalez Ambriz Luis Angel
+                      00005 ;          
+                      00006 ;
+                      00007 ; Medidor de Voltaje, Corriente Temperatura y comunicacion USART
+                      00008 ; Fecha: 06/03/2018
+                      00009 ; PIC: 16F876A
+                      00010 ;============================================================
+                      00011         LIST    P=PIC16F876A
+                      00012         #include <p16f876a.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Jan 21 2019
+                      00005 ;  MPASM PIC16F876A processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2019 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00525         LIST
+                      00013 ;       __CONFIG        _CP_OFF&_DEBUG_OFF&_WRT_OFF&_CPD_OFF&_LVP_OFF&_BODEN_OFF&_PWRTE_ON&_WDT_OFF&_XT_
+                            OSC
+2007   1931           00014         __CONFIG        _CP_ALL&_DEBUG_OFF&_WRT_HALF&_CPD_OFF&_LVP_OFF&_BODEN_OFF&_PWRTE_ON&_WDT_OFF&_XT
+                            _OSC
+                      00015 ;============================================================
+                      00016 ;                  Declaración de Registros
+                      00017 ;============================================================
+  00000000            00018 w                       equ 0x00
+  00000000            00019 indf            equ 0x00
+  00000001            00020 tmr0            equ 0x01
+  00000003            00021 status          equ 0x03
+  00000004            00022 fsr                     equ 0x04
+  00000005            00023 porta           equ 0x05
+  00000006            00024 portb           equ 0x06
+  00000007            00025 portc           equ 0x07
+  0000000A            00026 pclath          equ 0x0a
+  0000000B            00027 intcon          equ 0x0b
+  0000000C            00028 pir1            equ     0x0c
+  0000000D            00029 pir2            equ 0x0d
+  00000018            00030 rcsta           equ     0x18
+  00000019            00031 txreg           equ     0x19
+  0000001A            00032 rcreg           equ     0x1a
+  0000001E            00033 adresh          equ     0x1e
+  0000001F            00034 adcon0          equ     0x1f
+  0000009E            00035 adresl          equ     0x9e
+  0000009F            00036 adcon1          equ 0x9f
+                      00037 ;opsion         equ 0x81
+  00000085            00038 trisa           equ 0x85
+  00000086            00039 trisb           equ 0x86
+  00000087            00040 trisc           equ 0x87
+  0000008C            00041 pie1            equ 0x8c
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000008D            00042 pie2            equ 0x8d
+  00000098            00043 txsta           equ 0x98
+  00000099            00044 spbrg           equ 0x99
+                      00045 
+  00000020            00046 varLCD          equ 0x20
+  00000021            00047 ValBIN          equ 0x21
+  00000022            00048 adcalto         equ 0x22
+  00000023            00049 adcbajo         equ 0x23
+  00000024            00050 BCDcen          equ 0x24
+  00000025            00051 BCDdec          equ 0x25
+  00000026            00052 BCDuni          equ 0x26
+  00000027            00053 banADC          equ 0x27
+  00000028            00054 ret1            equ 0x28
+  00000029            00055 ret2            equ 0x29
+  0000002A            00056 ret3            equ 0x2a
+  0000002B            00057 var1            equ 0x2b
+  0000002C            00058 var2            equ 0x2c
+  0000002D            00059 var3            equ 0x2d
+                      00060 
+  00000030            00061 NumeroEntero            equ 0x30
+  00000031            00062 NumeroFraccionCen       equ 0x31
+  00000032            00063 NumeroFraccionDec       equ 0x32
+  00000033            00064 NumeroFraccionUni       equ 0x33
+  00000034            00065 VoltsDec                equ 0x34
+  00000035            00066 VoltsUni                equ 0x35
+  00000036            00067 VoltsFracDec    equ 0x36
+  00000037            00068 VoltsFracUni    equ 0x37
+  00000038            00069 AmperUni                equ 0x38
+  00000039            00070 AmperFraCen             equ 0x39
+  0000003A            00071 AmperFraDec             equ 0x3a
+  0000003B            00072 AmperFraUni             equ 0x3b
+  0000003C            00073 DecTemp         equ 0x3c
+  0000003D            00074 UniTemp         equ 0x3d
+  0000003E            00075 FraTemp         equ 0x3e
+                      00076 
+  00000040            00077 divisorDec      equ 0x40
+  00000041            00078 divisorUni      equ 0x41
+  00000042            00079 contadorMulti   equ 0x42
+  00000043            00080 contadorMultiOper       equ 0x43
+  00000044            00081 TempMultialto   equ 0x44
+  00000045            00082 TempMultibajo   equ 0x45
+  00000046            00083 Ventiladoralto  equ 0x46
+  00000047            00084 Ventiladorbajo  equ 0x47
+  00000048            00085 RutAjuste       equ 0x48
+  00000049            00086 ContResta       equ 0x49
+  0000004A            00087 TxUSART         equ 0x4a
+  0000004B            00088 RxUSART         equ 0x4b
+  0000004C            00089 CorrienteAlto   equ 0x4c
+  0000004D            00090 CorrienteBajo   equ 0x4d
+  0000004E            00091 VoltAlto        equ 0x4e
+  0000004F            00092 VoltBajo        equ 0x4f
+                      00093 
+  00000050            00094 var1ren0        equ 0x50
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000051            00095 var1ren1        equ 0x51
+  00000052            00096 var1ren2        equ 0x52
+  00000053            00097 var1ren3        equ 0x53
+  00000054            00098 var1ren4        equ 0x54
+  00000055            00099 var1ren5        equ 0x55
+  00000056            00100 var1ren6        equ 0x56
+  00000057            00101 var1ren7        equ 0x57
+  00000058            00102 var1ren8        equ 0x58
+  00000059            00103 var1ren9        equ 0x59
+  0000005A            00104 var1ren10       equ 0x5a
+  0000005B            00105 var1ren11       equ 0x5b
+  0000005C            00106 var1ren12       equ 0x5c
+  0000005D            00107 var1ren13       equ 0x5d
+  0000005E            00108 var1ren14       equ 0x5e
+  0000005F            00109 var1ren15       equ 0x5f
+  00000060            00110 var2ren0        equ 0x60
+  00000061            00111 var2ren1        equ 0x61
+  00000062            00112 var2ren2        equ 0x62
+  00000063            00113 var2ren3        equ 0x63
+  00000064            00114 var2ren4        equ 0x64
+  00000065            00115 var2ren5        equ 0x65
+  00000066            00116 var2ren6        equ 0x66
+  00000067            00117 var2ren7        equ 0x67
+  00000068            00118 var2ren8        equ 0x68
+  00000069            00119 var2ren9        equ 0x69
+  0000006A            00120 var2ren10       equ 0x6a
+  0000006B            00121 var2ren11       equ 0x6b
+  0000006C            00122 var2ren12       equ 0x6c
+  0000006D            00123 var2ren13       equ 0x6d
+  0000006E            00124 var2ren14       equ 0x6e
+  0000006F            00125 var2ren15       equ 0x6f
+                      00126 
+  00000070            00127 ValRx           equ 0x70
+  00000071            00128 BCDCen          equ 0x71
+  00000072            00129 BCDDec          equ 0x72
+  00000073            00130 BCDUni          equ 0x73
+  00000074            00131 ValRxHex        equ 0x74
+  00000075            00132 HexAlto         equ 0x75
+  00000076            00133 HexBajo         equ 0x76
+  00000077            00134 RxUSART2        equ 0x77
+  00000078            00135 Talta           equ 0x78
+  00000079            00136 Tbaja           equ 0x79
+                      00137 
+                      00138                 
+                      00139                 
+  000000A0            00140 T1Alto          equ 0xa0
+  000000A1            00141 T1Bajo          equ 0xa1
+  000000A2            00142 T2Alto          equ 0xa2
+  000000A3            00143 T2Bajo          equ 0xa3
+  000000A4            00144 T3Alto          equ 0xa4
+  000000A5            00145 T3Bajo          equ 0xa5
+  000000A6            00146 T4Alto          equ 0xa6
+  000000A7            00147 T4Bajo          equ 0xa7
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  000000A8            00148 T5Alto          equ 0xa8
+  000000A9            00149 T5Bajo          equ 0xa9
+  000000AA            00150 T6Alto          equ 0xaa
+  000000AB            00151 T6Bajo          equ 0xab
+  000000AC            00152 T7Alto          equ 0xac
+  000000AD            00153 T7Bajo          equ 0xad
+  000000AE            00154 T8Alto          equ 0xae
+  000000AF            00155 T8Bajo          equ 0xaf
+                      00156 ;============================================================
+                      00157 ;                  Declaración de Bits
+                      00158 ;============================================================
+  00000000            00159 c                       equ 0
+  00000000            00160 adon            equ     0
+  00000002            00161 z                       equ 2
+  00000002            00162 toif            equ     2
+  00000002            00163 go_done         equ     2
+  00000000            00164 pcfg0           equ 0
+  00000001            00165 pcfg1           equ 1
+  00000002            00166 pcfg2           equ 2
+  00000003            00167 pcfg3           equ 3
+  00000003            00168 chs0            equ 3
+  00000004            00169 chs1            equ 4
+  00000005            00170 chs2            equ 5
+                      00171 
+  00000004            00172 cren            equ 4
+  00000004            00173 txif            equ 4
+  00000005            00174 rcif            equ 5
+  00000005            00175 rcie            equ 5
+                      00176 
+  00000005            00177 rp0                     equ 5
+  00000006            00178 rp1                     equ 6
+  00000006            00179 peie            equ     6
+  00000006            00180 adie            equ     6
+  00000006            00181 adif            equ     6
+  00000006            00182 adcs0           equ     6
+  00000007            00183 adcs1           equ     7
+  00000007            00184 adfm            equ 7
+  00000007            00185 gie                     equ     7
+  00000007            00186 eepgd           equ 7
+  00000007            00187 spen            equ     7
+                      00188                                                 ;Puerto A
+  00000000            00189 SenCorriente    equ 0                   ;Entrada Analógica
+  00000001            00190 SenVoltaje              equ 1                   ;Entrada Analógica
+  00000002            00191 SenTemperatura  equ 2                   ;Entrada Analógica
+                      00192                                                 ;Puerto B
+  00000007            00193 Bit7_LCD                equ 7                   ;Salida
+  00000006            00194 Bit6_LCD                equ 6                   ;Salida
+  00000005            00195 Bit5_LCD                equ 5                   ;Salida
+  00000004            00196 Bit4_LCD                equ 4                   ;Salida
+  00000003            00197 Enable_LCD              equ 3                   ;Salida
+  00000000            00198 RS_LCD                  equ 0                   ;Salida
+                      00199                                                 ;Puerto C
+  00000007            00200 Ventilador              equ 7                   ;Salida
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00201 ;============================================================
+                      00202 ;               Declaración de Letras y Numeros
+                      00203 ;============================================================
+  00000020            00204 _espaci         equ     0x20
+  00000030            00205 _0                      equ     0x30
+  00000031            00206 _1                      equ     0x31
+  00000032            00207 _2                      equ     0x32
+  00000033            00208 _3                      equ     0x33
+  00000034            00209 _4                      equ     0x34
+  00000035            00210 _5                      equ     0x35
+  00000036            00211 _6                      equ     0x36
+  00000037            00212 _7                      equ     0x37
+  00000038            00213 _8                      equ     0x38
+  00000039            00214 _9                      equ     0x39
+  00000041            00215 _A                      equ     0x41
+  00000042            00216 _B                      equ     0x42
+  00000043            00217 _C                      equ     0x43
+  00000044            00218 _D                      equ     0x44
+  00000045            00219 _E                      equ     0x45
+  00000046            00220 _F                      equ     0x46
+  00000047            00221 _G                      equ     0x47
+  00000048            00222 _H                      equ     0x48
+  00000049            00223 _I                      equ     0x49
+  0000004A            00224 _J                      equ     0x4a
+  0000004B            00225 _K                      equ     0x4b
+  0000004C            00226 _L                      equ     0x4c
+  0000004D            00227 _M                      equ     0x4d
+  0000004E            00228 _N                      equ     0x4e
+  0000004F            00229 _O                      equ     0x4f
+  00000050            00230 _P                      equ     0x50
+  00000051            00231 _Q                      equ     0x51
+  00000052            00232 _R                      equ     0x52
+  00000053            00233 _S                      equ     0x53
+  00000054            00234 _T                      equ     0x54
+  00000055            00235 _U                      equ     0x55
+  00000056            00236 _V                      equ     0x56
+  00000057            00237 _W                      equ     0x57
+  00000058            00238 _X                      equ     0x58
+  00000059            00239 _Y                      equ     0x59
+  0000005A            00240 _Z                      equ     0x5a
+  00000061            00241 _a                      equ     0x61
+  00000062            00242 _b                      equ     0x62
+  00000063            00243 _c                      equ     0x63
+  00000064            00244 _d                      equ     0x64
+  00000065            00245 _e                      equ     0x65
+  00000066            00246 _f                      equ     0x66
+  00000067            00247 _g                      equ     0x67
+  00000068            00248 _h                      equ     0x68
+  00000069            00249 _i                      equ     0x69
+  0000006A            00250 _j                      equ     0x6a
+  0000006B            00251 _k                      equ     0x6b
+  0000006C            00252 _l                      equ     0x6c
+  0000006D            00253 _m                      equ     0x6d
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000006E            00254 _n                      equ     0x6e
+  0000006F            00255 _o                      equ     0x6f
+  00000070            00256 _p                      equ     0x70
+  00000071            00257 _q                      equ     0x71
+  00000072            00258 _r                      equ     0x72
+  00000073            00259 _s                      equ     0x73
+  00000074            00260 _t                      equ     0x74
+  00000075            00261 _u                      equ     0x75
+  00000076            00262 _v                      equ     0x76
+  00000077            00263 _w                      equ     0x77
+  00000078            00264 _x                      equ     0x78
+  00000079            00265 _y                      equ     0x79
+  0000007A            00266 _z                      equ     0x7a
+  0000003A            00267 _dospuntos      equ     0x3a
+  0000002D            00268 _menos          equ 0x2d
+  0000002E            00269 _punto          equ     0x2e
+  000000DF            00270 _grado          equ 0xdf
+                      00271 
+                      00272 ;;============================================================
+                      00273 ;;              Paginas de memoria de programa
+                      00274 ;;============================================================
+                      00275 ;P0_0005_07FF   equ 0x00                ;Pagina 0       Ubicacion del programa principal 
+                      00276 ;P1_0800_0FFF   equ 0x08                ;Pagina 1       Subritunas
+                      00277 ;P3_1000_17FF   equ 0x10                ;Pagina 2
+                      00278 ;P4_1800_1FFF   equ 0x18                ;Pagina 3
+                      00279 ;============================================================
+                      00280 ;               Vector del reset
+                      00281 ;============================================================
+                      00282         org             0
+0000   2???           00283         goto    IniProgMed
+                      00284         org             4
+0004   1283           00285         bcf             status,rp0         ;cambiar al banco 0
+0005   1303           00286         bcf     status,rp1
+0006   1B0C           00287         btfsc   pir1,adif                       ;¿interrupción por ADC?
+0007   2???           00288         goto    ADCinterrup
+0008   1A8C           00289         btfsc   pir1,rcif
+0009   2???           00290         goto    interserie
+000A   0009           00291         retfie
+                      00292 ;============================================================
+                      00293 ;       Rutinas de Interrupción
+                      00294 ;============================================================
+                      00295 ;------------------------------------------------------------
+000B                  00296 ADCinterrup                                             ;Interrupción por ADC
+                      00297 ;------------------------------------------------------------
+000B   1283           00298         bcf             status,rp0                      ;cambiar al banco 0
+000C   1303           00299         bcf             status,rp1
+000D   138B           00300         bcf             intcon,gie                      ;desactivación general de interrupciones
+000E   081E           00301         movf    adresh,w                        ;guarda el byte alto de la conversión en
+000F   00A2           00302         movwf   adcalto                         ;la localidad de memoria RAM correspondiente
+0010   1683           00303         bsf             status,rp0                      ;cambiar al banco 1
+0011   1303           00304         bcf             status,rp1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0012   081E           00305         movf    adresl,w                        ;guarda el byte bajo de la conversión en
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0013   1283           00306         bcf             status,rp0                      ;cambiar al banco 0
+0014   1303           00307         bcf             status,rp1
+0015   00A3           00308         movwf   adcbajo                         ;la localidad de memoria RAM correspondiente
+0016   130C           00309         bcf             pir1,adif
+0017   178B           00310         bsf             intcon,gie
+0018   30AA           00311         movlw   0xaa
+0019   00A7           00312         movwf   banADC
+001A   0009           00313         retfie
+                      00314 ;------------------------------------------------------------
+001B                  00315 interserie
+                      00316 ;------------------------------------------------------------
+001B   1283           00317         bcf             status,rp0              ;cambiar al banco 0
+001C   1303           00318         bcf             status,rp1
+001D   138B           00319         bcf             intcon,gie              ;desactivar habilitador general de interrupciones.
+                      00320 
+                      00321 
+                      00322 
+                      00323 
+                      00324 
+001E   081A           00325         movf    rcreg,w                 ;CÓDIGO DE PRUEBA
+001F   00CB           00326         movwf   RxUSART                 ;CÓDIGO DE PRUEBA
+0020   00F7           00327         movwf   RxUSART2                ;CÓDIGO DE PRUEBA
+0021   00F0           00328         movwf   ValRx                   ;CÓDIGO DE PRUEBA
+0022   00F4           00329         movwf   ValRxHex                ;CÓDIGO DE PRUEBA
+                      00330         ;call   CONV_BINaBCD    ;CÓDIGO DE PRUEBA
+                      00331         ;call   CONV_BINaHEX    ;CÓDIGO DE PRUEBA
+                      00332         ;call   PantallaRX              ;CÓDIGO DE PRUEBA
+                      00333 ;       call    display                 ;CÓDIGO DE PRUEBA
+                      00334 ;       call    retardounseg    ;CÓDIGO DE PRUEBA
+                      00335         
+                      00336 
+                      00337 
+                      00338 
+                      00339 
+0023   0877           00340         movf    RxUSART2,w                      ;recuperar el dato recibido por rs232
+0024   00CB           00341         movwf   RxUSART
+0025   3AE1           00342         xorlw   0xe1                    ;¿Se recibio el "Comando" de Petición?
+0026   1903           00343         btfsc   status,z
+0027   2???           00344         goto    Tx_Protocolo
+0028   2???           00345         goto    Regresa_de_USART
+0029   0009           00346         retfie
+002A                  00347 Tx_Protocolo
+                      00348 
+                      00349 
+                      00350 
+                      00351         ;call   PantallaTX              ;CÓDIGO DE PRUEBA
+                      00352         ;call   display                 ;CÓDIGO DE PRUEBA
+                      00353         ;call   retardounseg    ;CÓDIGO DE PRUEBA
+                      00354 
+                      00355 
+                      00356 
+002A   30C1           00357         movlw   0xc1                    ;Se transmite "Confirmación" de recepción de "Comando" de Petici
+                            ón.
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002B   00CA           00358         movwf   TxUSART
+002C   2???           00359         call    transmite
+002D   2???           00360         call    Retardos
+                      00361 ;       call    temp10micros
+                      00362 
+002E   084E           00363         movf    VoltAlto,w              ;Se transmite el valor de Voltaje
+002F   00CA           00364         movwf   TxUSART
+0030   2???           00365         call    transmite
+0031   2???           00366         call    Retardos
+                      00367 ;       call    temp10micros
+0032   084F           00368         movf    VoltBajo,w
+0033   00CA           00369         movwf   TxUSART
+0034   2???           00370         call    transmite
+0035   2???           00371         call    Retardos
+                      00372 ;       call    temp10micros
+                      00373 
+                      00374 
+0036   084C           00375         movf    CorrienteAlto,w ;Se transmite el valor de Corriente
+0037   00CA           00376         movwf   TxUSART
+0038   2???           00377         call    transmite
+0039   2???           00378         call    Retardos
+                      00379 ;       call    temp10micros
+003A   084D           00380         movf    CorrienteBajo,w
+003B   00CA           00381         movwf   TxUSART
+003C   2???           00382         call    transmite
+003D   2???           00383         call    Retardos
+                      00384 ;       call    temp10micros
+                      00385 
+                      00386 
+003E   0878           00387         movf    Talta,w ;Se transmite el valor de Temperatura
+003F   00CA           00388         movwf   TxUSART
+0040   2???           00389         call    transmite
+0041   2???           00390         call    Retardos
+                      00391 ;       call    temp10micros
+0042   0879           00392         movf    Tbaja,w
+0043   00CA           00393         movwf   TxUSART
+0044   2???           00394         call    transmite
+0045   2???           00395         call    Retardos
+                      00396 ;       call    temp10micros
+                      00397 
+                      00398 
+0046   30C2           00399         movlw   0xc2                            ;Se transmite el "Comando" de Cierre
+0047   00CA           00400         movwf   TxUSART
+0048   2???           00401         call    transmite
+                      00402 
+0049                  00403 Regresa_de_USART
+0049   128C           00404         bcf             pir1,rcif
+004A   178B           00405         bsf             intcon,gie
+004B   0009           00406         retfie
+                      00407 ;============================================================
+                      00408 ;               Comienzo del programa principal
+                      00409 ;============================================================
+004C                  00410 IniProgMed
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+004C   1683           00411         bsf             status,rp0              ;cambiar al banco 1
+004D   1303           00412         bcf             status,rp1
+004E   303F           00413         movlw   b'00111111'             ;configurar los pines del puerto A como entradas
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+004F   0085           00414         movwf   trisa
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0050   0186           00415         clrf    trisb                   ;configurar los pines del puerto B como salida
+0051   30BF           00416         movlw   b'10111111'             ;configurar pin 6 como salida, demás como entradas del puerto C
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0052   0087           00417         movwf   trisc
+0053   1283           00418         bcf             status,rp0              ;cambiar al banco 0
+0054   1303           00419         bcf             status,rp1
+                      00420 ;============================================================
+                      00421 ;Carga valores iniciales
+                      00422 ;============================================================
+0055   1283           00423         bcf             status,rp0              ;cambiar al banco 0
+0056   1303           00424         bcf             status,rp1
+0057   01A0           00425         clrf    varLCD
+0058   0185           00426         clrf    porta                   ;apaga las salidas del puerto A, B y C
+0059   0186           00427         clrf    portb
+005A   0187           00428         clrf    portc
+005B   01A7           00429         clrf    banADC
+005C   01C8           00430         clrf    RutAjuste
+005D   3058           00431         movlw   _X
+005E   00B4           00432         movwf   VoltsDec
+005F   00B5           00433         movwf   VoltsUni
+0060   00B7           00434         movwf   VoltsFracUni
+0061   00B6           00435         movwf   VoltsFracDec
+0062   00B8           00436         movwf   AmperUni
+0063   00B9           00437         movwf   AmperFraCen
+0064   00BA           00438         movwf   AmperFraDec
+0065   00BB           00439         movwf   AmperFraUni
+0066   00BC           00440         movwf   DecTemp
+0067   00BD           00441         movwf   UniTemp
+0068   00BE           00442         movwf   FraTemp
+0069   2???           00443         call    ConfigADC
+006A   2???           00444         call    IniciaDisplayLCD
+006B   2???           00445         call    letreroBienvenida
+006C   2???           00446         call    display
+006D   2???           00447         call    retardounseg
+006E   2???           00448         call    retardounseg
+006F   2???           00449         call    Primerletrero
+0070   2???           00450         call    display
+                      00451 ;============================================================
+                      00452                         ;Activacion de la USART 9600 BAUDIOS, Sin bit de paridad
+                      00453 ;============================================================
+0071   1683           00454         bsf             status,rp0              ;cambiar al banco 1
+0072   1303           00455         bcf             status,rp1
+0073   3026           00456         movlw   b'00100110'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0074   0098           00457         movwf   txsta
+0075   3019           00458         movlw   .25
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0076   0099           00459         movwf   spbrg
+0077   1283           00460         bcf             status,rp0              ;cambiar al banco 0
+0078   1303           00461         bcf             status,rp1
+0079   1798           00462         bsf             rcsta,spen              ;habilitacion del puerto de comunicacion serial
+007A   1618           00463         bsf             rcsta,cren
+007B   178B           00464         bsf             intcon,gie              ;activar habilitador general de interrupciones.
+007C   170B           00465         bsf             intcon,peie             ;activar habilitador general de interrupciones por perif
+                            ericos.
+007D   1683           00466         bsf             status,rp0              ;cambiar al banco 1
+007E   1303           00467         bcf             status,rp1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+007F   168C           00468         bsf             pie1,rcie               ;activar interrupción por fin de recepción por usart.
+                      00469 ;============================================================
+0080                  00470 MedirCorriente
+                      00471 ;============================================================
+0080   1283           00472         bcf             status,rp0              ;cambiar al banco 0
+0081   1303           00473         bcf             status,rp1
+                      00474 
+                      00475 
+0082   178B           00476         bsf             intcon,gie              ;activación general de interrupciones
+0083   170B           00477         bsf             intcon,peie             ;activación de interrupciones por periférico
+                      00478 
+0084   119F           00479         bcf             adcon0,chs0             ;selecciona canal 0 de adc
+0085   121F           00480         bcf             adcon0,chs1             ;selecciona canal 0 de adc
+0086   129F           00481         bcf             adcon0,chs2             ;selecciona canal 0 de adc
+0087   2???           00482         call            Retardos
+                      00483 ;       call    retardoXseg
+                      00484 
+0088   151F           00485         bsf             adcon0,go_done  ;iniciar la operación del ADC
+0089                  00486 esperaCorrienteADCs
+0089   0827           00487         movf    banADC,w
+008A   3AAA           00488         xorlw   0xaa
+008B   1D03           00489         btfss   status,z
+008C   2???           00490         goto    esperaCorrienteADCs
+                      00491 
+                      00492 ;       bcf             intcon,gie              ;activación general de interrupciones
+                      00493 ;       bcf             intcon,peie             ;activación de interrupciones por periférico
+                      00494 
+008D   2???           00495         call    SubRutAjuste
+008E   0848           00496                 movf    RutAjuste,w
+008F   3A00           00497                 xorlw   0x00
+0090   1903           00498                 btfsc   status,z
+0091   2???           00499                 goto    ContCalCorriente
+0092   0848           00500                 movf    RutAjuste,w
+0093   3A01           00501                 xorlw   0x01
+0094   1903           00502                 btfsc   status,z
+0095   2???           00503                 goto    Resta4CalCorriente
+0096   0848           00504                 movf    RutAjuste,w
+0097   3A02           00505                 xorlw   0x02
+0098   1903           00506                 btfsc   status,z
+0099   2???           00507                 goto    Resta9CalCorriente
+009A   0848           00508                 movf    RutAjuste,w
+009B   3A03           00509                 xorlw   0x03
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+009C   1903           00510                 btfsc   status,z
+009D   2???           00511                 goto    Resta18CalCorriente
+009E   2???           00512                 goto    ContCalCorriente
+Warning[207]: Found label after column 1. (Resta4CalCorriente)
+009F                  00513                 Resta4CalCorriente
+009F   3004           00514                         movlw   0x04
+00A0   00C9           00515                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta4CalCorriente)
+00A1                  00516                         Sig_Resta4CalCorriente
+00A1   03A3           00517                                 decf    adcbajo,1
+00A2   0823           00518                                 movf    adcbajo,w
+00A3   3AFF           00519                                 xorlw   0xff
+00A4   1903           00520                                 btfsc   status,z
+00A5   2???           00521                                 goto    decrementa_adcalto_Resta4CalCorriente
+00A6   2???           00522                                 goto    continua_Resta4CalCorriente
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta4CalCorriente)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta4CalCorriente)
+00A7                  00523                                 decrementa_adcalto_Resta4CalCorriente
+00A7   03A2           00524                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta4CalCorriente)
+00A8                  00525                                 continua_Resta4CalCorriente
+00A8   0BC9           00526                                         decfsz  ContResta,1
+00A9   2???           00527                                         goto    Sig_Resta4CalCorriente
+00AA   2???           00528                                         goto    ContCalCorriente        
+Warning[207]: Found label after column 1. (Resta9CalCorriente)
+00AB                  00529                 Resta9CalCorriente
+00AB   3009           00530                         movlw   0x09
+00AC   00C9           00531                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta9CalCorriente)
+00AD                  00532                         Sig_Resta9CalCorriente
+00AD   03A3           00533                                 decf    adcbajo,1
+00AE   0823           00534                                 movf    adcbajo,w
+00AF   3AFF           00535                                 xorlw   0xff
+00B0   1903           00536                                 btfsc   status,z
+00B1   2???           00537                                 goto    decrementa_adcalto_Resta9CalCorriente
+00B2   2???           00538                                 goto    continua_Resta9CalCorriente
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta9CalCorriente)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta9CalCorriente)
+00B3                  00539                                 decrementa_adcalto_Resta9CalCorriente
+00B3   03A2           00540                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta9CalCorriente)
+00B4                  00541                                 continua_Resta9CalCorriente
+00B4   0BC9           00542                                         decfsz  ContResta,1
+00B5   2???           00543                                         goto    Sig_Resta9CalCorriente
+00B6   2???           00544                                         goto    ContCalCorriente        
+Warning[207]: Found label after column 1. (Resta18CalCorriente)
+00B7                  00545                 Resta18CalCorriente
+00B7   3012           00546                         movlw   .018
+00B8   00C9           00547                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta18CalCorriente)
+00B9                  00548                         Sig_Resta18CalCorriente
+00B9   03A3           00549                                 decf    adcbajo,1
+00BA   0823           00550                                 movf    adcbajo,w
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00BB   3AFF           00551                                 xorlw   0xff
+00BC   1903           00552                                 btfsc   status,z
+00BD   2???           00553                                 goto    decrementa_adcalto_Resta18CalCorriente
+00BE   2???           00554                                 goto    continua_Resta18CalCorriente
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta18CalCorriente)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta18CalCorriente)
+00BF                  00555                                 decrementa_adcalto_Resta18CalCorriente
+00BF   03A2           00556                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta18CalCorriente)
+00C0                  00557                                 continua_Resta18CalCorriente
+00C0   0BC9           00558                                         decfsz  ContResta,1
+00C1   2???           00559                                         goto    Sig_Resta18CalCorriente
+00C2   2???           00560                                         goto    ContCalCorriente        
+00C3                  00561 ContCalCorriente
+00C3   01A7           00562         clrf    banADC
+00C4   3004           00563         movlw   .004
+00C5   00C2           00564         movwf   contadorMulti
+00C6   2???           00565         call    MultiplicacionCalculos
+00C7   3003           00566         movlw   0x03
+00C8   00C0           00567         movwf   divisorDec
+00C9   30E8           00568         movlw   0xe8
+00CA   00C1           00569         movwf   divisorUni
+00CB   3009           00570         movlw   .009
+00CC   00C2           00571         movwf   contadorMulti
+00CD   0822           00572         movf    adcalto,w
+00CE   00CC           00573         movwf   CorrienteAlto
+00CF   0823           00574         movf    adcbajo,w
+00D0   00CD           00575         movwf   CorrienteBajo
+00D1   2???           00576         call    DivisionCalculos
+                      00577 
+00D2   0830           00578         movf    NumeroEntero,w                          ;Calcula el valor BCD de la parte entrera de la 
+                            corriente
+00D3   00A1           00579         movwf   ValBIN
+00D4   2???           00580         call    convBINaBCD
+00D5   0826           00581         movf    BCDuni,w
+00D6   3830           00582         iorlw   0x30
+00D7   00B8           00583         movwf   AmperUni
+00D8   0831           00584         movf    NumeroFraccionCen,w                     ;Calcula el valor BCD de la parte fraccionaria (
+                            Centesima) de la corriente
+00D9   00A1           00585         movwf   ValBIN
+00DA   2???           00586         call    convBINaBCD
+00DB   0826           00587         movf    BCDuni,w
+00DC   3830           00588         iorlw   0x30
+00DD   00B9           00589         movwf   AmperFraCen
+00DE   0832           00590         movf    NumeroFraccionDec,w                     ;Calcula el valor BCD de la parte fraccionaria (
+                            Decima) de la corriente
+00DF   00A1           00591         movwf   ValBIN
+00E0   2???           00592         call    convBINaBCD
+00E1   0826           00593         movf    BCDuni,w
+00E2   3830           00594         iorlw   0x30
+00E3   00BA           00595         movwf   AmperFraDec
+00E4   0833           00596         movf    NumeroFraccionUni,w                     ;Calcula el valor BCD de la parte fraccionaria (
+                            Unidad) de la corriente
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00E5   00A1           00597         movwf   ValBIN
+00E6   2???           00598         call    convBINaBCD
+00E7   0826           00599         movf    BCDuni,w
+00E8   3830           00600         iorlw   0x30
+00E9   00BB           00601         movwf   AmperFraUni
+00EA   2???           00602         call    Primerletrero
+00EB   2???           00603         call    display
+                      00604 ;       call    retardounseg
+                      00605 ;============================================================
+00EC                  00606 MedirVoltaje
+                      00607 ;============================================================
+00EC   1283           00608         bcf             status,rp0              ;cambiar al banco 0
+00ED   1303           00609         bcf             status,rp1
+00EE   178B           00610         bsf             intcon,gie              ;activación general de interrupciones
+00EF   170B           00611         bsf             intcon,peie             ;activación de interrupciones por periférico
+                      00612 
+00F0   159F           00613         bsf             adcon0,chs0             ;selecciona canal 1 de adc
+00F1   121F           00614         bcf             adcon0,chs1             ;selecciona canal 1 de adc
+00F2   129F           00615         bcf             adcon0,chs2             ;selecciona canal 1 de adc
+00F3   2???           00616         call            Retardos
+                      00617 ;       call    retardoXseg
+                      00618 
+00F4   151F           00619         bsf             adcon0,go_done                  ;iniciar la operación del ADC
+00F5                  00620 esperaVoltajeADCs
+00F5   0827           00621         movf    banADC,w
+00F6   3AAA           00622         xorlw   0xaa
+00F7   1D03           00623         btfss   status,z
+00F8   2???           00624         goto    esperaVoltajeADCs
+                      00625 
+                      00626 ;       bcf             intcon,gie              ;activación general de interrupciones
+                      00627 ;       bcf             intcon,peie             ;activación de interrupciones por periférico
+                      00628 
+00F9   2???           00629         call    SubRutAjuste
+00FA   0848           00630                 movf    RutAjuste,w
+00FB   3A00           00631                 xorlw   0x00
+00FC   1903           00632                 btfsc   status,z
+00FD   2???           00633                 goto    ContCalVoltaje
+00FE   0848           00634                 movf    RutAjuste,w
+00FF   3A01           00635                 xorlw   0x01
+0100   1903           00636                 btfsc   status,z
+0101   2???           00637                 goto    Resta4CalVoltaje
+0102   0848           00638                 movf    RutAjuste,w
+0103   3A02           00639                 xorlw   0x02
+0104   1903           00640                 btfsc   status,z
+0105   2???           00641                 goto    Resta8CalVoltaje
+0106   0848           00642                 movf    RutAjuste,w
+0107   3A03           00643                 xorlw   0x03
+0108   1903           00644                 btfsc   status,z
+0109   2???           00645                 goto    Resta11CalVoltaje
+010A   2???           00646                 goto    ContCalVoltaje
+Warning[207]: Found label after column 1. (Resta4CalVoltaje)
+010B                  00647                 Resta4CalVoltaje
+010B   3004           00648                         movlw   0x04
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+010C   00C9           00649                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta4CalVoltaje)
+010D                  00650                         Sig_Resta4CalVoltaje
+010D   03A3           00651                                 decf    adcbajo,1
+010E   0823           00652                                 movf    adcbajo,w
+010F   3AFF           00653                                 xorlw   0xff
+0110   1903           00654                                 btfsc   status,z
+0111   2???           00655                                 goto    decrementa_adcalto_Resta4CalVoltaje
+0112   2???           00656                                 goto    continua_Resta4CalVoltaje
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta4CalVoltaje)
+0113                  00657                                 decrementa_adcalto_Resta4CalVoltaje
+0113   03A2           00658                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta4CalVoltaje)
+0114                  00659                                 continua_Resta4CalVoltaje
+0114   0BC9           00660                                         decfsz  ContResta,1
+0115   2???           00661                                         goto    Sig_Resta4CalVoltaje
+0116   2???           00662                                         goto    ContCalVoltaje
+Warning[207]: Found label after column 1. (Resta8CalVoltaje)
+0117                  00663                 Resta8CalVoltaje
+0117   3008           00664                         movlw   0x08
+0118   00C9           00665                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta8CalVoltaje)
+0119                  00666                         Sig_Resta8CalVoltaje
+0119   03A3           00667                                 decf    adcbajo,1
+011A   0823           00668                                 movf    adcbajo,w
+011B   3AFF           00669                                 xorlw   0xff
+011C   1903           00670                                 btfsc   status,z
+011D   2???           00671                                 goto    decrementa_adcalto_Resta8CalVoltaje
+011E   2???           00672                                 goto    continua_Resta8CalVoltaje
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta8CalVoltaje)
+011F                  00673                                 decrementa_adcalto_Resta8CalVoltaje
+011F   03A2           00674                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta8CalVoltaje)
+0120                  00675                                 continua_Resta8CalVoltaje
+0120   0BC9           00676                                         decfsz  ContResta,1
+0121   2???           00677                                         goto    Sig_Resta8CalVoltaje
+0122   2???           00678                                         goto    ContCalVoltaje
+Warning[207]: Found label after column 1. (Resta11CalVoltaje)
+0123                  00679                 Resta11CalVoltaje
+0123   300B           00680                         movlw   .011
+0124   00C9           00681                         movwf   ContResta
+Warning[207]: Found label after column 1. (Sig_Resta11CalVoltaje)
+0125                  00682                         Sig_Resta11CalVoltaje
+0125   03A3           00683                                 decf    adcbajo,1
+0126   0823           00684                                 movf    adcbajo,w
+0127   3AFF           00685                                 xorlw   0xff
+0128   1903           00686                                 btfsc   status,z
+0129   2???           00687                                 goto    decrementa_adcalto_Resta11CalVoltaje
+012A   2???           00688                                 goto    continua_Resta11CalVoltaje
+Warning[207]: Found label after column 1. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[208]: Label truncated at 32 characters. (decrementa_adcalto_Resta11CalVoltaje)
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+012B                  00689                                 decrementa_adcalto_Resta11CalVoltaje
+012B   03A2           00690                                         decf    adcalto,1
+Warning[207]: Found label after column 1. (continua_Resta11CalVoltaje)
+012C                  00691                                 continua_Resta11CalVoltaje
+012C   0BC9           00692                                         decfsz  ContResta,1
+012D   2???           00693                                         goto    Sig_Resta11CalVoltaje
+012E   2???           00694                                         goto    ContCalVoltaje
+012F                  00695 ContCalVoltaje
+012F   01A7           00696         clrf    banADC
+0130   3000           00697         movlw   .000
+0131   00C0           00698         movwf   divisorDec
+0132   3016           00699         movlw   .022
+0133   00C1           00700         movwf   divisorUni
+0134   3009           00701         movlw   .009
+0135   00C2           00702         movwf   contadorMulti
+0136   2???           00703         call    DivisionCalculos
+                      00704 
+0137   0830           00705         movf    NumeroEntero,w
+0138   00CE           00706         movwf   VoltAlto
+0139   0831           00707         movf    NumeroFraccionCen,w
+013A   00CF           00708         movwf   VoltBajo
+013B   07CF           00709         addwf   VoltBajo,1
+013C   07CF           00710         addwf   VoltBajo,1
+013D   07CF           00711         addwf   VoltBajo,1
+013E   07CF           00712         addwf   VoltBajo,1
+013F   07CF           00713         addwf   VoltBajo,1
+0140   07CF           00714         addwf   VoltBajo,1
+0141   07CF           00715         addwf   VoltBajo,1
+0142   07CF           00716         addwf   VoltBajo,1
+0143   07CF           00717         addwf   VoltBajo,1
+0144   0832           00718         movf    NumeroFraccionDec,w
+0145   07CF           00719         addwf   VoltBajo,1
+                      00720 
+0146   0830           00721         movf    NumeroEntero,w                          ;Calcula el valor BCD de la parte entrera del vo
+                            ltaje
+0147   00A1           00722         movwf   ValBIN
+0148   2???           00723         call    convBINaBCD
+0149   0826           00724         movf    BCDuni,w
+014A   3830           00725         iorlw   0x30
+014B   00B5           00726         movwf   VoltsUni
+014C   0825           00727         movf    BCDdec,w
+014D   3830           00728         iorlw   0x30
+014E   00B4           00729         movwf   VoltsDec
+014F   0831           00730         movf    NumeroFraccionCen,w                     ;Calcula el valor BCD de la parte fraccionaria (
+                            Centesima) del voltaje
+0150   00A1           00731         movwf   ValBIN
+0151   2???           00732         call    convBINaBCD
+0152   0826           00733         movf    BCDuni,w
+0153   3830           00734         iorlw   0x30
+0154   00B7           00735         movwf   VoltsFracUni
+0155   0832           00736         movf    NumeroFraccionDec,w                     ;Calcula el valor BCD de la parte fraccionaria (
+                            Decima) del voltaje
+0156   00A1           00737         movwf   ValBIN
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0157   2???           00738         call    convBINaBCD
+0158   0826           00739         movf    BCDuni,w
+0159   3830           00740         iorlw   0x30
+015A   00B6           00741         movwf   VoltsFracDec
+015B   2???           00742         call    Primerletrero
+015C   2???           00743         call    display
+                      00744 ;       call    retardounseg
+                      00745 ;============================================================
+015D                  00746 MedirTemperatura
+                      00747 ;============================================================
+015D   1283           00748         bcf             status,rp0              ;cambiar al banco 0
+015E   1303           00749         bcf             status,rp1
+015F   178B           00750         bsf             intcon,gie              ;activación general de interrupciones
+0160   170B           00751         bsf             intcon,peie             ;activación de interrupciones por periférico
+                      00752 
+0161   119F           00753         bcf             adcon0,chs0             ;selecciona canal 2 de adc
+0162   161F           00754         bsf             adcon0,chs1             ;selecciona canal 2 de adc
+0163   129F           00755         bcf             adcon0,chs2             ;selecciona canal 2 de adc
+0164   2???           00756         call            Retardos
+                      00757         
+                      00758 ;       call    retardoXseg
+                      00759 
+0165   151F           00760         bsf             adcon0,go_done                  ;iniciar la operación del ADC
+0166                  00761 esperaTemperaturaADCs
+0166   0827           00762         movf    banADC,w
+0167   3AAA           00763         xorlw   0xaa
+0168   1D03           00764         btfss   status,z
+0169   2???           00765         goto    esperaTemperaturaADCs
+                      00766 
+                      00767 ;       bcf             intcon,gie              ;activación general de interrupciones
+                      00768 ;       bcf             intcon,peie             ;activación de interrupciones por periférico
+                      00769 
+016A   01A7           00770         clrf    banADC
+016B   0822           00771         movf    adcalto,w
+016C   00C6           00772         movwf   Ventiladoralto
+016D   0823           00773         movf    adcbajo,w
+016E   00C7           00774         movwf   Ventiladorbajo
+                      00775 
+016F   3009           00776         movlw   .009
+0170   00C2           00777         movwf   contadorMulti
+0171   2???           00778         call    MultiplicacionCalculos
+                      00779 
+0172   3000           00780         movlw   0x00
+0173   00C0           00781         movwf   divisorDec
+0174   3014           00782         movlw   0x14
+0175   00C1           00783         movwf   divisorUni
+0176   3009           00784         movlw   .009
+0177   00C2           00785         movwf   contadorMulti
+0178   2???           00786         call    DivisionCalculos
+                      00787 
+                      00788 
+                      00789 
+0179   0830           00790         movf    NumeroEntero,w                          ;Calcula el valor BCD de la parte entrera de la 
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                            temperatura
+017A   00A1           00791         movwf   ValBIN
+017B   2???           00792         call    convBINaBCD
+017C   0826           00793         movf    BCDuni,w
+017D   3830           00794         iorlw   0x30
+017E   00BD           00795         movwf   UniTemp
+017F   0825           00796         movf    BCDdec,w
+0180   3830           00797         iorlw   0x30
+0181   00BC           00798         movwf   DecTemp
+0182   0831           00799         movf    NumeroFraccionCen,w                     ;Calcula el valor BCD de la parte fraccionaria d
+                            e la temperatura
+0183   00A1           00800         movwf   ValBIN
+0184   2???           00801         call    convBINaBCD
+0185   0826           00802         movf    BCDuni,w
+0186   3830           00803         iorlw   0x30
+0187   00BE           00804         movwf   FraTemp
+                      00805         
+0188   0830           00806         movf    NumeroEntero,w                          ;Calcula el valor BCD de la parte entrera de la 
+                            temperatura
+0189   00F8           00807         movwf   Talta
+                      00808         
+018A   0831           00809         movf    NumeroFraccionCen,w                     ;Calcula el valor BCD de la parte fraccionaria d
+                            e la temperatura
+018B   00F9           00810         movwf   Tbaja
+                      00811         
+018C   2???           00812         call    Primerletrero
+018D   2???           00813         call    display
+                      00814 ;       call    retardounseg
+                      00815 ;============================================================
+018E                  00816 Apaga_Enciende_Ventilador
+                      00817 ;============================================================
+018E   1003           00818         bcf             status,c
+018F   0CC6           00819         rrf             Ventiladoralto,1
+0190   0CC7           00820         rrf             Ventiladorbajo,1
+0191   1003           00821         bcf             status,c
+0192   3028           00822         movlw   .040
+0193   0247           00823         subwf   Ventiladorbajo,w                                ;Resultado resta parte baja
+0194   00C7           00824         movwf   Ventiladorbajo
+0195   1803           00825         btfsc   status,c
+0196   2???           00826         goto    restaVentilador
+0197                  00827 acarreoVentilador
+0197   03C6           00828         decf    Ventiladoralto,1
+0198   0846           00829         movf    Ventiladoralto,w
+0199   3AFF           00830         xorlw   0xff
+019A   1903           00831         btfsc   status,z
+019B   2???           00832         goto    apagaVentilador
+019C   2???           00833         goto    restaVentilador
+019D                  00834 restaVentilador
+019D   1003           00835         bcf             status,c
+019E   3000           00836         movlw   0x00
+019F   0246           00837         subwf   Ventiladoralto,w
+01A0   00C6           00838         movwf   Ventiladoralto                          ;Resultado resta parte alta
+01A1   1803           00839         btfsc   status,c
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01A2   2???           00840         goto    encenderVentilador
+01A3   2???           00841         goto    apagaVentilador
+01A4                  00842 encenderVentilador
+01A4   1787           00843         bsf             portc,Ventilador
+01A5   2???           00844         goto    MedirCorriente
+01A6                  00845 apagaVentilador
+01A6   1387           00846         bcf             portc,Ventilador
+01A7   2???           00847         goto    MedirCorriente
+                      00848 ;==============================================================
+                      00849 ;Subrutinas
+                      00850 ;==============================================================
+                      00851 ;------------------------------------------------------------
+01A8                  00852 ConfigADC                                       ;Activación del ADC
+                      00853 ;------------------------------------------------------------
+01A8   1683           00854         bsf             status,rp0              ;cambia al banco 1
+01A9   1303           00855         bcf             status,rp1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01AA   179F           00856         bsf             adcon1,adfm             ;justifica ADC a la derecha
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01AB   101F           00857         bcf             adcon1,pcfg0    ;control de puerto adc          solo el puerto A
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01AC   149F           00858         bsf             adcon1,pcfg1    ;control de puerto adc          solo el puerto A
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01AD   111F           00859         bcf             adcon1,pcfg2    ;control de puerto adc          solo el puerto A
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01AE   119F           00860         bcf             adcon1,pcfg3    ;control de puerto adc          solo el puerto A
+01AF   1283           00861         bcf             status,rp0              ;cambia al banco 0
+01B0   1303           00862         bcf             status,rp1
+01B1   171F           00863         bsf             adcon0,adcs0    ;configura la frecuencia de muestreo
+01B2   179F           00864         bsf             adcon0,adcs1    ;configura la frecuencia de muestreo
+01B3   141F           00865         bsf             adcon0,adon             ;activa el ADC
+                      00866 ;       bsf             intcon,gie              ;activación general de interrupciones
+                      00867 ;       bsf             intcon,peie             ;activación de interrupciones por periférico
+01B4   1683           00868         bsf             status,rp0              ;cambia al banco 1
+01B5   1303           00869         bcf             status,rp1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+01B6   170C           00870         bsf             pie1,adie               ;activación de interrupción por ADC
+01B7   1283           00871         bcf             status,rp0              ;cambia al banco 0
+01B8   1303           00872         bcf             status,rp1
+01B9   0008           00873         return
+                      00874 ;------------------------------------------------------------
+                      00875 ;Modo instruccion
+                      00876 ;------------------------------------------------------------
+01BA                  00877 modoinstru
+01BA   0820           00878         movf    varLCD,w                ;enmascara el nibble 
+01BB   39F0           00879         andlw   d'240'                  ;alto de la variable varLCD
+01BC   0086           00880         movwf   portb
+01BD   1586           00881         bsf             portb,3                 ;genera un pulso de
+01BE   2???           00882         call    temp10micros    ;habilitacion durante 10 microsegundos
+01BF   1186           00883         bcf             portb,3
+01C0   0E20           00884         swapf   varLCD,w                ;intercambia los nibbles
+01C1   39F0           00885         andlw   d'240'                  ;enmascara el nibble alto
+01C2   0086           00886         movwf   portb                   ;de la variable varLCD
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01C3   1586           00887         bsf             portb,3                 ;genera un pulso de 
+01C4   2???           00888         call    temp10micros    ;habilitacion durante 10 microsegundos
+01C5   1186           00889         bcf             portb,3
+01C6   1406           00890         bsf             portb,0                 ;regresa el LCD a modo caracter
+01C7   0008           00891         return
+                      00892 ;------------------------------------------------------------
+                      00893 ;Modo caracter
+                      00894 ;------------------------------------------------------------
+01C8                  00895 modocaracter
+01C8   0820           00896         movf    varLCD,w                ;enmascara el nibble 
+01C9   39F0           00897         andlw   d'240'                  ;alto de la variable varLCD
+01CA   0086           00898         movwf   portb
+01CB   1406           00899         bsf             portb,0                 ;coloca al LCD a modo caracter
+01CC   1586           00900         bsf             portb,3                 ;genera un pulso de 
+01CD   2???           00901         call    temp10micros    ;habilitacion durante 10 microsegundos
+01CE   1186           00902         bcf             portb,3
+01CF   0E20           00903         swapf   varLCD,w                ;intercambia los nibbles
+01D0   39F0           00904         andlw   d'240'                  ;enmascara el nibble alto 
+01D1   0086           00905         movwf   portb                   ;de la variable varLCD
+01D2   1406           00906         bsf             portb,0                 ;coloca al LCD a modo caracter
+01D3   1586           00907         bsf             portb,3                 ;genera un pulso de 
+01D4   2???           00908         call    temp10micros    ;habilitacion durante 10 microsegundos
+01D5   1186           00909         bcf             portb,3
+01D6   0008           00910         return
+                      00911 ;------------------------------------------------------------
+01D7                  00912 IniciaDisplayLCD                        ;Rutina que inicializa al LCD
+                      00913 ;------------------------------------------------------------
+01D7   1283           00914         bcf             status,rp0              ;cambiar al banco 0
+01D8   1303           00915         bcf             status,rp1
+01D9   3000           00916         movlw   0x00
+01DA   0086           00917         movwf   portb                   ;limpia todas las lineas de salida
+01DB   30C8           00918         movlw   d'200'                  ;temporizacion de 200 ms
+01DC   00A8           00919         movwf   ret1                    ;para reestablecer al LCD
+01DD   2???           00920         call    Retardos
+01DE   3030           00921         movlw   d'48'                   ;fija operación de 8 bits en el 
+01DF   0086           00922         movwf   portb                   ;LCD
+01E0   1586           00923         bsf             portb,3                 ;genera un pulso de habilitacion
+01E1   2???           00924         call    temp10micros    ;durante 10 microsegundos
+01E2   1186           00925         bcf             portb,3
+01E3   300A           00926         movlw   d'10'                   ;pausa de 100 ms
+01E4   00A8           00927         movwf   ret1
+01E5   2???           00928         call    Retardos
+01E6   1586           00929         bsf             portb,3                 ;genera un pulso de habilitacion
+01E7   2???           00930         call    temp10micros    ;durante 10 microsegundos
+01E8   1186           00931         bcf             portb,3
+01E9   1586           00932         bsf             portb,3                 ;genera un pulso de habilitacion
+01EA   2???           00933         call    temp10micros    ;durante 10 microsegundos
+01EB   1186           00934         bcf             portb,3
+01EC   3020           00935         movlw   d'32'                   ;fija operación de 4 bits en el 
+01ED   0086           00936         movwf   portb                   ;LCD
+01EE   1586           00937         bsf             portb,3                 ;genera un pulso de habilitacion
+01EF   2???           00938         call    temp10micros    ;durante 10 microsegundos
+01F0   1186           00939         bcf             portb,3
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01F1   1586           00940         bsf             portb,3                 ;genera un pulso de habilitacion
+01F2   2???           00941         call    temp10micros    ;durante 10 microsegundos
+01F3   1186           00942         bcf             portb,3
+01F4   3080           00943         movlw   d'128'                  ;fija operación de 2 lineas en el 
+01F5   0086           00944         movwf   portb                   ;LCD
+01F6   1586           00945         bsf             portb,3                 ;genera un pulso de habilitacion
+01F7   2???           00946         call    temp10micros    ;durante 10 microsegundos
+01F8   1186           00947         bcf             portb,3
+01F9   300E           00948         movlw   d'14'                   ;instruccion que enciende el cursor
+01FA   00A0           00949         movwf   varLCD                  ;del LCD
+01FB   2???           00950         call    modoinstru              ;escribe la instruccion en el LCD
+01FC   2???           00951         call    retardounseg
+01FD   3001           00952         movlw   d'01'                   ;instruccion para limpiar el
+01FE   00A0           00953         movwf   varLCD                  ;display y coloca el 
+01FF   2???           00954         call    modoinstru              ;cursor al inicio de la primera linea
+0200   3020           00955         movlw   _espaci
+0201   00A0           00956         movwf   varLCD
+0202   2???           00957         call    modocaracter
+0203   2???           00958         call    retardounseg    ;retardo para mostrar los valores
+0204   300C           00959         movlw   d'12'                   ;esconde el cursor
+0205   00A0           00960         movwf   varLCD
+0206   2???           00961         call    modoinstru
+0207   2???           00962         call    display
+0208   0008           00963         return
+                      00964 ;------------------------------------------------------------
+0209                  00965 display                                         ;Imprime letreros en diaplay
+                      00966 ;------------------------------------------------------------
+0209   3080           00967         movlw   d'128'                  ;se coloca en la primer linea
+020A   00A0           00968         movwf   varLCD
+020B   2???           00969         call    modoinstru
+020C   0850           00970         movf    var1ren0,w
+020D   00A0           00971         movwf   varLCD
+020E   2???           00972         call    modocaracter
+020F   0851           00973         movf    var1ren1,w
+0210   00A0           00974         movwf   varLCD
+0211   2???           00975         call    modocaracter
+0212   0852           00976         movf    var1ren2,w
+0213   00A0           00977         movwf   varLCD
+0214   2???           00978         call    modocaracter
+0215   0853           00979         movf    var1ren3,w
+0216   00A0           00980         movwf   varLCD
+0217   2???           00981         call    modocaracter
+0218   0854           00982         movf    var1ren4,w
+0219   00A0           00983         movwf   varLCD
+021A   2???           00984         call    modocaracter
+021B   0855           00985         movf    var1ren5,w
+021C   00A0           00986         movwf   varLCD
+021D   2???           00987         call    modocaracter
+021E   0856           00988         movf    var1ren6,w
+021F   00A0           00989         movwf   varLCD
+0220   2???           00990         call    modocaracter
+0221   0857           00991         movf    var1ren7,w
+0222   00A0           00992         movwf   varLCD
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0223   2???           00993         call    modocaracter
+0224   0858           00994         movf    var1ren8,w
+0225   00A0           00995         movwf   varLCD
+0226   2???           00996         call    modocaracter
+0227   0859           00997         movf    var1ren9,w
+0228   00A0           00998         movwf   varLCD
+0229   2???           00999         call    modocaracter
+022A   085A           01000         movf    var1ren10,w
+022B   00A0           01001         movwf   varLCD
+022C   2???           01002         call    modocaracter
+022D   085B           01003         movf    var1ren11,w
+022E   00A0           01004         movwf   varLCD
+022F   2???           01005         call    modocaracter
+0230   085C           01006         movf    var1ren12,w
+0231   00A0           01007         movwf   varLCD
+0232   2???           01008         call    modocaracter
+0233   085D           01009         movf    var1ren13,w
+0234   00A0           01010         movwf   varLCD
+0235   2???           01011         call    modocaracter
+0236   085E           01012         movf    var1ren14,w
+0237   00A0           01013         movwf   varLCD
+0238   2???           01014         call    modocaracter
+0239   085F           01015         movf    var1ren15,w
+023A   00A0           01016         movwf   varLCD
+023B   2???           01017         call    modocaracter
+023C   30C0           01018         movlw   d'192'                  ;instruccion para 
+023D   00A0           01019         movwf   varLCD                  ;comenzar la segunda
+023E   2???           01020         call    modoinstru              ;linea
+023F   0860           01021         movf    var2ren0,w
+0240   00A0           01022         movwf   varLCD
+0241   2???           01023         call    modocaracter
+0242   0861           01024         movf    var2ren1,w
+0243   00A0           01025         movwf   varLCD
+0244   2???           01026         call    modocaracter
+0245   0862           01027         movf    var2ren2,w
+0246   00A0           01028         movwf   varLCD
+0247   2???           01029         call    modocaracter
+0248   0863           01030         movf    var2ren3,w
+0249   00A0           01031         movwf   varLCD
+024A   2???           01032         call    modocaracter
+024B   0864           01033         movf    var2ren4,w
+024C   00A0           01034         movwf   varLCD
+024D   2???           01035         call    modocaracter
+024E   0865           01036         movf    var2ren5,w
+024F   00A0           01037         movwf   varLCD
+0250   2???           01038         call    modocaracter
+0251   0866           01039         movf    var2ren6,w
+0252   00A0           01040         movwf   varLCD
+0253   2???           01041         call    modocaracter
+0254   0867           01042         movf    var2ren7,w
+0255   00A0           01043         movwf   varLCD
+0256   2???           01044         call    modocaracter
+0257   0868           01045         movf    var2ren8,w
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0258   00A0           01046         movwf   varLCD
+0259   2???           01047         call    modocaracter
+025A   0869           01048         movf    var2ren9,w
+025B   00A0           01049         movwf   varLCD
+025C   2???           01050         call    modocaracter
+025D   086A           01051         movf    var2ren10,w
+025E   00A0           01052         movwf   varLCD
+025F   2???           01053         call    modocaracter
+0260   086B           01054         movf    var2ren11,w
+0261   00A0           01055         movwf   varLCD
+0262   2???           01056         call    modocaracter
+0263   086C           01057         movf    var2ren12,w
+0264   00A0           01058         movwf   varLCD
+0265   2???           01059         call    modocaracter
+0266   086D           01060         movf    var2ren13,w
+0267   00A0           01061         movwf   varLCD
+0268   2???           01062         call    modocaracter
+0269   086E           01063         movf    var2ren14,w
+026A   00A0           01064         movwf   varLCD
+026B   2???           01065         call    modocaracter
+026C   086F           01066         movf    var2ren15,w
+026D   00A0           01067         movwf   varLCD
+026E   2???           01068         call    modocaracter
+026F   0008           01069         return
+                      01070 
+                      01071 
+                      01072 ;------------------------------------------------------------
+                      01073 ;Subrutina para convertir a codigo BCD
+                      01074 ;------------------------------------------------------------
+0270                  01075 convBINaBCD
+0270   1283           01076         bcf             status,rp0      ;cambiar al banco 0
+0271   1303           01077         bcf             status,rp1
+0272   01A6           01078         clrf    BCDuni
+0273   01A5           01079         clrf    BCDdec
+0274                  01080 div_entre_10                    ;divide entre 10
+0274   1003           01081         bcf             status,c
+0275   300A           01082         movlw   .10
+0276   02A1           01083         subwf   ValBIN,1
+0277   1803           01084         btfsc   status,c
+0278   2???           01085         goto    sigresta
+0279                  01086 negativo
+0279   300A           01087         movlw   .10
+027A   0721           01088         addwf   ValBIN,w
+027B   00A6           01089         movwf   BCDuni
+027C   2???           01090         goto    finconversion
+027D                  01091 sigresta
+027D   0AA5           01092         incf    BCDdec,1
+027E   0821           01093         movf    ValBIN,w        ;pregunta si el resultado de la resta fue 0
+027F   3A00           01094         xorlw   0x00
+0280   1D03           01095         btfss   status,z
+0281   2???           01096         goto    div_entre_10
+0282                  01097 finconversion
+0282   0008           01098         return
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01099 
+                      01100 
+                      01101 
+                      01102 ;------------------------------------------------------------
+0283                  01103 DivisionCalculos
+                      01104 ;------------------------------------------------------------
+0283   1283           01105         bcf             status,rp0      ;cambiar al banco 0
+0284   1303           01106         bcf             status,rp1
+0285   01B0           01107         clrf    NumeroEntero
+0286   01B1           01108         clrf    NumeroFraccionCen
+0287   01B2           01109         clrf    NumeroFraccionDec
+0288   01B3           01110         clrf    NumeroFraccionUni
+0289                  01111 calculaDecimal
+0289   1003           01112         bcf             status,c
+028A   0841           01113         movf    divisorUni,w
+028B   0223           01114         subwf   adcbajo,w                               ;Resultado resta parte baja
+028C   00A3           01115         movwf   adcbajo
+028D   1803           01116         btfsc   status,c
+028E   2???           01117         goto    restaDecimal
+028F                  01118 acarreoDecimal
+                      01119 
+028F   03A2           01120         decf    adcalto,1
+0290   0822           01121         movf    adcalto,w
+0291   3AFF           01122         xorlw   0xff
+0292   1903           01123         btfsc   status,z
+0293   2???           01124         goto    terminaDecimal
+0294   2???           01125         goto    restaDecimal
+0295                  01126 terminaDecimal
+0295   0841           01127         movf    divisorUni,w
+0296   07A3           01128         addwf   adcbajo,1
+0297   1803           01129         btfsc   status,c
+0298   2???           01130         goto    restableceadcaltoDecimal
+0299   2???           01131         goto    multiplicaDecimal
+029A                  01132 restableceadcaltoDecimal
+029A   0AA2           01133         incf    adcalto,1
+029B   2???           01134         goto    multiplicaDecimal
+                      01135 
+029C                  01136 restaDecimal
+029C   1003           01137         bcf             status,c
+029D   0840           01138         movf    divisorDec,w
+029E   0222           01139         subwf   adcalto,w
+029F   00A2           01140         movwf   adcalto                         ;Resultado resta parte alta
+02A0   1803           01141         btfsc   status,c
+02A1   2???           01142         goto    resultadopositivoDecimal
+02A2                  01143 resultadonegativoDecimal
+02A2   0841           01144         movf    divisorUni,w
+02A3   07A3           01145         addwf   adcbajo,1
+02A4   1803           01146         btfsc   status,c
+02A5   2???           01147         goto    incremetaEnteroAlto
+02A6   2???           01148         goto    sumarEnteroalta
+02A7                  01149 incremetaEnteroAlto
+02A7   0AA2           01150         incf    adcalto,1
+02A8                  01151 sumarEnteroalta
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+02A8   0840           01152         movf    divisorDec,w
+02A9   07A2           01153         addwf   adcalto,1
+02AA   2???           01154         goto    multiplicaDecimal
+02AB                  01155 resultadopositivoDecimal
+02AB   0AB0           01156         incf    NumeroEntero,1
+02AC   0823           01157         movf    adcbajo,w
+02AD   3A00           01158         xorlw   0x00
+02AE   1D03           01159         btfss   status,z
+02AF   2???           01160         goto    calculaDecimal
+02B0   0822           01161         movf    adcalto,w
+02B1   3A00           01162         xorlw   0x00
+02B2   1D03           01163         btfss   status,z
+02B3   2???           01164         goto    calculaDecimal
+02B4                  01165 multiplicaDecimal
+02B4   2???           01166         call    MultiplicacionCalculos
+02B5                  01167 calculaFraccionCen
+02B5   1003           01168         bcf             status,c
+02B6   0841           01169         movf    divisorUni,w
+02B7   0223           01170         subwf   adcbajo,w                               ;Resultado resta parte baja
+02B8   00A3           01171         movwf   adcbajo
+02B9   1803           01172         btfsc   status,c
+02BA   2???           01173         goto    restaFraccionCen
+02BB                  01174 acarreoFraccionCen
+                      01175 
+02BB   03A2           01176         decf    adcalto,1
+02BC   0822           01177         movf    adcalto,w
+02BD   3AFF           01178         xorlw   0xff
+02BE   1903           01179         btfsc   status,z
+02BF   2???           01180         goto    terminaFraccionCen
+02C0   2???           01181         goto    restaFraccionCen
+02C1                  01182 terminaFraccionCen
+02C1   0841           01183         movf    divisorUni,w
+02C2   07A3           01184         addwf   adcbajo,1
+02C3   1803           01185         btfsc   status,c
+02C4   2???           01186         goto    restableceadcaltoFraccionCen
+02C5   2???           01187         goto    multiplicaFraccionCen
+02C6                  01188 restableceadcaltoFraccionCen
+02C6   0AA2           01189         incf    adcalto,1
+02C7   2???           01190         goto    multiplicaFraccionCen
+                      01191 
+02C8                  01192 restaFraccionCen
+02C8   1003           01193         bcf             status,c
+02C9   0840           01194         movf    divisorDec,w
+02CA   0222           01195         subwf   adcalto,w
+02CB   00A2           01196         movwf   adcalto                         ;Resultado resta parte alta
+02CC   1803           01197         btfsc   status,c
+02CD   2???           01198         goto    resultadopositivoFraccionCen
+02CE                  01199 resultadonegativoFraccionCen
+02CE   0841           01200         movf    divisorUni,w
+02CF   07A3           01201         addwf   adcbajo,1
+02D0   1803           01202         btfsc   status,c
+02D1   2???           01203         goto    incremetaFraccionCenAlto
+02D2   2???           01204         goto    sumarFraccionCenalta
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+02D3                  01205 incremetaFraccionCenAlto
+02D3   0AA2           01206         incf    adcalto,1
+02D4                  01207 sumarFraccionCenalta
+02D4   0840           01208         movf    divisorDec,w
+02D5   07A2           01209         addwf   adcalto,1
+02D6   2???           01210         goto    multiplicaFraccionCen
+02D7                  01211 resultadopositivoFraccionCen
+02D7   0AB1           01212         incf    NumeroFraccionCen,1
+02D8   0823           01213         movf    adcbajo,w
+02D9   3A00           01214         xorlw   0x00
+02DA   1D03           01215         btfss   status,z
+02DB   2???           01216         goto    calculaFraccionCen
+02DC   0822           01217         movf    adcalto,w
+02DD   3A00           01218         xorlw   0x00
+02DE   1D03           01219         btfss   status,z
+02DF   2???           01220         goto    calculaFraccionCen
+02E0                  01221 multiplicaFraccionCen
+02E0   2???           01222         call    MultiplicacionCalculos
+02E1                  01223 calculaFraccionDec
+02E1   1003           01224         bcf             status,c
+02E2   0841           01225         movf    divisorUni,w
+02E3   0223           01226         subwf   adcbajo,w                               ;Resultado resta parte baja
+02E4   00A3           01227         movwf   adcbajo
+02E5   1803           01228         btfsc   status,c
+02E6   2???           01229         goto    restaFraccionDec
+02E7                  01230 acarreoFraccionDec
+                      01231 
+02E7   03A2           01232         decf    adcalto,1
+02E8   0822           01233         movf    adcalto,w
+02E9   3AFF           01234         xorlw   0xff
+02EA   1903           01235         btfsc   status,z
+02EB   2???           01236         goto    terminaFraccionDec
+02EC   2???           01237         goto    restaFraccionDec
+02ED                  01238 terminaFraccionDec
+02ED   0841           01239         movf    divisorUni,w
+02EE   07A3           01240         addwf   adcbajo,1
+02EF   1803           01241         btfsc   status,c
+02F0   2???           01242         goto    restableceadcaltoFraccionDec
+02F1   2???           01243         goto    multiplicaFraccionDec
+02F2                  01244 restableceadcaltoFraccionDec
+02F2   0AA2           01245         incf    adcalto,1
+02F3   2???           01246         goto    multiplicaFraccionDec
+                      01247 
+02F4                  01248 restaFraccionDec
+02F4   1003           01249         bcf             status,c
+02F5   0840           01250         movf    divisorDec,w
+02F6   0222           01251         subwf   adcalto,w
+02F7   00A2           01252         movwf   adcalto                         ;Resultado resta parte alta
+02F8   1803           01253         btfsc   status,c
+02F9   2???           01254         goto    resultadopositivoFraccionDec
+02FA                  01255 resultadonegativoFraccionDec
+02FA   0841           01256         movf    divisorUni,w
+02FB   07A3           01257         addwf   adcbajo,1
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+02FC   1803           01258         btfsc   status,c
+02FD   2???           01259         goto    incremetaFraccionDecAlto
+02FE   2???           01260         goto    sumarFraccionDecalta
+02FF                  01261 incremetaFraccionDecAlto
+02FF   0AA2           01262         incf    adcalto,1
+0300                  01263 sumarFraccionDecalta
+0300   0840           01264         movf    divisorDec,w
+0301   07A2           01265         addwf   adcalto,1
+0302   2???           01266         goto    multiplicaFraccionDec
+0303                  01267 resultadopositivoFraccionDec
+0303   0AB2           01268         incf    NumeroFraccionDec,1
+0304   0823           01269         movf    adcbajo,w
+0305   3A00           01270         xorlw   0x00
+0306   1D03           01271         btfss   status,z
+0307   2???           01272         goto    calculaFraccionDec
+0308   0822           01273         movf    adcalto,w
+0309   3A00           01274         xorlw   0x00
+030A   1D03           01275         btfss   status,z
+030B   2???           01276         goto    calculaFraccionDec
+030C                  01277 multiplicaFraccionDec
+030C   2???           01278         call    MultiplicacionCalculos
+030D                  01279 calculaFraccionUni
+030D   1003           01280         bcf             status,c
+030E   0841           01281         movf    divisorUni,w
+030F   0223           01282         subwf   adcbajo,w                               ;Resultado resta parte baja
+0310   00A3           01283         movwf   adcbajo
+0311   1803           01284         btfsc   status,c
+0312   2???           01285         goto    restaFraccionUni
+0313                  01286 acarreoFraccionUni
+                      01287 
+0313   03A2           01288         decf    adcalto,1
+0314   0822           01289         movf    adcalto,w
+0315   3AFF           01290         xorlw   0xff
+0316   1903           01291         btfsc   status,z
+0317   2???           01292         goto    terminaFraccionUni
+0318   2???           01293         goto    restaFraccionUni
+0319                  01294 terminaFraccionUni
+0319   0841           01295         movf    divisorUni,w
+031A   07A3           01296         addwf   adcbajo,1
+031B   1803           01297         btfsc   status,c
+031C   2???           01298         goto    restableceadcaltoFraccionUni
+031D   0008           01299         return
+031E                  01300 restableceadcaltoFraccionUni
+031E   0AA2           01301         incf    adcalto,1
+031F   0008           01302         return
+                      01303 
+0320                  01304 restaFraccionUni
+0320   1003           01305         bcf             status,c
+0321   0840           01306         movf    divisorDec,w
+0322   0222           01307         subwf   adcalto,w
+0323   00A2           01308         movwf   adcalto                         ;Resultado resta parte alta
+0324   1803           01309         btfsc   status,c
+0325   2???           01310         goto    resultadopositivoFraccionUni
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0326                  01311 resultadonegativoFraccionUni
+0326   0841           01312         movf    divisorUni,w
+0327   07A3           01313         addwf   adcbajo,1
+0328   1803           01314         btfsc   status,c
+0329   2???           01315         goto    incremetaFraccionUniAlto
+032A   2???           01316         goto    sumarFraccionUnialta
+032B                  01317 incremetaFraccionUniAlto
+032B   0AA2           01318         incf    adcalto,1
+032C                  01319 sumarFraccionUnialta
+032C   0840           01320         movf    divisorDec,w
+032D   07A2           01321         addwf   adcalto,1
+032E   0008           01322         return
+032F                  01323 resultadopositivoFraccionUni
+032F   0AB3           01324         incf    NumeroFraccionUni,1
+                      01325 
+0330   0823           01326         movf    adcbajo,w
+0331   3A00           01327         xorlw   0x00
+0332   1D03           01328         btfss   status,z
+0333   2???           01329         goto    calculaFraccionUni
+0334   0822           01330         movf    adcalto,w
+0335   3A00           01331         xorlw   0x00
+0336   1D03           01332         btfss   status,z
+0337   2???           01333         goto    calculaFraccionUni
+0338   0008           01334         return
+                      01335 ;------------------------------------------------------------
+0339                  01336 MultiplicacionCalculos
+                      01337 ;------------------------------------------------------------
+0339   0842           01338         movf    contadorMulti,w
+033A   00C3           01339         movwf   contadorMultiOper
+033B   0823           01340         movf    adcbajo,w
+033C   00C5           01341         movwf   TempMultibajo
+033D   0822           01342         movf    adcalto,w
+033E   00C4           01343         movwf   TempMultialto
+033F                  01344 cicloMulti
+033F   0845           01345         movf    TempMultibajo,w
+0340   07A3           01346         addwf   adcbajo,1
+0341   1803           01347         btfsc   status,c
+0342   2???           01348         goto    incremetaVoltsAlto
+0343   2???           01349         goto    sumarpartealta
+0344                  01350 incremetaVoltsAlto
+0344   0AA2           01351         incf    adcalto,1
+0345                  01352 sumarpartealta
+0345   0844           01353         movf    TempMultialto,w
+0346   07A2           01354         addwf   adcalto,1
+0347                  01355 terminociclo?
+0347   0BC3           01356         decfsz  contadorMultiOper,1
+0348   2???           01357         goto    cicloMulti
+0349   0008           01358         return
+                      01359 ;------------------------------------------------------------
+034A                  01360 SubRutAjuste
+                      01361 ;------------------------------------------------------------
+034A   1822           01362         btfsc   adcalto,0                       ;bit 0 es igual al bit 9
+034B   2???           01363         goto    bit9es1
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+034C   18A2           01364         btfsc   adcalto,1                       ;bit 1 es igual al bit 10
+034D   2???           01365         goto    Bit9_es_0_Bit10_es_1
+034E   2???           01366         goto    Bit9_10_son_0
+034F                  01367 bit9es1
+034F   18A2           01368         btfsc   adcalto,1
+0350   2???           01369         goto    Bit9_10_son_1
+0351   2???           01370         goto    Bit9_es_1_Bit10_es_0
+0352                  01371 Bit9_10_son_0
+0352   3000           01372         movlw   0x00
+0353   00C8           01373         movwf   RutAjuste
+0354   0008           01374         return
+0355                  01375 Bit9_es_1_Bit10_es_0
+0355   3001           01376         movlw   0x01
+0356   00C8           01377         movwf   RutAjuste
+0357   0008           01378         return
+0358                  01379 Bit9_es_0_Bit10_es_1
+0358   3002           01380         movlw   0x02
+0359   00C8           01381         movwf   RutAjuste
+035A   0008           01382         return
+035B                  01383 Bit9_10_son_1
+035B   3003           01384         movlw   0x03
+035C   00C8           01385         movwf   RutAjuste
+035D   0008           01386         return
+                      01387 ;------------------------------------------------------------
+035E                  01388 letreroBienvenida
+                      01389 ;------------------------------------------------------------
+035E   1283           01390         bcf             status,rp0      ;cambiar al banco 0
+035F   1303           01391         bcf             status,rp1
+0360   3020           01392         movlw   _espaci
+0361   00D0           01393         movwf   var1ren0
+0362   3020           01394         movlw   _espaci
+0363   00D1           01395         movwf   var1ren1
+0364   3020           01396         movlw   _espaci
+0365   00D2           01397         movwf   var1ren2
+0366   3020           01398         movlw   _espaci
+0367   00D3           01399         movwf   var1ren3
+0368   3020           01400         movlw   _espaci
+0369   00D4           01401         movwf   var1ren4
+036A   3054           01402         movlw   _T
+036B   00D5           01403         movwf   var1ren5
+036C   304F           01404         movlw   _O
+036D   00D6           01405         movwf   var1ren6
+036E   3052           01406         movlw   _R
+036F   00D7           01407         movwf   var1ren7
+0370   304E           01408         movlw   _N
+0371   00D8           01409         movwf   var1ren8
+0372   3041           01410         movlw   _A
+0373   00D9           01411         movwf   var1ren9
+0374   3053           01412         movlw   _S
+0375   00DA           01413         movwf   var1ren10
+0376   304F           01414         movlw   _O
+0377   00DB           01415         movwf   var1ren11
+0378   304C           01416         movlw   _L
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0379   00DC           01417         movwf   var1ren12
+037A   3020           01418         movlw   _espaci
+037B   00DD           01419         movwf   var1ren13
+037C   3020           01420         movlw   _espaci
+037D   00DE           01421         movwf   var1ren14
+037E   3020           01422         movlw   _espaci
+037F   00DF           01423         movwf   var1ren15
+0380   3020           01424         movlw   _espaci
+0381   00E0           01425         movwf   var2ren0
+0382   3054           01426         movlw   _T
+0383   00E1           01427         movwf   var2ren1
+0384   3054           01428         movlw   _T
+0385   00E2           01429         movwf   var2ren2
+0386   3020           01430         movlw   _espaci
+0387   00E3           01431         movwf   var2ren3
+0388   3032           01432         movlw   _2
+0389   00E4           01433         movwf   var2ren4
+038A   3030           01434         movlw   _0
+038B   00E5           01435         movwf   var2ren5
+038C   3031           01436         movlw   _1
+038D   00E6           01437         movwf   var2ren6
+038E   3038           01438         movlw   _8
+038F   00E7           01439         movwf   var2ren7
+0390   3020           01440         movlw   _espaci
+0391   00E8           01441         movwf   var2ren8
+0392   302D           01442         movlw   _menos
+0393   00E9           01443         movwf   var2ren9
+0394   3020           01444         movlw   _espaci
+0395   00EA           01445         movwf   var2ren10
+0396   3041           01446         movlw   _A
+0397   00EB           01447         movwf   var2ren11
+0398   3031           01448         movlw   _1
+0399   00EC           01449         movwf   var2ren12
+039A   3030           01450         movlw   _0
+039B   00ED           01451         movwf   var2ren13
+039C   3032           01452         movlw   _2
+039D   00EE           01453         movwf   var2ren14
+039E   3020           01454         movlw   _espaci
+039F   00EF           01455         movwf   var2ren15
+03A0   0008           01456         return
+                      01457 ;------------------------------------------------------------
+03A1                  01458 Primerletrero
+                      01459 ;------------------------------------------------------------
+03A1   1283           01460         bcf             status,rp0      ;cambiar al banco 0
+03A2   1303           01461         bcf             status,rp1
+03A3   3056           01462         movlw   _V
+03A4   00D0           01463         movwf   var1ren0
+03A5   3020           01464         movlw   _espaci
+03A6   00D1           01465         movwf   var1ren1
+03A7   0834           01466         movf    VoltsDec,w
+03A8   00D2           01467         movwf   var1ren2
+03A9   0835           01468         movf    VoltsUni,w
+03AA   00D3           01469         movwf   var1ren3
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+03AB   302E           01470         movlw   _punto
+03AC   00D4           01471         movwf   var1ren4
+03AD   0837           01472         movf    VoltsFracUni,w
+03AE   00D5           01473         movwf   var1ren5
+03AF   0836           01474         movf    VoltsFracDec,w
+03B0   00D6           01475         movwf   var1ren6
+03B1   3056           01476         movlw   _V
+03B2   00D7           01477         movwf   var1ren7
+03B3   3020           01478         movlw   _espaci
+03B4   00D8           01479         movwf   var1ren8
+03B5   3020           01480         movlw   _espaci
+03B6   00D9           01481         movwf   var1ren9
+03B7   3054           01482         movlw   _T
+03B8   00DA           01483         movwf   var1ren10
+03B9   3065           01484         movlw   _e
+03BA   00DB           01485         movwf   var1ren11
+03BB   306D           01486         movlw   _m
+03BC   00DC           01487         movwf   var1ren12
+03BD   3070           01488         movlw   _p
+03BE   00DD           01489         movwf   var1ren13
+03BF   3020           01490         movlw   _espaci
+03C0   00DE           01491         movwf   var1ren14
+03C1   3020           01492         movlw   _espaci
+03C2   00DF           01493         movwf   var1ren15
+03C3   3049           01494         movlw   _I
+03C4   00E0           01495         movwf   var2ren0
+03C5   3020           01496         movlw   _espaci
+03C6   00E1           01497         movwf   var2ren1
+03C7   0838           01498         movf    AmperUni,w
+03C8   00E2           01499         movwf   var2ren2
+03C9   302E           01500         movlw   _punto
+03CA   00E3           01501         movwf   var2ren3
+03CB   0839           01502         movf    AmperFraCen,w
+03CC   00E4           01503         movwf   var2ren4
+03CD   083A           01504         movf    AmperFraDec,w
+03CE   00E5           01505         movwf   var2ren5
+03CF   083B           01506         movf    AmperFraUni,w
+03D0   00E6           01507         movwf   var2ren6
+03D1   3041           01508         movlw   _A
+03D2   00E7           01509         movwf   var2ren7
+03D3   3020           01510         movlw   _espaci
+03D4   00E8           01511         movwf   var2ren8
+03D5   083C           01512         movf    DecTemp,w
+03D6   00E9           01513         movwf   var2ren9
+03D7   083D           01514         movf    UniTemp,w
+03D8   00EA           01515         movwf   var2ren10
+03D9   302E           01516         movlw   _punto
+03DA   00EB           01517         movwf   var2ren11
+03DB   083E           01518         movf    FraTemp,w
+03DC   00EC           01519         movwf   var2ren12
+03DD   3020           01520         movlw   _espaci
+03DE   00ED           01521         movwf   var2ren13
+03DF   30DF           01522         movlw   _grado
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+03E0   00EE           01523         movwf   var2ren14
+03E1   3043           01524         movlw   _C
+03E2   00EF           01525         movwf   var2ren15
+03E3   0008           01526         return
+                      01527 
+                      01528 
+                      01529 
+                      01530 
+                      01531 ;------------------------------------------------------------
+03E4                  01532 PantallaRX                              ;CÓDIGO DE PRUEBA
+                      01533 ;------------------------------------------------------------
+03E4   1283           01534         bcf             status,rp0      ;cambiar al banco 0
+03E5   1303           01535         bcf             status,rp1
+03E6   3052           01536         movlw   _R
+03E7   00D0           01537         movwf   var1ren0
+03E8   3078           01538         movlw   _x
+03E9   00D1           01539         movwf   var1ren1
+03EA   3044           01540         movlw   _D
+03EB   00D2           01541         movwf   var1ren2
+03EC   3065           01542         movlw   _e
+03ED   00D3           01543         movwf   var1ren3
+03EE   3063           01544         movlw   _c
+03EF   00D4           01545         movwf   var1ren4
+03F0   3020           01546         movlw   _espaci
+03F1   00D5           01547         movwf   var1ren5
+03F2   0871           01548         movf    BCDCen,w
+03F3   00D6           01549         movwf   var1ren6
+03F4   0872           01550         movf    BCDDec,w
+03F5   00D7           01551         movwf   var1ren7
+03F6   0873           01552         movf    BCDUni,w
+03F7   00D8           01553         movwf   var1ren8
+03F8   3020           01554         movlw   _espaci
+03F9   00D9           01555         movwf   var1ren9
+03FA   3048           01556         movlw   _H
+03FB   00DA           01557         movwf   var1ren10
+03FC   3065           01558         movlw   _e
+03FD   00DB           01559         movwf   var1ren11
+03FE   3078           01560         movlw   _x
+03FF   00DC           01561         movwf   var1ren12
+0400   3020           01562         movlw   _espaci
+0401   00DD           01563         movwf   var1ren13
+0402   0875           01564         movf    HexAlto,w
+0403   00DE           01565         movwf   var1ren14
+0404   0876           01566         movf    HexBajo,w
+0405   00DF           01567         movwf   var1ren15
+0406   3052           01568         movlw   _R
+0407   00E0           01569         movwf   var2ren0
+0408   3078           01570         movlw   _x
+0409   00E1           01571         movwf   var2ren1
+040A   3041           01572         movlw   _A
+040B   00E2           01573         movwf   var2ren2
+040C   3053           01574         movlw   _S
+040D   00E3           01575         movwf   var2ren3
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+040E   3043           01576         movlw   _C
+040F   00E4           01577         movwf   var2ren4
+0410   3043           01578         movlw   _C
+0411   00E5           01579         movwf   var2ren5
+0412   3049           01580         movlw   _I
+0413   00E6           01581         movwf   var2ren6
+0414   3020           01582         movlw   _espaci
+0415   00E7           01583         movwf   var2ren7
+0416   084B           01584         movf    RxUSART,w
+0417   00E8           01585         movwf   var2ren8
+0418   3020           01586         movlw   _espaci
+0419   00E9           01587         movwf   var2ren9
+041A   3020           01588         movlw   _espaci
+041B   00EA           01589         movwf   var2ren10
+041C   3020           01590         movlw   _espaci
+041D   00EB           01591         movwf   var2ren11
+041E   3020           01592         movlw   _espaci
+041F   00EC           01593         movwf   var2ren12
+0420   3020           01594         movlw   _espaci
+0421   00ED           01595         movwf   var2ren13
+0422   3020           01596         movlw   _espaci
+0423   00EE           01597         movwf   var2ren14
+0424   3020           01598         movlw   _espaci
+0425   00EF           01599         movwf   var2ren15
+0426   0008           01600         return
+                      01601 ;------------------------------------------------------------
+0427                  01602 PantallaTX                              ;CÓDIGO DE PRUEBA
+                      01603 ;------------------------------------------------------------
+0427   1283           01604         bcf             status,rp0      ;cambiar al banco 0
+0428   1303           01605         bcf             status,rp1
+0429   3052           01606         movlw   _R
+042A   00D0           01607         movwf   var1ren0
+042B   3078           01608         movlw   _x
+042C   00D1           01609         movwf   var1ren1
+042D   3044           01610         movlw   _D
+042E   00D2           01611         movwf   var1ren2
+042F   3065           01612         movlw   _e
+0430   00D3           01613         movwf   var1ren3
+0431   3063           01614         movlw   _c
+0432   00D4           01615         movwf   var1ren4
+0433   3020           01616         movlw   _espaci
+0434   00D5           01617         movwf   var1ren5
+0435   0871           01618         movf    BCDCen,w
+0436   00D6           01619         movwf   var1ren6
+0437   0872           01620         movf    BCDDec,w
+0438   00D7           01621         movwf   var1ren7
+0439   0873           01622         movf    BCDUni,w
+043A   00D8           01623         movwf   var1ren8
+043B   3020           01624         movlw   _espaci
+043C   00D9           01625         movwf   var1ren9
+043D   3048           01626         movlw   _H
+043E   00DA           01627         movwf   var1ren10
+043F   3065           01628         movlw   _e
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0440   00DB           01629         movwf   var1ren11
+0441   3078           01630         movlw   _x
+0442   00DC           01631         movwf   var1ren12
+0443   3020           01632         movlw   _espaci
+0444   00DD           01633         movwf   var1ren13
+0445   0875           01634         movf    HexAlto,w
+0446   00DE           01635         movwf   var1ren14
+0447   0876           01636         movf    HexBajo,w
+0448   00DF           01637         movwf   var1ren15
+0449   3052           01638         movlw   _R
+044A   00E0           01639         movwf   var2ren0
+044B   3078           01640         movlw   _x
+044C   00E1           01641         movwf   var2ren1
+044D   3041           01642         movlw   _A
+044E   00E2           01643         movwf   var2ren2
+044F   3053           01644         movlw   _S
+0450   00E3           01645         movwf   var2ren3
+0451   3043           01646         movlw   _C
+0452   00E4           01647         movwf   var2ren4
+0453   3043           01648         movlw   _C
+0454   00E5           01649         movwf   var2ren5
+0455   3049           01650         movlw   _I
+0456   00E6           01651         movwf   var2ren6
+0457   3020           01652         movlw   _espaci
+0458   00E7           01653         movwf   var2ren7
+0459   084B           01654         movf    RxUSART,w
+045A   00E8           01655         movwf   var2ren8
+045B   3020           01656         movlw   _espaci
+045C   00E9           01657         movwf   var2ren9
+045D   3050           01658         movlw   _P
+045E   00EA           01659         movwf   var2ren10
+045F   3049           01660         movlw   _I
+0460   00EB           01661         movwf   var2ren11
+0461   3043           01662         movlw   _C
+0462   00EC           01663         movwf   var2ren12
+0463   3020           01664         movlw   _espaci
+0464   00ED           01665         movwf   var2ren13
+0465   3054           01666         movlw   _T
+0466   00EE           01667         movwf   var2ren14
+0467   3078           01668         movlw   _x
+0468   00EF           01669         movwf   var2ren15
+0469   0008           01670         return
+                      01671 ;------------------------------------------------------------
+046A                  01672 valores_TX                              ;CÓDIGO DE PRUEBA
+                      01673 ;------------------------------------------------------------
+046A   1283           01674         bcf             status,rp0      ;cambiar al banco 0
+046B   1303           01675         bcf             status,rp1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+046C   0820           01676         movf    T1Alto,w
+046D   00D0           01677         movwf   var1ren0
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+046E   0821           01678         movf    T1Bajo,w
+046F   00D1           01679         movwf   var1ren1
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0470   3020           01680         movlw   _espaci
+0471   00D2           01681         movwf   var1ren2
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0472   0822           01682         movf    T2Alto,w
+0473   00D3           01683         movwf   var1ren3
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0474   0823           01684         movf    T2Bajo,w
+0475   00D4           01685         movwf   var1ren4
+0476   3020           01686         movlw   _espaci
+0477   00D5           01687         movwf   var1ren5
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0478   0824           01688         movf    T3Alto,w
+0479   00D6           01689         movwf   var1ren6
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+047A   0825           01690         movf    T3Bajo,w
+047B   00D7           01691         movwf   var1ren7
+047C   3020           01692         movlw   _espaci
+047D   00D8           01693         movwf   var1ren8
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+047E   0826           01694         movf    T4Alto,w
+047F   00D9           01695         movwf   var1ren9
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0480   0827           01696         movf    T4Bajo,w
+0481   00DA           01697         movwf   var1ren10
+0482   3020           01698         movlw   _espaci
+0483   00DB           01699         movwf   var1ren11
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0484   0828           01700         movf    T5Alto,w
+0485   00DC           01701         movwf   var1ren12
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0486   0829           01702         movf    T5Bajo,w
+0487   00DD           01703         movwf   var1ren13
+0488   3020           01704         movlw   _espaci
+0489   00DE           01705         movwf   var1ren14
+048A   3020           01706         movlw   _espaci
+048B   00DF           01707         movwf   var1ren15
+048C   3020           01708         movlw   _espaci
+048D   00E0           01709         movwf   var2ren0
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+048E   082A           01710         movf    T6Alto,w
+048F   00E1           01711         movwf   var2ren1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0490   082B           01712         movf    T6Bajo,w
+0491   00E2           01713         movwf   var2ren2
+0492   3020           01714         movlw   _espaci
+0493   00E3           01715         movwf   var2ren3
+0494   3020           01716         movlw   _espaci
+0495   00E4           01717         movwf   var2ren4
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0496   082C           01718         movf    T7Alto,w
+0497   00E5           01719         movwf   var2ren5
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0498   082D           01720         movf    T7Bajo,w
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0499   00E6           01721         movwf   var2ren6
+049A   3020           01722         movlw   _espaci
+049B   00E7           01723         movwf   var2ren7
+049C   3020           01724         movlw   _espaci
+049D   00E8           01725         movwf   var2ren8
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+049E   082E           01726         movf    T8Alto,w
+049F   00E9           01727         movwf   var2ren9
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+04A0   082F           01728         movf    T8Bajo,w
+04A1   00EA           01729         movwf   var2ren10
+04A2   3020           01730         movlw   _espaci
+04A3   00EB           01731         movwf   var2ren11
+04A4   3020           01732         movlw   _espaci
+04A5   00EC           01733         movwf   var2ren12
+04A6   3020           01734         movlw   _espaci
+04A7   00ED           01735         movwf   var2ren13
+04A8   3020           01736         movlw   _espaci
+04A9   00EE           01737         movwf   var2ren14
+04AA   3020           01738         movlw   _espaci
+04AB   00EF           01739         movwf   var2ren15
+04AC   0008           01740         return
+                      01741 ;------------------------------------------------------------
+04AD                  01742 CONV_BINaBCD                            ;CÓDIGO DE PRUEBA               ;Subrutina para convertir a codi
+                            go BCD
+                      01743 ;------------------------------------------------------------
+04AD   1283           01744         bcf             status,rp0      ;cambiar al banco 0
+04AE   1303           01745         bcf             status,rp1
+04AF   01F3           01746         clrf    BCDUni
+04B0   01F2           01747         clrf    BCDDec
+04B1   01F1           01748         clrf    BCDCen
+04B2                  01749 div_entre_100                           ;divide entre 100
+04B2   1003           01750         bcf             status,c
+04B3   3064           01751         movlw   .100
+04B4   02F0           01752         subwf   ValRx,1
+04B5   1803           01753         btfsc   status,c
+04B6   2???           01754         goto    sigrestaCen
+04B7                  01755 negativo_100
+04B7   3064           01756         movlw   .100
+04B8   07F0           01757         addwf   ValRx,1
+04B9   2???           01758         goto    div_entre_10_BCD
+04BA                  01759 sigrestaCen
+04BA   0AF1           01760         incf    BCDCen,1
+04BB   0870           01761         movf    ValRx,w                 ;pregunta si el resultado de la resta fue 0
+04BC   3A00           01762         xorlw   0x00
+04BD   1D03           01763         btfss   status,z
+04BE   2???           01764         goto    div_entre_100
+04BF                  01765 div_entre_10_BCD                        ;divide entre 10
+04BF   1003           01766         bcf             status,c
+04C0   300A           01767         movlw   .10
+04C1   02F0           01768         subwf   ValRx,1
+04C2   1803           01769         btfsc   status,c
+04C3   2???           01770         goto    sigrestaBCD
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 36
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+04C4                  01771 negativo_10
+04C4   300A           01772         movlw   .10
+04C5   0770           01773         addwf   ValRx,w
+04C6   00F3           01774         movwf   BCDUni
+04C7   2???           01775         goto    finconversionBCD
+04C8                  01776 sigrestaBCD
+04C8   0AF2           01777         incf    BCDDec,1
+04C9   0870           01778         movf    ValRx,w ;pregunta si el resultado de la resta fue 0
+04CA   3A00           01779         xorlw   0x00
+04CB   1D03           01780         btfss   status,z
+04CC   2???           01781         goto    div_entre_10_BCD
+04CD                  01782 finconversionBCD
+04CD   3030           01783         movlw   0x30
+04CE   04F3           01784         iorwf   BCDUni,1
+04CF   04F2           01785         iorwf   BCDDec,1
+04D0   04F1           01786         iorwf   BCDCen,1
+04D1   0008           01787         return
+                      01788 ;------------------------------------------------------------
+04D2                  01789 CONV_BINaHEX                            ;CÓDIGO DE PRUEBA               ;Subrutina para convertir a codi
+                            go HEX
+                      01790 ;------------------------------------------------------------
+04D2   1283           01791         bcf             status,rp0      ;cambiar al banco 0
+04D3   1303           01792         bcf             status,rp1
+04D4   01F5           01793         clrf    HexAlto
+04D5   01F6           01794         clrf    HexBajo
+04D6                  01795 ParteBaja
+04D6   0874           01796         movf    ValRxHex,w
+04D7   00F6           01797         movwf   HexBajo
+04D8   300F           01798         movlw   0x0f
+04D9   05F6           01799         andwf   HexBajo,1
+04DA   0876           01800         movf    HexBajo,w
+04DB   3A00           01801         xorlw   0x00
+04DC   1903           01802         btfsc   status,z
+04DD   2???           01803         goto    carga0
+04DE   0876           01804         movf    HexBajo,w
+04DF   3A01           01805         xorlw   0x01
+04E0   1903           01806         btfsc   status,z
+04E1   2???           01807         goto    carga1
+04E2   0876           01808         movf    HexBajo,w
+04E3   3A02           01809         xorlw   0x02
+04E4   1903           01810         btfsc   status,z
+04E5   2???           01811         goto    carga2
+04E6   0876           01812         movf    HexBajo,w
+04E7   3A03           01813         xorlw   0x03
+04E8   1903           01814         btfsc   status,z
+04E9   2???           01815         goto    carga3
+04EA   0876           01816         movf    HexBajo,w
+04EB   3A04           01817         xorlw   0x04
+04EC   1903           01818         btfsc   status,z
+04ED   2???           01819         goto    carga4
+04EE   0876           01820         movf    HexBajo,w
+04EF   3A05           01821         xorlw   0x05
+04F0   1903           01822         btfsc   status,z
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 37
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+04F1   2???           01823         goto    carga5
+04F2   0876           01824         movf    HexBajo,w
+04F3   3A06           01825         xorlw   0x06
+04F4   1903           01826         btfsc   status,z
+04F5   2???           01827         goto    carga6
+04F6   0876           01828         movf    HexBajo,w
+04F7   3A07           01829         xorlw   0x07
+04F8   1903           01830         btfsc   status,z
+04F9   2???           01831         goto    carga7
+04FA   0876           01832         movf    HexBajo,w
+04FB   3A08           01833         xorlw   0x08
+04FC   1903           01834         btfsc   status,z
+04FD   2???           01835         goto    carga8
+04FE   0876           01836         movf    HexBajo,w
+04FF   3A09           01837         xorlw   0x09
+0500   1903           01838         btfsc   status,z
+0501   2???           01839         goto    carga9
+0502   0876           01840         movf    HexBajo,w
+0503   3A0A           01841         xorlw   0x0a
+0504   1903           01842         btfsc   status,z
+0505   2???           01843         goto    cargaa
+0506   0876           01844         movf    HexBajo,w
+0507   3A0B           01845         xorlw   0x0b
+0508   1903           01846         btfsc   status,z
+0509   2???           01847         goto    cargab
+050A   0876           01848         movf    HexBajo,w
+050B   3A0C           01849         xorlw   0x0c
+050C   1903           01850         btfsc   status,z
+050D   2???           01851         goto    cargac
+050E   0876           01852         movf    HexBajo,w
+050F   3A0D           01853         xorlw   0x0d
+0510   1903           01854         btfsc   status,z
+0511   2???           01855         goto    cargad
+0512   0876           01856         movf    HexBajo,w
+0513   3A0E           01857         xorlw   0x0e
+0514   1903           01858         btfsc   status,z
+0515   2???           01859         goto    cargae
+0516   0876           01860         movf    HexBajo,w
+0517   3A0F           01861         xorlw   0x0f
+0518   1903           01862         btfsc   status,z
+0519   2???           01863         goto    cargaf
+051A                  01864 carga0
+051A   3030           01865         movlw   _0
+051B   00F6           01866         movwf   HexBajo
+051C   2???           01867         goto    ParteAlta
+051D                  01868 carga1
+051D   3031           01869         movlw   _1
+051E   00F6           01870         movwf   HexBajo
+051F   2???           01871         goto    ParteAlta
+0520                  01872 carga2
+0520   3032           01873         movlw   _2
+0521   00F6           01874         movwf   HexBajo
+0522   2???           01875         goto    ParteAlta
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 38
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0523                  01876 carga3
+0523   3033           01877         movlw   _3
+0524   00F6           01878         movwf   HexBajo
+0525   2???           01879         goto    ParteAlta
+0526                  01880 carga4
+0526   3034           01881         movlw   _4
+0527   00F6           01882         movwf   HexBajo
+0528   2???           01883         goto    ParteAlta
+0529                  01884 carga5
+0529   3035           01885         movlw   _5
+052A   00F6           01886         movwf   HexBajo
+052B   2???           01887         goto    ParteAlta
+052C                  01888 carga6
+052C   3036           01889         movlw   _6
+052D   00F6           01890         movwf   HexBajo
+052E   2???           01891         goto    ParteAlta
+052F                  01892 carga7
+052F   3037           01893         movlw   _7
+0530   00F6           01894         movwf   HexBajo
+0531   2???           01895         goto    ParteAlta
+0532                  01896 carga8
+0532   3038           01897         movlw   _8
+0533   00F6           01898         movwf   HexBajo
+0534   2???           01899         goto    ParteAlta
+0535                  01900 carga9
+0535   3039           01901         movlw   _9
+0536   00F6           01902         movwf   HexBajo
+0537   2???           01903         goto    ParteAlta
+0538                  01904 cargaa
+0538   3041           01905         movlw   _A
+0539   00F6           01906         movwf   HexBajo
+053A   2???           01907         goto    ParteAlta
+053B                  01908 cargab
+053B   3042           01909         movlw   _B
+053C   00F6           01910         movwf   HexBajo
+053D   2???           01911         goto    ParteAlta
+053E                  01912 cargac
+053E   3043           01913         movlw   _C
+053F   00F6           01914         movwf   HexBajo
+0540   2???           01915         goto    ParteAlta
+0541                  01916 cargad
+0541   3044           01917         movlw   _D
+0542   00F6           01918         movwf   HexBajo
+0543   2???           01919         goto    ParteAlta
+0544                  01920 cargae
+0544   3045           01921         movlw   _E
+0545   00F6           01922         movwf   HexBajo
+0546   2???           01923         goto    ParteAlta
+0547                  01924 cargaf
+0547   3046           01925         movlw   _F
+0548   00F6           01926         movwf   HexBajo
+0549   2???           01927         goto    ParteAlta
+054A                  01928 ParteAlta
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 39
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+054A   0EF4           01929         swapf   ValRxHex,1
+054B   300F           01930         movlw   0x0f
+054C   0574           01931         andwf   ValRxHex,w
+054D   00F5           01932         movwf   HexAlto
+054E   0875           01933         movf    HexAlto,w
+054F   3A00           01934         xorlw   0x00
+0550   1903           01935         btfsc   status,z
+0551   2???           01936         goto    carga00
+0552   0875           01937         movf    HexAlto,w
+0553   3A01           01938         xorlw   0x01
+0554   1903           01939         btfsc   status,z
+0555   2???           01940         goto    carga01
+0556   0875           01941         movf    HexAlto,w
+0557   3A02           01942         xorlw   0x02
+0558   1903           01943         btfsc   status,z
+0559   2???           01944         goto    carga02
+055A   0875           01945         movf    HexAlto,w
+055B   3A03           01946         xorlw   0x03
+055C   1903           01947         btfsc   status,z
+055D   2???           01948         goto    carga03
+055E   0875           01949         movf    HexAlto,w
+055F   3A04           01950         xorlw   0x04
+0560   1903           01951         btfsc   status,z
+0561   2???           01952         goto    carga04
+0562   0875           01953         movf    HexAlto,w
+0563   3A05           01954         xorlw   0x05
+0564   1903           01955         btfsc   status,z
+0565   2???           01956         goto    carga05
+0566   0875           01957         movf    HexAlto,w
+0567   3A06           01958         xorlw   0x06
+0568   1903           01959         btfsc   status,z
+0569   2???           01960         goto    carga06
+056A   0875           01961         movf    HexAlto,w
+056B   3A07           01962         xorlw   0x07
+056C   1903           01963         btfsc   status,z
+056D   2???           01964         goto    carga07
+056E   0875           01965         movf    HexAlto,w
+056F   3A08           01966         xorlw   0x08
+0570   1903           01967         btfsc   status,z
+0571   2???           01968         goto    carga08
+0572   0875           01969         movf    HexAlto,w
+0573   3A09           01970         xorlw   0x09
+0574   1903           01971         btfsc   status,z
+0575   2???           01972         goto    carga09
+0576   0875           01973         movf    HexAlto,w
+0577   3A0A           01974         xorlw   0x0a
+0578   1903           01975         btfsc   status,z
+0579   2???           01976         goto    carga0a
+057A   0875           01977         movf    HexAlto,w
+057B   3A0B           01978         xorlw   0x0b
+057C   1903           01979         btfsc   status,z
+057D   2???           01980         goto    carga0b
+057E   0875           01981         movf    HexAlto,w
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 40
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+057F   3A0C           01982         xorlw   0x0c
+0580   1903           01983         btfsc   status,z
+0581   2???           01984         goto    carga0c
+0582   0875           01985         movf    HexAlto,w
+0583   3A0D           01986         xorlw   0x0d
+0584   1903           01987         btfsc   status,z
+0585   2???           01988         goto    carga0d
+0586   0875           01989         movf    HexAlto,w
+0587   3A0E           01990         xorlw   0x0e
+0588   1903           01991         btfsc   status,z
+0589   2???           01992         goto    carga0e
+058A   0875           01993         movf    HexAlto,w
+058B   3A0F           01994         xorlw   0x0f
+058C   1903           01995         btfsc   status,z
+058D   2???           01996         goto    carga0f
+058E                  01997 carga00
+058E   3030           01998         movlw   _0
+058F   00F5           01999         movwf   HexAlto
+0590   0008           02000         return
+0591                  02001 carga01
+0591   3031           02002         movlw   _1
+0592   00F5           02003         movwf   HexAlto
+0593   0008           02004         return
+0594                  02005 carga02
+0594   3032           02006         movlw   _2
+0595   00F5           02007         movwf   HexAlto
+0596   0008           02008         return
+0597                  02009 carga03
+0597   3033           02010         movlw   _3
+0598   00F5           02011         movwf   HexAlto
+0599   0008           02012         return
+059A                  02013 carga04
+059A   3034           02014         movlw   _4
+059B   00F5           02015         movwf   HexAlto
+059C   0008           02016         return
+059D                  02017 carga05
+059D   3035           02018         movlw   _5
+059E   00F5           02019         movwf   HexAlto
+059F   0008           02020         return
+05A0                  02021 carga06
+05A0   3036           02022         movlw   _6
+05A1   00F5           02023         movwf   HexAlto
+05A2   0008           02024         return
+05A3                  02025 carga07
+05A3   3037           02026         movlw   _7
+05A4   00F5           02027         movwf   HexAlto
+05A5   0008           02028         return
+05A6                  02029 carga08
+05A6   3038           02030         movlw   _8
+05A7   00F5           02031         movwf   HexAlto
+05A8   0008           02032         return
+05A9                  02033 carga09
+05A9   3039           02034         movlw   _9
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 41
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+05AA   00F5           02035         movwf   HexAlto
+05AB   0008           02036         return
+05AC                  02037 carga0a
+05AC   3041           02038         movlw   _A
+05AD   00F5           02039         movwf   HexAlto
+05AE   0008           02040         return
+05AF                  02041 carga0b
+05AF   3042           02042         movlw   _B
+05B0   00F5           02043         movwf   HexAlto
+05B1   0008           02044         return
+05B2                  02045 carga0c
+05B2   3043           02046         movlw   _C
+05B3   00F5           02047         movwf   HexAlto
+05B4   0008           02048         return
+05B5                  02049 carga0d
+05B5   3044           02050         movlw   _D
+05B6   00F5           02051         movwf   HexAlto
+05B7   0008           02052         return
+05B8                  02053 carga0e
+05B8   3045           02054         movlw   _E
+05B9   00F5           02055         movwf   HexAlto
+05BA   0008           02056         return
+05BB                  02057 carga0f
+05BB   3046           02058         movlw   _F
+05BC   00F5           02059         movwf   HexAlto
+05BD   0008           02060         return
+                      02061 
+                      02062 
+                      02063 
+                      02064 
+                      02065 
+                      02066 
+                      02067 
+                      02068 ;------------------------------------------------------------
+05BE                  02069 Retardos                                        ;Retardo de 200 milisegundos
+                      02070 ;------------------------------------------------------------
+05BE                  02071 ret1_3
+05BE   3001           02072         movlw   .01
+05BF   00A9           02073         movwf   ret2
+05C0                  02074 ret1_2
+05C0   30A6           02075         movlw   .166
+05C1   00AA           02076         movwf   ret3
+05C2                  02077 ret1_1
+05C2   0BAA           02078         decfsz  ret3,1                  ;497microsegundos=aprox0.5milisegundos
+05C3   2???           02079         goto    ret1_1
+05C4   0BA9           02080         decfsz  ret2,1
+05C5   2???           02081         goto    ret1_2
+05C6   0BA8           02082         decfsz  ret1,1
+05C7   2???           02083         goto    ret1_3
+05C8   0008           02084         return
+                      02085 ;------------------------------------------------------------
+05C9                  02086 temp10micros                            ;Retardo de 10 microsegundos
+                      02087 ;------------------------------------------------------------
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 42
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+05C9   300A           02088         movlw   .10
+05CA   00AA           02089         movwf   ret3
+05CB                  02090 ret2_1
+05CB   0BAA           02091         decfsz  ret3,1
+05CC   2???           02092         goto    ret2_1
+05CD   0008           02093         return
+                      02094 ;------------------------------------------------------------
+05CE                  02095 retardounseg                                    ;Retardo de 1 segundo
+                      02096 ;------------------------------------------------------------
+05CE   30FF           02097         movlw    .255
+05CF   00AB           02098         movwf    var1
+05D0                  02099 ciclo_3
+05D0   3008           02100         movlw   .08
+05D1   00AC           02101         movwf   var2
+05D2                  02102 ciclo_2
+05D2   30A6           02103         movlw   .166
+05D3   00AD           02104         movwf   var3
+05D4                  02105 ciclo_1
+05D4   0BAD           02106         decfsz  var3,1          ;497 microsegundos = aprox. 0.5 milisegundos
+05D5   2???           02107         goto    ciclo_1
+05D6   0BAC           02108         decfsz  var2,1
+05D7   2???           02109         goto    ciclo_2
+05D8   0BAB           02110         decfsz  var1,1
+05D9   2???           02111         goto    ciclo_3
+05DA   0008           02112         return
+                      02113 ;------------------------------------------------------------
+05DB                  02114 retardoXseg                                     ;Retardo de X segundos
+                      02115 ;------------------------------------------------------------
+05DB   307D           02116         movlw    .125           ;.255 Para 1 segundo
+05DC   00AB           02117         movwf    var1
+05DD                  02118 ciclos_3
+05DD   3008           02119         movlw   .08
+05DE   00AC           02120         movwf   var2
+05DF                  02121 ciclos_2
+05DF   30A6           02122         movlw   .166
+05E0   00AD           02123         movwf   var3
+05E1                  02124 ciclos_1
+05E1   0BAD           02125         decfsz  var3,1          ;497 microsegundos = aprox. 0.5 milisegundos
+05E2   2???           02126         goto    ciclos_1
+05E3   0BAC           02127         decfsz  var2,1
+05E4   2???           02128         goto    ciclos_2
+05E5   0BAB           02129         decfsz  var1,1
+05E6   2???           02130         goto    ciclos_3
+05E7   0008           02131         return
+                      02132 ;--------------------------------------------------------------------------
+05E8                  02133 transmite                                       ;Rutina que se encarga de la transmisión
+                      02134 ;--------------------------------------------------------------------------
+05E8   1683           02135         bsf    status,rp0               ;cambiar al banco 1
+05E9   1303           02136         bcf    status,rp1
+05EA   3026           02137         movlw  b'00100110'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+05EB   0098           02138         movwf  txsta
+05EC   3019           02139         movlw  .25
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 43
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+05ED   0099           02140         movwf  spbrg
+05EE   1283           02141         bcf    status,rp0               ;cambiar al banco 0
+05EF   1303           02142         bcf    status,rp1
+05F0   1798           02143         bsf    rcsta,spen
+05F1   084A           02144         movf   TxUSART,w
+05F2   0099           02145         movwf  txreg
+05F3                  02146 txespera
+05F3   1E0C           02147         btfss  pir1,txif
+05F4   2???           02148         goto   txespera
+05F5   0008           02149         return
+1931                  02150         end
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 44
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADCS2                             00000006
+ADCinterrup                       0000000B
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+AmperFraCen                       00000039
+AmperFraDec                       0000003A
+AmperFraUni                       0000003B
+AmperUni                          00000038
+Apaga_Enciende_Ventilador         0000018E
+BCDCen                            00000071
+BCDDec                            00000072
+BCDUni                            00000073
+BCDcen                            00000024
+BCDdec                            00000025
+BCDuni                            00000026
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+Bit4_LCD                          00000004
+Bit5_LCD                          00000005
+Bit6_LCD                          00000006
+Bit7_LCD                          00000007
+Bit9_10_son_0                     00000352
+Bit9_10_son_1                     0000035B
+Bit9_es_0_Bit10_es_1              00000358
+Bit9_es_1_Bit10_es_0              00000355
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 45
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2                             0000001B
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CIS                               00000003
+CKE                               00000006
+CKP                               00000004
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000009C
+CMIE                              00000006
+CMIF                              00000006
+CONV_BINaBCD                      000004AD
+CONV_BINaHEX                      000004D2
+CREN                              00000004
+CSRC                              00000007
+CVR0                              00000000
+CVR1                              00000001
+CVR2                              00000002
+CVR3                              00000003
+CVRCON                            0000009D
+CVREN                             00000007
+CVROE                             00000006
+CVRR                              00000005
+ConfigADC                         000001A8
+ContCalCorriente                  000000C3
+ContCalVoltaje                    0000012F
+ContResta                         00000049
+CorrienteAlto                     0000004C
+CorrienteBajo                     0000004D
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+D_A                               00000005
+D_NOT_A                           00000005
+DecTemp                           0000003C
+DivisionCalculos                  00000283
+EEADR                             0000010D
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 46
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+Enable_LCD                        00000003
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+FraTemp                           0000003E
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+HexAlto                           00000075
+HexBajo                           00000076
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+IniProgMed                        0000004C
+IniciaDisplayLCD                  000001D7
+MedirCorriente                    00000080
+MedirTemperatura                  0000015D
+MedirVoltaje                      000000EC
+MultiplicacionCalculos            00000339
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+NumeroEntero                      00000030
+NumeroFraccionCen                 00000031
+NumeroFraccionDec                 00000032
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 47
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NumeroFraccionUni                 00000033
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PantallaRX                        000003E4
+PantallaTX                        00000427
+ParteAlta                         0000054A
+ParteBaja                         000004D6
+Primerletrero                     000003A1
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 48
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RC6                               00000006
+RC7                               00000007
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RS_LCD                            00000000
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+Regresa_de_USART                  00000049
+Resta11CalVoltaje                 00000123
+Resta18CalCorriente               000000B7
+Resta4CalCorriente                0000009F
+Resta4CalVoltaje                  0000010B
+Resta8CalVoltaje                  00000117
+Resta9CalCorriente                000000AB
+Retardos                          000005BE
+RutAjuste                         00000048
+RxUSART                           0000004B
+RxUSART2                          00000077
+S                                 00000003
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+SYNC                              00000004
+SenCorriente                      00000000
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 49
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SenTemperatura                    00000002
+SenVoltaje                        00000001
+Sig_Resta11CalVoltaje             00000125
+Sig_Resta18CalCorriente           000000B9
+Sig_Resta4CalCorriente            000000A1
+Sig_Resta4CalVoltaje              0000010D
+Sig_Resta8CalVoltaje              00000119
+Sig_Resta9CalCorriente            000000AD
+SubRutAjuste                      0000034A
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1Alto                            000000A0
+T1Bajo                            000000A1
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2Alto                            000000A2
+T2Bajo                            000000A3
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T3Alto                            000000A4
+T3Bajo                            000000A5
+T4Alto                            000000A6
+T4Bajo                            000000A7
+T5Alto                            000000A8
+T5Bajo                            000000A9
+T6Alto                            000000AA
+T6Bajo                            000000AB
+T7Alto                            000000AC
+T7Bajo                            000000AD
+T8Alto                            000000AE
+T8Bajo                            000000AF
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 50
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+Talta                             00000078
+Tbaja                             00000079
+TempMultialto                     00000044
+TempMultibajo                     00000045
+TxUSART                           0000004A
+Tx_Protocolo                      0000002A
+UA                                00000001
+UniTemp                           0000003D
+ValBIN                            00000021
+ValRx                             00000070
+ValRxHex                          00000074
+Ventilador                        00000007
+Ventiladoralto                    00000046
+Ventiladorbajo                    00000047
+VoltAlto                          0000004E
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 51
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+VoltBajo                          0000004F
+VoltsDec                          00000034
+VoltsFracDec                      00000036
+VoltsFracUni                      00000037
+VoltsUni                          00000035
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_1                                00000031
+_2                                00000032
+_3                                00000033
+_4                                00000034
+_5                                00000035
+_6                                00000036
+_7                                00000037
+_8                                00000038
+_9                                00000039
+_A                                00000041
+_B                                00000042
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_C                                00000043
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_D                                00000044
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_DEVID1                           00002006
+_E                                00000045
+_F                                00000046
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_G                                00000047
+_H                                00000048
+_HS_OSC                           00003FFE
+_I                                00000049
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_J                                0000004A
+_K                                0000004B
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 52
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_L                                0000004C
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_M                                0000004D
+_N                                0000004E
+_O                                0000004F
+_P                                00000050
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_Q                                00000051
+_R                                00000052
+_RC_OSC                           00003FFF
+_S                                00000053
+_T                                00000054
+_U                                00000055
+_V                                00000056
+_W                                00000057
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_1FOURTH                      00003BFF
+_WRT_256                          00003DFF
+_WRT_HALF                         000039FF
+_WRT_OFF                          00003FFF
+_X                                00000058
+_XT_OSC                           00003FFD
+_Y                                00000059
+_Z                                0000005A
+__16F876A                         00000001
+_a                                00000061
+_b                                00000062
+_c                                00000063
+_d                                00000064
+_dospuntos                        0000003A
+_e                                00000065
+_espaci                           00000020
+_f                                00000066
+_g                                00000067
+_grado                            000000DF
+_h                                00000068
+_i                                00000069
+_j                                0000006A
+_k                                0000006B
+_l                                0000006C
+_m                                0000006D
+_menos                            0000002D
+_n                                0000006E
+_o                                0000006F
+_p                                00000070
+_punto                            0000002E
+_q                                00000071
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 53
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_r                                00000072
+_s                                00000073
+_t                                00000074
+_u                                00000075
+_v                                00000076
+_w                                00000077
+_x                                00000078
+_y                                00000079
+_z                                0000007A
+acarreoDecimal                    0000028F
+acarreoFraccionCen                000002BB
+acarreoFraccionDec                000002E7
+acarreoFraccionUni                00000313
+acarreoVentilador                 00000197
+adcalto                           00000022
+adcbajo                           00000023
+adcon0                            0000001F
+adcon1                            0000009F
+adcs0                             00000006
+adcs1                             00000007
+adfm                              00000007
+adie                              00000006
+adif                              00000006
+adon                              00000000
+adresh                            0000001E
+adresl                            0000009E
+apagaVentilador                   000001A6
+banADC                            00000027
+bit9es1                           0000034F
+c                                 00000000
+calculaDecimal                    00000289
+calculaFraccionCen                000002B5
+calculaFraccionDec                000002E1
+calculaFraccionUni                0000030D
+carga0                            0000051A
+carga00                           0000058E
+carga01                           00000591
+carga02                           00000594
+carga03                           00000597
+carga04                           0000059A
+carga05                           0000059D
+carga06                           000005A0
+carga07                           000005A3
+carga08                           000005A6
+carga09                           000005A9
+carga0a                           000005AC
+carga0b                           000005AF
+carga0c                           000005B2
+carga0d                           000005B5
+carga0e                           000005B8
+carga0f                           000005BB
+carga1                            0000051D
+carga2                            00000520
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 54
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+carga3                            00000523
+carga4                            00000526
+carga5                            00000529
+carga6                            0000052C
+carga7                            0000052F
+carga8                            00000532
+carga9                            00000535
+cargaa                            00000538
+cargab                            0000053B
+cargac                            0000053E
+cargad                            00000541
+cargae                            00000544
+cargaf                            00000547
+chs0                              00000003
+chs1                              00000004
+chs2                              00000005
+cicloMulti                        0000033F
+ciclo_1                           000005D4
+ciclo_2                           000005D2
+ciclo_3                           000005D0
+ciclos_1                          000005E1
+ciclos_2                          000005DF
+ciclos_3                          000005DD
+contadorMulti                     00000042
+contadorMultiOper                 00000043
+continua_Resta11CalVoltaje        0000012C
+continua_Resta18CalCorriente      000000C0
+continua_Resta4CalCorriente       000000A8
+continua_Resta4CalVoltaje         00000114
+continua_Resta8CalVoltaje         00000120
+continua_Resta9CalCorriente       000000B4
+convBINaBCD                       00000270
+cren                              00000004
+decrementa_adcalto_Resta11CalVol  0000012B
+decrementa_adcalto_Resta18CalCor  000000BF
+decrementa_adcalto_Resta4CalCorr  000000A7
+decrementa_adcalto_Resta4CalVolt  00000113
+decrementa_adcalto_Resta8CalVolt  0000011F
+decrementa_adcalto_Resta9CalCorr  000000B3
+display                           00000209
+div_entre_10                      00000274
+div_entre_100                     000004B2
+div_entre_10_BCD                  000004BF
+divisorDec                        00000040
+divisorUni                        00000041
+eepgd                             00000007
+encenderVentilador                000001A4
+esperaCorrienteADCs               00000089
+esperaTemperaturaADCs             00000166
+esperaVoltajeADCs                 000000F5
+finconversion                     00000282
+finconversionBCD                  000004CD
+fsr                               00000004
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 55
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+gie                               00000007
+go_done                           00000002
+incremetaEnteroAlto               000002A7
+incremetaFraccionCenAlto          000002D3
+incremetaFraccionDecAlto          000002FF
+incremetaFraccionUniAlto          0000032B
+incremetaVoltsAlto                00000344
+indf                              00000000
+intcon                            0000000B
+interserie                        0000001B
+letreroBienvenida                 0000035E
+modocaracter                      000001C8
+modoinstru                        000001BA
+multiplicaDecimal                 000002B4
+multiplicaFraccionCen             000002E0
+multiplicaFraccionDec             0000030C
+negativo                          00000279
+negativo_10                       000004C4
+negativo_100                      000004B7
+pcfg0                             00000000
+pcfg1                             00000001
+pcfg2                             00000002
+pcfg3                             00000003
+pclath                            0000000A
+peie                              00000006
+pie1                              0000008C
+pie2                              0000008D
+pir1                              0000000C
+pir2                              0000000D
+porta                             00000005
+portb                             00000006
+portc                             00000007
+rcie                              00000005
+rcif                              00000005
+rcreg                             0000001A
+rcsta                             00000018
+restaDecimal                      0000029C
+restaFraccionCen                  000002C8
+restaFraccionDec                  000002F4
+restaFraccionUni                  00000320
+restaVentilador                   0000019D
+restableceadcaltoDecimal          0000029A
+restableceadcaltoFraccionCen      000002C6
+restableceadcaltoFraccionDec      000002F2
+restableceadcaltoFraccionUni      0000031E
+resultadonegativoDecimal          000002A2
+resultadonegativoFraccionCen      000002CE
+resultadonegativoFraccionDec      000002FA
+resultadonegativoFraccionUni      00000326
+resultadopositivoDecimal          000002AB
+resultadopositivoFraccionCen      000002D7
+resultadopositivoFraccionDec      00000303
+resultadopositivoFraccionUni      0000032F
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 56
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ret1                              00000028
+ret1_1                            000005C2
+ret1_2                            000005C0
+ret1_3                            000005BE
+ret2                              00000029
+ret2_1                            000005CB
+ret3                              0000002A
+retardoXseg                       000005DB
+retardounseg                      000005CE
+rp0                               00000005
+rp1                               00000006
+sigresta                          0000027D
+sigrestaBCD                       000004C8
+sigrestaCen                       000004BA
+spbrg                             00000099
+spen                              00000007
+status                            00000003
+sumarEnteroalta                   000002A8
+sumarFraccionCenalta              000002D4
+sumarFraccionDecalta              00000300
+sumarFraccionUnialta              0000032C
+sumarpartealta                    00000345
+temp10micros                      000005C9
+terminaDecimal                    00000295
+terminaFraccionCen                000002C1
+terminaFraccionDec                000002ED
+terminaFraccionUni                00000319
+terminociclo?                     00000347
+tmr0                              00000001
+toif                              00000002
+transmite                         000005E8
+trisa                             00000085
+trisb                             00000086
+trisc                             00000087
+txespera                          000005F3
+txif                              00000004
+txreg                             00000019
+txsta                             00000098
+valores_TX                        0000046A
+var1                              0000002B
+var1ren0                          00000050
+var1ren1                          00000051
+var1ren10                         0000005A
+var1ren11                         0000005B
+var1ren12                         0000005C
+var1ren13                         0000005D
+var1ren14                         0000005E
+var1ren15                         0000005F
+var1ren2                          00000052
+var1ren3                          00000053
+var1ren4                          00000054
+var1ren5                          00000055
+var1ren6                          00000056
+MPASM 5.83           USART PIC RASPBERRY.ASM   3-1-2019  4:34:44         PAGE 57
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+var1ren7                          00000057
+var1ren8                          00000058
+var1ren9                          00000059
+var2                              0000002C
+var2ren0                          00000060
+var2ren1                          00000061
+var2ren10                         0000006A
+var2ren11                         0000006B
+var2ren12                         0000006C
+var2ren13                         0000006D
+var2ren14                         0000006E
+var2ren15                         0000006F
+var2ren2                          00000062
+var2ren3                          00000063
+var2ren4                          00000064
+var2ren5                          00000065
+var2ren6                          00000066
+var2ren7                          00000067
+var2ren8                          00000068
+var2ren9                          00000069
+var3                              0000002D
+varLCD                            00000020
+w                                 00000000
+z                                 00000002
+
+Errors   :     0
+Warnings :    30 reported,     0 suppressed
+Messages :    31 reported,     0 suppressed
+
+

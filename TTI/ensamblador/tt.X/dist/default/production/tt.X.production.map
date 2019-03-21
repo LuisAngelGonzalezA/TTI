@@ -1,0 +1,368 @@
+MPLINK 5.09, LINKER
+Linker Map File - Created Fri Mar 01 02:32:35 2019
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+                   .org_1       code   0x000004    program   0x000be2
+.config_2007_BUILD/DEFAULT/PRODUCTION/USART P       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x0005f4      
+                            0x002007    0x002007      
+            1525 out of 8454 program addresses used, program memory utilization is 18%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+              ADCinterrup   0x00000b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+Apaga_Enciende_Ventilador   0x00018d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Bit9_10_son_0   0x000351    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Bit9_10_son_1   0x00035a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Bit9_es_0_Bit10_es_1   0x000357    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Bit9_es_1_Bit10_es_0   0x000354    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             CONV_BINaBCD   0x0004ac    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             CONV_BINaHEX   0x0004d1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ConfigADC   0x0001a7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         ContCalCorriente   0x0000c4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           ContCalVoltaje   0x00012f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         DivisionCalculos   0x000282    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               IniProgMed   0x00004c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         IniciaDisplayLCD   0x0001d6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           MedirCorriente   0x000082    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         MedirTemperatura   0x00015d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             MedirVoltaje   0x0000ed    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   MultiplicacionCalculos   0x000338    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               PantallaRX   0x0003e3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               PantallaTX   0x000426    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ParteAlta   0x000549    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ParteBaja   0x0004d5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Primerletrero   0x0003a0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Regresa_de_USART   0x000049    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        Resta11CalVoltaje   0x000123    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      Resta18CalCorriente   0x0000b8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       Resta4CalCorriente   0x0000a0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Resta4CalVoltaje   0x00010b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Resta8CalVoltaje   0x000117    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       Resta9CalCorriente   0x0000ac    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 Retardos   0x0005bd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    Sig_Resta11CalVoltaje   0x000125    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+  Sig_Resta18CalCorriente   0x0000ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   Sig_Resta4CalCorriente   0x0000a2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Sig_Resta4CalVoltaje   0x00010d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Sig_Resta8CalVoltaje   0x000119    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   Sig_Resta9CalCorriente   0x0000ae    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             SubRutAjuste   0x000349    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             Tx_Protocolo   0x00002a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           acarreoDecimal   0x00028e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionCen   0x0002ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionDec   0x0002e6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionUni   0x000312    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        acarreoVentilador   0x000196    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          apagaVentilador   0x0001a5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  bit9es1   0x00034e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           calculaDecimal   0x000288    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionCen   0x0002b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionDec   0x0002e0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionUni   0x00030c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga0   0x000519    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga00   0x00058d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga01   0x000590    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga02   0x000593    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga03   0x000596    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga04   0x000599    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga05   0x00059c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga06   0x00059f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga07   0x0005a2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga08   0x0005a5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga09   0x0005a8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0a   0x0005ab    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0b   0x0005ae    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0c   0x0005b1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0d   0x0005b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0e   0x0005b7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0f   0x0005ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga1   0x00051c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga2   0x00051f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga3   0x000522    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga4   0x000525    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga5   0x000528    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga6   0x00052b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga7   0x00052e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga8   0x000531    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga9   0x000534    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargaa   0x000537    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargab   0x00053a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargac   0x00053d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargad   0x000540    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargae   0x000543    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargaf   0x000546    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               cicloMulti   0x00033e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_1   0x0005d3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_2   0x0005d1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_3   0x0005cf    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_1   0x0005e0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_2   0x0005de    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_3   0x0005dc    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta11CalVoltaje   0x00012c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta18CalCorriente   0x0000c1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta4CalCorriente   0x0000a9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta4CalVoltaje   0x000114    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta8CalVoltaje   0x000120    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta9CalCorriente   0x0000b5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              convBINaBCD   0x00026f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta11CalVol   0x00012b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta18CalCor   0x0000c0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta4CalCorr   0x0000a8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta4CalVolt   0x000113    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta8CalVolt   0x00011f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta9CalCorr   0x0000b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  display   0x000208    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             div_entre_10   0x000273    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            div_entre_100   0x0004b1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         div_entre_10_BCD   0x0004be    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       encenderVentilador   0x0001a3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      esperaCorrienteADCs   0x00008a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    esperaTemperaturaADCs   0x000165    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        esperaVoltajeADCs   0x0000f5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            finconversion   0x000281    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         finconversionBCD   0x0004cc    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      incremetaEnteroAlto   0x0002a6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionCenAlto   0x0002d2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionDecAlto   0x0002fe    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionUniAlto   0x00032a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       incremetaVoltsAlto   0x000343    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               interserie   0x00001b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        letreroBienvenida   0x00035d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             modocaracter   0x0001c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               modoinstru   0x0001b9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        multiplicaDecimal   0x0002b3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    multiplicaFraccionCen   0x0002df    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    multiplicaFraccionDec   0x00030b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 negativo   0x000278    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              negativo_10   0x0004c3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             negativo_100   0x0004b6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             restaDecimal   0x00029b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionCen   0x0002c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionDec   0x0002f3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionUni   0x00031f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          restaVentilador   0x00019c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ restableceadcaltoDecimal   0x000299    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionCen   0x0002c5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionDec   0x0002f1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionUni   0x00031d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ resultadonegativoDecimal   0x0002a1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionCen   0x0002cd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionDec   0x0002f9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionUni   0x000325    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ resultadopositivoDecimal   0x0002aa    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionCen   0x0002d6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionDec   0x000302    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionUni   0x00032e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_1   0x0005c1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_2   0x0005bf    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_3   0x0005bd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret2_1   0x0005ca    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              retardoXseg   0x0005da    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             retardounseg   0x0005cd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 sigresta   0x00027c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              sigrestaBCD   0x0004c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              sigrestaCen   0x0004b9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          sumarEnteroalta   0x0002a7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionCenalta   0x0002d3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionDecalta   0x0002ff    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionUnialta   0x00032b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           sumarpartealta   0x000344    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             temp10micros   0x0005c8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           terminaDecimal   0x000294    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionCen   0x0002c0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionDec   0x0002ec    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionUni   0x000318    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            terminociclo?   0x000346    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                transmite   0x0005e7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 txespera   0x0005f2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               valores_TX   0x000469    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+              ADCinterrup   0x00000b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               interserie   0x00001b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             Tx_Protocolo   0x00002a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Regresa_de_USART   0x000049    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               IniProgMed   0x00004c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           MedirCorriente   0x000082    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      esperaCorrienteADCs   0x00008a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       Resta4CalCorriente   0x0000a0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   Sig_Resta4CalCorriente   0x0000a2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta4CalCorr   0x0000a8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta4CalCorriente   0x0000a9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       Resta9CalCorriente   0x0000ac    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   Sig_Resta9CalCorriente   0x0000ae    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta9CalCorr   0x0000b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta9CalCorriente   0x0000b5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      Resta18CalCorriente   0x0000b8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+  Sig_Resta18CalCorriente   0x0000ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta18CalCor   0x0000c0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta18CalCorriente   0x0000c1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         ContCalCorriente   0x0000c4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             MedirVoltaje   0x0000ed    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        esperaVoltajeADCs   0x0000f5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Resta4CalVoltaje   0x00010b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Sig_Resta4CalVoltaje   0x00010d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta4CalVolt   0x000113    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta4CalVoltaje   0x000114    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         Resta8CalVoltaje   0x000117    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Sig_Resta8CalVoltaje   0x000119    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta8CalVolt   0x00011f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta8CalVoltaje   0x000120    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        Resta11CalVoltaje   0x000123    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    Sig_Resta11CalVoltaje   0x000125    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+decrementa_adcalto_Resta11CalVol   0x00012b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+continua_Resta11CalVoltaje   0x00012c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           ContCalVoltaje   0x00012f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         MedirTemperatura   0x00015d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    esperaTemperaturaADCs   0x000165    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+Apaga_Enciende_Ventilador   0x00018d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        acarreoVentilador   0x000196    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          restaVentilador   0x00019c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       encenderVentilador   0x0001a3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          apagaVentilador   0x0001a5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ConfigADC   0x0001a7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               modoinstru   0x0001b9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             modocaracter   0x0001c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         IniciaDisplayLCD   0x0001d6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  display   0x000208    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              convBINaBCD   0x00026f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             div_entre_10   0x000273    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 negativo   0x000278    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 sigresta   0x00027c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            finconversion   0x000281    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         DivisionCalculos   0x000282    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           calculaDecimal   0x000288    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           acarreoDecimal   0x00028e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           terminaDecimal   0x000294    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ restableceadcaltoDecimal   0x000299    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             restaDecimal   0x00029b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ resultadonegativoDecimal   0x0002a1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+      incremetaEnteroAlto   0x0002a6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+          sumarEnteroalta   0x0002a7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ resultadopositivoDecimal   0x0002aa    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        multiplicaDecimal   0x0002b3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionCen   0x0002b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionCen   0x0002ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionCen   0x0002c0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionCen   0x0002c5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionCen   0x0002c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionCen   0x0002cd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionCenAlto   0x0002d2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionCenalta   0x0002d3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionCen   0x0002d6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    multiplicaFraccionCen   0x0002df    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionDec   0x0002e0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionDec   0x0002e6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionDec   0x0002ec    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionDec   0x0002f1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionDec   0x0002f3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionDec   0x0002f9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionDecAlto   0x0002fe    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionDecalta   0x0002ff    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionDec   0x000302    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+    multiplicaFraccionDec   0x00030b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       calculaFraccionUni   0x00030c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       acarreoFraccionUni   0x000312    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       terminaFraccionUni   0x000318    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+restableceadcaltoFraccionUni   0x00031d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         restaFraccionUni   0x00031f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadonegativoFraccionUni   0x000325    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+ incremetaFraccionUniAlto   0x00032a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     sumarFraccionUnialta   0x00032b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+resultadopositivoFraccionUni   0x00032e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+   MultiplicacionCalculos   0x000338    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               cicloMulti   0x00033e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+       incremetaVoltsAlto   0x000343    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+           sumarpartealta   0x000344    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            terminociclo?   0x000346    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             SubRutAjuste   0x000349    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  bit9es1   0x00034e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Bit9_10_son_0   0x000351    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Bit9_es_1_Bit10_es_0   0x000354    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+     Bit9_es_0_Bit10_es_1   0x000357    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Bit9_10_son_1   0x00035a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+        letreroBienvenida   0x00035d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            Primerletrero   0x0003a0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               PantallaRX   0x0003e3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               PantallaTX   0x000426    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+               valores_TX   0x000469    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             CONV_BINaBCD   0x0004ac    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+            div_entre_100   0x0004b1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             negativo_100   0x0004b6    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              sigrestaCen   0x0004b9    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         div_entre_10_BCD   0x0004be    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              negativo_10   0x0004c3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              sigrestaBCD   0x0004c7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+         finconversionBCD   0x0004cc    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             CONV_BINaHEX   0x0004d1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ParteBaja   0x0004d5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga0   0x000519    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga1   0x00051c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga2   0x00051f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga3   0x000522    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga4   0x000525    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga5   0x000528    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga6   0x00052b    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga7   0x00052e    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga8   0x000531    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   carga9   0x000534    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargaa   0x000537    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargab   0x00053a    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargac   0x00053d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargad   0x000540    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargae   0x000543    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   cargaf   0x000546    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                ParteAlta   0x000549    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga00   0x00058d    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga01   0x000590    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga02   0x000593    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga03   0x000596    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga04   0x000599    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga05   0x00059c    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga06   0x00059f    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga07   0x0005a2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga08   0x0005a5    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga09   0x0005a8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0a   0x0005ab    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0b   0x0005ae    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0c   0x0005b1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0d   0x0005b4    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0e   0x0005b7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  carga0f   0x0005ba    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 Retardos   0x0005bd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_3   0x0005bd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_2   0x0005bf    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret1_1   0x0005c1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             temp10micros   0x0005c8    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                   ret2_1   0x0005ca    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+             retardounseg   0x0005cd    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_3   0x0005cf    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_2   0x0005d1    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                  ciclo_1   0x0005d3    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+              retardoXseg   0x0005da    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_3   0x0005dc    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_2   0x0005de    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 ciclos_1   0x0005e0    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                transmite   0x0005e7    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+                 txespera   0x0005f2    program     static C:\Users\luis\Desktop\Respaldo\tt.X\USART PIC Raspberry.asm
+
+

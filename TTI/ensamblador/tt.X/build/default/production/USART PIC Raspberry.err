@@ -1,0 +1,61 @@
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 305 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 414 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 415 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 417 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 459 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 461 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 470 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 515 : Found label after column 1. (Resta4CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 518 : Found label after column 1. (Sig_Resta4CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 525 : Found label after column 1. (decrementa_adcalto_Resta4CalCorriente)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 525 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 527 : Found label after column 1. (continua_Resta4CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 531 : Found label after column 1. (Resta9CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 534 : Found label after column 1. (Sig_Resta9CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 541 : Found label after column 1. (decrementa_adcalto_Resta9CalCorriente)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 541 : Label truncated at 32 characters. (decrementa_adcalto_Resta9CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 543 : Found label after column 1. (continua_Resta9CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 547 : Found label after column 1. (Resta18CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 550 : Found label after column 1. (Sig_Resta18CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 557 : Found label after column 1. (decrementa_adcalto_Resta18CalCorriente)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 557 : Label truncated at 32 characters. (decrementa_adcalto_Resta18CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 559 : Found label after column 1. (continua_Resta18CalCorriente)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 649 : Found label after column 1. (Resta4CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 652 : Found label after column 1. (Sig_Resta4CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 659 : Found label after column 1. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 659 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 661 : Found label after column 1. (continua_Resta4CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 665 : Found label after column 1. (Resta8CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 668 : Found label after column 1. (Sig_Resta8CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 675 : Found label after column 1. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 675 : Label truncated at 32 characters. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 677 : Found label after column 1. (continua_Resta8CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 681 : Found label after column 1. (Resta11CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 684 : Found label after column 1. (Sig_Resta11CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 691 : Found label after column 1. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[208] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 691 : Label truncated at 32 characters. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[207] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 693 : Found label after column 1. (continua_Resta11CalVoltaje)
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 857 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 858 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 859 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 860 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 861 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 871 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1677 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1679 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1683 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1685 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1689 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1691 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1695 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1697 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1701 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1703 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1711 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1713 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1719 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1721 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1727 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 1729 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 2139 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\LUIS\DESKTOP\RESPALDO\TT.X\USART PIC RASPBERRY.ASM 2141 : Register in operand not in bank 0.  Ensure that bank bits are correct.
