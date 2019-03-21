@@ -91,6 +91,8 @@ def nombre_tener(self):
 
 	if len(var) == 0:
 		messagebox.showinfo("Error","Ingrese nombre")
+	elif len(var)>45:
+		messagebox.showinfo("Error","Nombre excede tamaño")
 	elif bandera1==0 and bandera2==0:
 		
 		consulta="select * from panel_solar where nombre ='{nombre}'".format(nombre=var)
@@ -138,6 +140,7 @@ def insert_bateria(self):
 		self.ventana_insert_panel.transient(master=self)
 		self.nombre_insergrado =	 StringVar()
 		self.Voltaje_maximo = StringVar()
+		self.voltaje_min=StringVar()
 		self.corriente_maximo = StringVar()
 		self.numero_de_celdas = StringVar()
 		self.temperatura = StringVar()
@@ -151,6 +154,8 @@ def insert_bateria(self):
 		nombre_insergrado_entry = Tk.Entry(self.ventana_insert_panel, textvariable=self.nombre_insergrado,justify=Tk.CENTER) 
 		Voltaje = Tk.Label(self.ventana_insert_panel, text="Voltaje Máximo:",font="Arial 14",justify=Tk.CENTER) 
 		voltaje_maximo = Tk.Entry(self.ventana_insert_panel, textvariable=self.Voltaje_maximo,justify=Tk.CENTER)
+		Voltaje_m = Tk.Label(self.ventana_insert_panel, text="Voltaje Minimo:",font="Arial 14",justify=Tk.CENTER) 
+		voltaje_minimo = Tk.Entry(self.ventana_insert_panel, textvariable=self.voltaje_min,justify=Tk.CENTER)
 		corriente = Tk.Label(self.ventana_insert_panel, text="Corriente Máximo:",font="Arial 14",justify=Tk.CENTER) 
 		corriente_maxima = Tk.Entry(self.ventana_insert_panel, textvariable=self.corriente_maximo,justify=Tk.CENTER)
 		num_celd=Tk.Label(self.ventana_insert_panel, text="Número de celdas:",font="Arial 14",justify=Tk.CENTER) 
@@ -171,6 +176,8 @@ def insert_bateria(self):
 		nombre_insergrado_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		Voltaje.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		voltaje_maximo.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		Voltaje_m.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		voltaje_minimo.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		corriente.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		corriente_maxima.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		num_celd.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
@@ -211,16 +218,19 @@ def nombre_tener_bateria(self):
 
 	var=self.nombre_insergrado.get()
 	var1=self.Voltaje_maximo.get()
-	var2=self.corriente_maximo.get()
-	var3=self.numero_de_celdas.get()
-	var4=0
+	var2=self.voltaje_min.get()
+	var3=self.corriente_maximo.get()
+	var4=self.numero_de_celdas.get()
 	var5=0
+	var6=0
 	
 
 	bandera1=0
 	bandera2=0
 	bandera3=0
 	bandera4=0
+	bandera5=0
+	bandera6=0
 	try:
 		var1=float(var1)
 		bandera1=0
@@ -238,25 +248,31 @@ def nombre_tener_bateria(self):
 		bandera3=0
 	except Exception as e:
 		bandera3=1
-
-
 	try:
-		var4=float(self.temperatura.get())
+		var4=float(var4)
 		bandera4=0
 	except Exception as e:
 		bandera4=1
 
 	try:
-		var5=int(self.has_memoria.get())
+		var5=float(self.temperatura.get())
 		bandera5=0
 	except Exception as e:
 		bandera5=1
+
+	try:
+		var6=int(self.has_memoria.get())
+		bandera6=0
+	except Exception as e:
+		bandera6=1
 
 
 
 	if len(var) == 0:
 		messagebox.showinfo("Error","Ingrese nombre")
-	elif bandera1==0 and bandera2==0 and bandera3==0 and bandera4==0 and bandera5==0:
+	if len(var) > 45:
+		messagebox.showinfo("Error","Nombre excede el tamaño")
+	elif bandera1==0 and bandera2==0 and bandera3==0 and bandera4==0 and bandera5==0 and bandera6==0:
 		
 		consulta="select * from bateria where nombre ='{nombre}'".format(nombre=var)
 		print(consulta)
@@ -264,7 +280,7 @@ def nombre_tener_bateria(self):
 		cursor = mysql.cursor()
 		resultado=cursor.execute(consulta)
 		if resultado == 0:
-			consulta="insert into bateria values(null,1,'{nombre}',{voltaje},{corriente},{nu_celdas},{temperatura},{has_mem})".format(nombre=var,voltaje=var1,corriente=var2,nu_celdas=var3,temperatura=var4,has_mem=var5)
+			consulta="insert into bateria values(null,1,'{nombre}',{voltaje},{vol_min},{corriente},{nu_celdas},{temperatura},{has_mem})".format(nombre=var,voltaje=var1,vol_min=var2,corriente=var3,nu_celdas=var4,temperatura=var5,has_mem=var6)
 			print(consulta)
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
@@ -282,12 +298,14 @@ def nombre_tener_bateria(self):
 		messagebox.showinfo("Error","Voltaje no aceptado")
 
 	elif bandera2 == 1:
-		messagebox.showinfo("Error","Corriente no aceptado")
+		messagebox.showinfo("Error","Voltaje no aceptado")
 	elif bandera3 == 1:
-		messagebox.showinfo("Error","Numero de celdas no aceptado")
+		messagebox.showinfo("Error","Corriente no aceptado")
 	elif bandera4 == 1:
-		messagebox.showinfo("Error","Temperatura no aceptado")
+		messagebox.showinfo("Error","Numero de celdas no aceptado")
 	elif bandera5 == 1:
+		messagebox.showinfo("Error","Temperatura no aceptado")
+	elif bandera6 == 1:
 		messagebox.showinfo("Error","Memoria no aceptado")
 
 	else:

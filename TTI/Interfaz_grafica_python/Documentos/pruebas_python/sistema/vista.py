@@ -151,7 +151,7 @@ def vista_uodate_panel(self):
 		self.dialogo.transient(master=self.parent)
 		Letrero=Tk.Label(self.dialogo,text="Tornasol",fg="green",font=("Arial",18))
 		img = Tk.PhotoImage(file="/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/panel.gif")
-		action_insert_ventana_bateria = partial(insert.insert_bateria, self.dialogo)
+		action_insert_ventana_bateria = partial(update_ventana.update_ven_bateria, self.dialogo)
 		action_insert_ventana_panel = partial(update_ventana.update_ven, self.dialogo)
 		
 		imagen_inicio = Tk.Label(self.dialogo, image=img)
