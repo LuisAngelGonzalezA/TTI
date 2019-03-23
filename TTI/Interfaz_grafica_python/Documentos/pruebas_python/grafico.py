@@ -4,6 +4,28 @@ from tkinter import messagebox
 import time
 import sys
 import os
+import mysql_conection
+
+
+def mysql_datos():
+    db = pymysql.connect(
+         user='TT',
+         password='TT',
+         host='localhost',
+         database='tornasol')
+    cursor = db.cursor()
+    sql = "select voltaje from sensadoP order by hora desc limit 1"
+
+    cursor.execute(sql)
+
+    myresult = cursor.fetchall()
+    
+    for x in myresult:
+      print(x[0])
+      valor=x[0]
+    db.close()
+    return valor
+
 siguiente=0;
 graficar_panel=0
 inicio_bandera=0

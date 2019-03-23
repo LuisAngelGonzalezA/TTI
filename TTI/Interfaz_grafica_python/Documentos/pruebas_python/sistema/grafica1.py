@@ -85,7 +85,7 @@ import pymysql
 
 siguiente=0
 def guardar():
-	f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio.txt','w')
+	f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio1.txt','w')
 	f.write('0')
 	f.close()
 def handle_close(evt):
@@ -103,17 +103,20 @@ def mysql_datos():
          host='localhost',
          database='tornasol')
     cursor = db.cursor()
-    sql = "select voltaje from sensadoP order by hora desc limit 1"
+    sql = "select voltaje,corriente,temperatura from sensadoB order by hora desc limit 1"
 
     cursor.execute(sql)
 
     myresult = cursor.fetchall()
-    
+    lista=list()
     for x in myresult:
-      print(x[0])
-      valor=x[0]
+      lista=list(x)
+      print(lista,"\n")
+      
     db.close()
-    return valor
+    return lista
+
+
 
 def mysql_datos_y():
     db = pymysql.connect(
@@ -122,7 +125,7 @@ def mysql_datos_y():
          host='localhost',
          database='tornasol')
     cursor = db.cursor()
-    sql = "select b.voltaje_max from historial_bateria_panel hbp,panel_solar b where hbp.id_panel=b.id_panel and hbp.activo=1"
+    sql = "select b.temperatura_max from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"
 
     cursor.execute(sql)
 
@@ -136,25 +139,32 @@ def mysql_datos_y():
     return lista
 
 leitura =[]
-
+lectura2 =[]
+lectura3 = []
 fig, ax = plt.subplots()
 contador = 0
 eixo_x = 40
-f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio.txt','w')
+
+f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio1.txt','w')
 f.write('1')
 f.close()
 while siguiente==0:
 	y=mysql_datos_y()
-	datostext =mysql_datos()
-	
+	lista=mysql_datos()
+	datostext =lista[0]
+	datostext1 = lista[1]
+	datostext2 = lista[2]
 	#print type(datostext)
 	try:
 		dados=float(datostext)
-		
-
+		dados2=float(datostext1)
+		dados3=float(datostext2)
+		y=float(y)
 	except Exception as e:
 		dados=0
 		dados2=0
+		dados3=0
+		y=80
 	
 	
 
@@ -162,24 +172,31 @@ while siguiente==0:
 	#print dados
 	ax.clear()
 	ax.set_xlim([0,eixo_x])   #faixa do eixo horizontal
-	ax.set_ylim([0,y+2]) # faixa do eixo vertical   
+	ax.set_ylim([0,y+10]) # faixa do eixo vertical   
 	#leitura.append(random.randint(0,1023))  #teste com numeros aleatorios
 	leitura.append(dados)
+	lectura2.append(dados2)
+	lectura3.append(dados3)
 
 	ax.plot(leitura)
+	ax.plot(lectura2)
+	ax.plot(lectura3)
 	plt.xlabel('Tiempo')
-	plt.ylabel('Voltaje')
+	plt.ylabel('Voltaje/Corriente/Temperatura')
 	plt.plot(leitura,marker='.', color='y', label = "Voltaje")
+	plt.plot(lectura2,linestyle='--', color='r', label = "Corriente")
+	plt.plot(lectura3,linestyle='-', color='b', label = "Temperatura")
 	plt.legend()
 	
-	plt.text(380, 4.5, 'Voltaje Panel', color='red', fontsize=15)
+	plt.text(380, 4.5, 'Voltaje Bateria', color='red', fontsize=15)
 	fig.canvas.mpl_connect('close_event', handle_close)
 	plt.pause(.000000000001)     
 	contador = contador + 1
 	if (contador > eixo_x):
 	   leitura.pop(0)
+	   lectura2.pop(0)
+	   lectura3.pop(0)
 	a=len(leitura)
-	print "El número de elementos de la lista según la función len es",a
 	#datostext.close()
 
 

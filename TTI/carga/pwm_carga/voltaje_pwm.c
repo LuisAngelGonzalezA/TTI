@@ -25,7 +25,7 @@
 
 void demonio();
 double mysql_voltaje();
-
+double mysql_voltaje_bateria();
 
 
 
@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
   pwmSetMode(PWM_MODE_MS);
   pwmSetClock(div);
   pwmSetRange(range);
+  
   pwmWrite(12,duty);
   delay(1000);
 
@@ -61,7 +62,7 @@ int main(int argc, char* argv[])
     {
 	
 	voltaje_ingresado=mysql_voltaje();
-	voltaje_deseado=1;
+	voltaje_deseado=mysql_voltaje_bateria();
 
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
@@ -133,7 +134,7 @@ double mysql_voltaje()
 	
 	MYSQL *con;
 	MYSQL_RES *res;
-	MYSQL_ROW row;
+	MYSQL_ROW row; 	 	
 
 
 	char *server="localhost";
@@ -168,7 +169,45 @@ double mysql_voltaje()
 	return dato;
 }
 
+double mysql_voltaje_bateria()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row; 	 	
 
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+	}
+
+	if(mysql_query(con,"select b.voltaje_max from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			printf("%s\n",row[0]);
+			 dato=atof(row[0]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
+}
 
 void demonio()
 {

@@ -8,7 +8,11 @@ import cerrar_ven
 import table 
 import insert
 import update_ventana
+import mostrar_grafica
+import eliminar
 from functools import partial
+from tkinter import messagebox
+
 
 def vista_select_tabla(self):
 		self.dialogo = Toplevel(self.parent)
@@ -189,3 +193,282 @@ def vista_uodate_panel(self):
 		  
 		self.dialogo.grab_set()
 		self.parent.wait_window(self.dialogo)
+
+
+
+
+
+def vista_gfrafica(self):
+	
+	
+		self.dialogo = Toplevel(self.parent)
+		cerrar_select_dialogo=cerrar_ven.cerrar_select(self.dialogo)
+		self.dialogo.transient(master=self.parent)
+		Letrero=Tk.Label(self.dialogo,text="Tornasol",fg="green",font=("Arial",18))
+		img = Tk.PhotoImage(file="/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/panel.gif")
+		action_insert_ventana_bateria = partial(update_ventana.update_ven_bateria, self.dialogo)
+		action_insert_ventana_panel = partial(update_ventana.update_ven, self.dialogo)
+		
+		imagen_inicio = Tk.Label(self.dialogo, image=img)
+
+		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
+		Boton_PANEL=Tk.Button(self.dialogo, text ="Gráfica de Panel", command =mostrar_grafica.panel, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		Boton_Baterias=Tk.Button(self.dialogo, text ="Gráficar de Bateria", command = mostrar_grafica.bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		Boton_Baterias_descarga=Tk.Button(self.dialogo, text ="Gráficar de Bateria descarga", command = action_insert_ventana_bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+
+
+
+		
+		Letrero.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		imagen_inicio.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		Boton_PANEL.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
+		Boton_Baterias.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
+		Boton_Baterias_descarga.pack(side=TOP, fill=BOTH, expand=True,padx=5, pady=5)
+		boton_regresar.pack(side=TOP,padx=10, pady=5)
+		self.dialogo.minsize(width=380, height=550)
+		self.dialogo.maxsize(width=500, height=650)
+		width=450
+		heigth=550
+		x=(self.dialogo.winfo_width()//2)+30+(width//2)
+		y=(self.dialogo.winfo_height()//2)-(heigth//2)
+		self.dialogo.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
+		self.dialogo.overrideredirect(0)
+		
+
+		  # El método grab_set() asegura que no haya eventos 
+		  # de ratón o teclado que se envíen a otra ventana 
+		  # diferente a 'self.dialogo'. Se utiliza para 
+		  # crear una ventana de tipo modal que será 
+		  # necesario cerrar para poder trabajar con otra
+		  # diferente. Con ello, también se impide que la 
+		  # misma ventana se abra varias veces. 
+		  
+		self.dialogo.grab_set()
+		self.parent.wait_window(self.dialogo)
+
+
+
+
+
+
+def vista_eliminar(self):
+	
+	
+		self.dialogo = Toplevel(self.parent)
+		self.panel_eliminado=StringVar()
+		self.bateria_eliminado=StringVar()
+		cerrar_select_dialogo=cerrar_ven.cerrar_select(self.dialogo)
+		self.dialogo.transient(master=self.parent)
+		Letrero=Tk.Label(self.dialogo,text="Tornasol",fg="green",font=("Arial",18))
+		img = Tk.PhotoImage(file="/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/panel.gif")
+		action_insert_ventana_bateria = partial(update_ventana.update_ven_bateria, self.dialogo)
+		action_insert_ventana_panel = partial(update_ventana.update_ven, self.dialogo)
+		action_eliminar_panel = partial(eliminar.eliminar_panel,self)
+		imagen_inicio = Tk.Label(self.dialogo, image=img)
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select nombre from panel_solar")
+		print("--->",type(cursor))
+		print("\n\n")
+		lista=tuple()
+		for row in cursor:
+		    lista=list(lista)
+		    lista.append(row[0])
+		    lista=tuple(lista)
+		    #lista.extend(row[0])
+		    #print(row[0])
+		lista=list(lista)
+		db.close()
+		self.panel=Tk.Label(self.dialogo, text="Eliminar panel",font="Arial 14",justify=Tk.CENTER) 
+		self.panel_select= Tk.OptionMenu(self.dialogo, self.panel_eliminado,*lista)
+		self.Boton_aceptar_eliminar_panel=Tk.Button(self.dialogo, text ="Eliminar panel", command =action_eliminar_panel , activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		
+		
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select nombre from bateria")
+		print("--->",type(cursor))
+		print("\n\n")
+		lista=tuple()
+		for row in cursor:
+		    lista=list(lista)
+		    lista.append(row[0])
+		    lista=tuple(lista)
+		    #lista.extend(row[0])
+		    #print(row[0])
+		lista=list(lista)
+		db.close()
+		
+		
+		
+		self.bateria=Tk.Label(self.dialogo, text="Eliminar panel",font="Arial 14",justify=Tk.CENTER) 
+		self.bateria_select= Tk.OptionMenu(self.dialogo, self.bateria_eliminado,*lista)
+		self.Boton_aceptar_eliminar_bateria=Tk.Button(self.dialogo, text ="Eliminar batería", command =self.grafica_vista , activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		
+		
+		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
+		
+		
+
+
+		
+		Letrero.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.panel.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.panel_select.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.Boton_aceptar_eliminar_panel.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		self.bateria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.bateria_select.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.Boton_aceptar_eliminar_bateria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		
+		boton_regresar.pack(side=TOP,padx=10, pady=5)
+		self.dialogo.minsize(width=380, height=550)
+		self.dialogo.maxsize(width=500, height=650)
+		width=450
+		heigth=550
+		x=(self.dialogo.winfo_width()//2)+30+(width//2)
+		y=(self.dialogo.winfo_height()//2)-(heigth//2)
+		self.dialogo.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
+		self.dialogo.overrideredirect(0)
+		
+
+		  # El método grab_set() asegura que no haya eventos 
+		  # de ratón o teclado que se envíen a otra ventana 
+		  # diferente a 'self.dialogo'. Se utiliza para 
+		  # crear una ventana de tipo modal que será 
+		  # necesario cerrar para poder trabajar con otra
+		  # diferente. Con ello, también se impide que la 
+		  # misma ventana se abra varias veces. 
+		  
+		self.dialogo.grab_set()
+		self.parent.wait_window(self.dialogo)
+		
+		
+		
+def usar_panel_bateria(self):
+		self.dialogo = Toplevel(self.parent)
+		self.panel_eliminado=StringVar()
+		self.bateria_eliminado=StringVar()
+		cerrar_select_dialogo=cerrar_ven.cerrar_select(self.dialogo)
+		self.dialogo.transient(master=self.parent)
+		Letrero=Tk.Label(self.dialogo,text="Tornasol",fg="green",font=("Arial",18))
+		img = Tk.PhotoImage(file="/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/panel.gif")
+		imagen_inicio = Tk.Label(self.dialogo, image=img)
+		action_insert_ventana_bateria = partial(update_ventana.update_ven_bateria, self.dialogo)
+		action_insert_ventana_panel = partial(update_ventana.update_ven, self.dialogo)
+		action_usar = partial(usar_panel_bateria_vista,self)
+		imagen_inicio = Tk.Label(self.dialogo, image=img)
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select nombre from panel_solar")
+		print("--->",type(cursor))
+		print("\n\n")
+		lista=tuple()
+		for row in cursor:
+		    lista=list(lista)
+		    lista.append(row[0])
+		    lista=tuple(lista)
+		    #lista.extend(row[0])
+		    #print(row[0])
+		lista=list(lista)
+		db.close()
+		self.panel=Tk.Label(self.dialogo, text="Usar panel",font="Arial 14",justify=Tk.CENTER) 
+		self.panel_select= Tk.OptionMenu(self.dialogo, self.panel_eliminado,*lista)
+		
+		
+		
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select nombre from bateria")
+		print("--->",type(cursor))
+		print("\n\n")
+		lista=tuple()
+		for row in cursor:
+		    lista=list(lista)
+		    lista.append(row[0])
+		    lista=tuple(lista)
+		    #lista.extend(row[0])
+		    #print(row[0])
+		lista=list(lista)
+		db.close()
+		
+		
+		
+		self.bateria=Tk.Label(self.dialogo, text="Usar panel",font="Arial 14",justify=Tk.CENTER) 
+		self.bateria_select= Tk.OptionMenu(self.dialogo, self.bateria_eliminado,*lista)
+		self.Boton_aceptar_eliminar_bateria=Tk.Button(self.dialogo, text ="Usar", command = action_usar, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		
+		
+		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
+		
+		
+
+
+		
+		Letrero.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		imagen_inicio.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.panel.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.panel_select.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		
+		self.bateria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.bateria_select.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		self.Boton_aceptar_eliminar_bateria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		
+		boton_regresar.pack(side=TOP,padx=10, pady=5)
+		self.dialogo.minsize(width=380, height=550)
+		self.dialogo.maxsize(width=500, height=650)
+		width=450
+		heigth=550
+		x=(self.dialogo.winfo_width()//2)+30+(width//2)
+		y=(self.dialogo.winfo_height()//2)-(heigth//2)
+		self.dialogo.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
+		self.dialogo.overrideredirect(0)
+		
+
+		  # El método grab_set() asegura que no haya eventos 
+		  # de ratón o teclado que se envíen a otra ventana 
+		  # diferente a 'self.dialogo'. Se utiliza para 
+		  # crear una ventana de tipo modal que será 
+		  # necesario cerrar para poder trabajar con otra
+		  # diferente. Con ello, también se impide que la 
+		  # misma ventana se abra varias veces. 
+		  
+		self.dialogo.grab_set()
+		self.parent.wait_window(self.dialogo)
+	
+	
+
+def usar_panel_bateria_vista(self):
+	
+	if not self.panel_eliminado.get().strip() and not self.bateria_eliminado.get().strip():
+		messagebox.showinfo("Error","No ha seleccionado panel y bateria a usar")
+	
+	elif not self.panel_eliminado.get().strip() :
+		messagebox.showinfo("Error","No ha seleccionado panel a usar")	
+	elif not self.bateria_eliminado.get().strip():
+		messagebox.showinfo("Error","No ha seleccionado bateria a usar")
+	else:
+		consulta="update historial_bateria_panel set activo ='0' where activo='1'"
+		print(consulta)
+		mysql=mysql_conection.mysql_conexion_tornasol()
+		cursor = mysql.cursor()
+		resultado=cursor.execute(consulta)
+		mysql.commit()
+		mysql.close
+		consulta="insert into historial_bateria_panel values(null,(select id_panel from panel_solar where nombre='{nombre_panel}'),(select id_bateria from bateria where nombre='{nombre_bateria}'),now(),1)".format(nombre_panel=self.panel_eliminado.get(),nombre_bateria=self.bateria_eliminado.get())
+		print(consulta)
+		mysql=mysql_conection.mysql_conexion_tornasol()
+		cursor = mysql.cursor()
+		resultado=cursor.execute(consulta)
+		mysql.commit()
+		print(resultado)
+		if resultado>=1:
+			messagebox.showinfo("OK","Se seleccionado panel y bateria a usar")
+		else:
+			messagebox.showinfo("Error","No ha seleccionado panel y bateria a usar")
+		mysql.close()
+

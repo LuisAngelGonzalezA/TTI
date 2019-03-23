@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import tkinter as Tk
 import threading
 from tkinter import messagebox
@@ -8,12 +10,12 @@ siguiente=0;
 graficar_panel=0
 inicio_bandera=0
 def guardar():
-    f = open ('/home/luis/Documentos/pruebas_python/inicio.txt','w')
+    f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio.txt','w')
     f.write('0')
     f.close()
 
 def helloCallBack():
-    f = open ('/home/luis/Documentos/pruebas_python/inicio.txt','r')
+    f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio.txt','r')
     mensaje = f.read()
     #print(mensaje)
     f.close()
@@ -37,7 +39,7 @@ def helloCallBack():
 
 
 def ventana_grafica():
-    os.system('python /home/luis/Documentos/pruebas_python/grafica.py')
+    os.system('python /home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/grafica.py')
    
 
 class MyDialog:
@@ -124,7 +126,7 @@ if __name__ == "__main__":
     width=500
     heigth=700
     x=(root.winfo_width()//2)+30+(width//2)
-    y=(root.winfo_height()//2)-(heigth//2)
+    y=(root.winfo_height()//2)+250-(heigth//2)
     root.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
 
     root.deiconify()

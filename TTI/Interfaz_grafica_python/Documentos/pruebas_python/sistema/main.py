@@ -66,10 +66,10 @@ class Ventanas:
 			Boton_select=Tk.Button(parent, text ="Ver paneles y baterias", command = self.ventana_select, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 			Boton_insert=Tk.Button(parent, text ="Insertar paneles y baterias", command = self.ventana_insert, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 			Boton_update=Tk.Button(parent, text ="Actualizar paneles y baterias", command =self.ventana_update, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-			Boton_delete=Tk.Button(parent, text ="Eliminar paneles y baterias", command = quit, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-			Boton_graficas=Tk.Button(parent, text ="Grafica de paneles y baterias", command = quit, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-			Boton_usar=Tk.Button(parent, text ="Usar paneles y baterias", command = quit, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-			Boton_usar=Tk.Button(parent, text ="Usar paneles y baterias", command = quit, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+			Boton_delete=Tk.Button(parent, text ="Eliminar paneles y baterias", command = self.ventana_delete, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+			Boton_graficas=Tk.Button(parent, text ="Grafica de paneles y baterias", command =self.grafica_vista , activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+			Boton_usar=Tk.Button(parent, text ="Usar paneles y baterias", command = self.usar_panel, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+			
 			Boton_salir=Tk.Button(parent, text ="Salir", command = quit,fg="green",relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
 
 
@@ -101,7 +101,7 @@ class Ventanas:
 			width=500
 			heigth=700
 			x=(parent.winfo_width()//2)+30+(width//2)
-			y=(parent.winfo_height()//2)-(heigth//2)
+			y=(parent.winfo_height()//2)+30-(heigth//2)
 			parent.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
 			parent.deiconify()
 
@@ -118,6 +118,14 @@ class Ventanas:
 	def ventana_update(self):
 		vis.vista_uodate_panel(self)
 
+	def grafica_vista(self):
+		vis.vista_gfrafica(self)
+		
+	def ventana_delete(self):
+		vis.vista_eliminar(self)
+		
+	def usar_panel(self):
+		vis.usar_panel_bateria(self)
 		
 
 

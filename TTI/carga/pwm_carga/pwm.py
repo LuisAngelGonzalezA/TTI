@@ -14,9 +14,9 @@ white.start(0)              # Iniciamos el objeto 'white' al 0% del ciclo de tra
   
 pause_time = 0.02           # Declaramos un lapso de tiempo para las pausas
 
-voltaje_ingresado=5
+voltaje_ingresado=2
 voltaje_min=float(0.23)
-voltaje_deseado=4.1
+voltaje_deseado=1
 pendiente=0
 b1=float(0.0)
 b2=float(0.0)

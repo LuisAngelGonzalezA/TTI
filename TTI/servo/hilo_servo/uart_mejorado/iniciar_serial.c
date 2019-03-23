@@ -288,11 +288,23 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   
   */
   char temporal[100]={};
+  char temporal1[100]={};
+  char temporal2[100]={};
   char datos[100]="insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),";
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);
-  	
+  strcat(datos,",");
+  
+  
+  sprintf(temporal1,"%lf",corriente_mysql);
+  strcat(datos,temporal1);
+  strcat(datos,",");
+  
+  
+  sprintf(temporal2,"%lf",temperatura_mysql);
+  strcat(datos,temporal2);
   strcat(datos,")");
+  
   insert_voltaje(datos);
   
   
