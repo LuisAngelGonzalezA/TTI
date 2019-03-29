@@ -61,9 +61,10 @@ int main(int argc, char* argv[])
     while(1)
     {
 	
-	voltaje_ingresado=mysql_voltaje();
-	voltaje_deseado=mysql_voltaje_bateria();
-
+	voltaje_ingresado=20.0;//mysql_voltaje();
+	voltaje_deseado=5	;//mysql_voltaje_bateria();
+	
+	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
 
