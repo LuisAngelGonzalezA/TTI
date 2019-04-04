@@ -1,4 +1,4 @@
-
+ 
 /*
  * 
  * 
@@ -56,13 +56,13 @@ int main(int argc, char* argv[])
   pwmWrite(12,duty);
   delay(1000);
 
-
+    
 
     while(1)
     {
 	
 	voltaje_ingresado=20.0;//mysql_voltaje();
-	voltaje_deseado=5	;//mysql_voltaje_bateria();
+	voltaje_deseado=3.5;//mysql_voltaje_bateria();
 	
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);

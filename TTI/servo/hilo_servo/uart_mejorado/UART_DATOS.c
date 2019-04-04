@@ -13,7 +13,7 @@
 unsigned char peticion;
 int espera_de_recepcion;
 int main()
-{
+{                                             
 	espera_de_recepcion=0;
 	pthread_t tids;
 	int i=0;
@@ -21,14 +21,21 @@ int main()
     while(EVER)
     {
 			i=0;
+
+			
+			
+			
 			peticion= 0xE1;
 			for(;i<3;i++)
-			{
+			 {
+				printf("\n\n\n\t0x%X\n\n\n",peticion);
+				
 				printf("0x%X\n", peticion);
 				recibir_valores_de_modulos(peticion);
+				
+				
 				peticion++;
-			}
-			
+			 }			
 	}
 	return 0;
 }

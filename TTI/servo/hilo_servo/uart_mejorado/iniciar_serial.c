@@ -95,7 +95,7 @@ int config_serial( char *dispositivo_serial, speed_t baudios )
 void insert_voltaje(char *voltaje)
 {
   
-	//printf("\nSe insertara = %s\n",voltaje);
+	printf("\nSe insertara = %s\n",voltaje);
   
 	MYSQL *con;
 
@@ -225,6 +225,7 @@ void hexadecimal_a_temperatura(int temperatura_alto,int temperatura_bajo)
 
 void procesar_datos(int * datos_recibidos_UART,unsigned char dato_envio)
 {
+  
   switch(dato_envio)
 	  { 
 		  case 0xE1:
@@ -259,7 +260,7 @@ void guardar_datos_voltaje(int * datos_recibidos_UART)
    * 
    * */
   char temporal[100]={};
-  char datos[100]="insert into sensadoP values(null,select id_panel from historial_bateria_panel where activo=1,now(),";
+  char datos[200]="insert into sensadoP values(null,(select id_panel from historial_bateria_panel where activo=1),now(),";
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);	
   strcat(datos,")");
@@ -279,7 +280,7 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   hexadecimal_a_corriente(datos_recibidos_UART[2],datos_recibidos_UART[3]);
   hexadecimal_a_temperatura(datos_recibidos_UART[4],datos_recibidos_UART[5]);
   
-  -/*
+  /*
   
   -> query de bateria
   * 
@@ -287,10 +288,10 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
 
   
   */
-  char temporal[100]={};
-  char temporal1[100]={};
-  char temporal2[100]={};
-  char datos[100]="insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),";
+  char temporal[200]={};
+  char temporal1[200]={};
+  char temporal2[200]={};
+  char datos[200]="insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),";
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);
   strcat(datos,",");
@@ -314,9 +315,17 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
 }
 void guardar_datos_bateria_descarga(int * datos_recibidos_UART)
 {
+  
+  printf("\n\n\t\tLectura de E3 \n\n");
+  
   hexadecimal_a_voltaje(datos_recibidos_UART[0],datos_recibidos_UART[1]);
   hexadecimal_a_corriente(datos_recibidos_UART[2],datos_recibidos_UART[3]);
   hexadecimal_a_temperatura(datos_recibidos_UART[4],datos_recibidos_UART[5]);
+  
+  
+  printf("\n\n\n");
+  
+  
   
   
 }
@@ -353,10 +362,22 @@ void * espera(void *arg)
 		  case 0xE2:
 					printf("Error en la lectura del módulo de bateria");
 					printf("  ->Reinicie si se desconcto\n");
+					close( puerto_serial );
+					sleep(5);
+					puerto_serial = config_serial( "/dev/ttyS0", B9600 );
+					write( puerto_serial, &peticion, 1 );
+					close( puerto_serial );
+					sleep(5);
 					break;
 		  case 0xE3:
 					printf("Error en la lectura del módulo de bateria descarga ");
 					printf("  ->Reinicie si se desconcto\n");
+					close( puerto_serial );
+					sleep(5);
+					puerto_serial = config_serial( "/dev/ttyS0", B9600 );
+					write( puerto_serial, &peticion, 1 );
+					close( puerto_serial );
+					sleep(5);
 					break;
 		  default:
 					break;
@@ -515,7 +536,7 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 			{
 				//printf("\"Datos leídos\"\n\n");
 				procesar_datos(datos_recibidos_UART,dato_envio);
-				bandera_de_salida=2;
+				bandera_de_salida=1;
 				printf("Terminando Trasmición %X\n",dato_recibido);
 				espera_de_recepcion=0;
 			}
@@ -545,7 +566,7 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 		
 		}
 		/* Esperamos dos segundo para la siguiente lectura de datos*/
-		usleep(400000);
+		usleep(500000);
 		if(bandera_de_salida==1)
 		{
 		break;
