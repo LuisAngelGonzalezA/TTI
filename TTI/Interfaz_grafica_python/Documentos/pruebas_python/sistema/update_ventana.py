@@ -32,7 +32,7 @@ def update_ven(self):
 		ver = partial(ver_lista, self)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar")
+		cursor.execute("select nombre from panel_solar where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -43,6 +43,10 @@ def update_ven(self):
 		    #lista.extend(row[0])
 		    #print(row[0])
 		lista=list(lista)
+		if len(lista) <=0:
+			lista.append("No hay paneles para actualizar ")
+		db.close()
+			
 		self.has_mem=Tk.Label(self.dialogo, text="Actualizar Panel:",font="Arial 14",justify=Tk.CENTER) 
 		self.has_memo= Tk.OptionMenu(self.dialogo, self.has_memoria,*lista)
 
@@ -103,7 +107,7 @@ def ver_lista(self,*args):
 	print("--->",a)
 	db =mysql_conection.mysql_conexion_tornasol()
 	cursor = db.cursor()
-	consulta="select * from panel_solar where nombre= '{datos}'".format(datos=a)
+	consulta="select * from panel_solar where nombre= '{datos}' and isEliminado=1".format(datos=a)
 	print(consulta)
 	cursor.execute(consulta)
 	print("--->",type(cursor))
@@ -117,8 +121,13 @@ def ver_lista(self,*args):
 	    #lista.extend(row[0])
 	    #print(row[0])
 	lista=list(lista)
+	db.close()
+	if len(lista) <=0:
+			lista.append("No hay paneles para actualizar ")
+			
 	print(lista)
 	print(lista[2])
+	
 	#self.has_mem.configure(text = lista)
 	self.nombre_insergrado=Tk.StringVar()
 	self.nombre_insergrado.set(lista[2])
@@ -142,7 +151,7 @@ def update_datos_panel(self):
 	else :
 		status=validar(self.nombre_insergrado.get(),self.voltaje_ingresado.get(),self.corriente_ingresado.get())
 		if self.nombre_insergrado.get()!=self.respaldo.get() and status==True:
-			consulta="select * from panel_solar where nombre ='{nombre}'".format(nombre=self.nombre_insergrado.get())
+			consulta="select * from panel_solar where nombre ='{nombre}' and isEliminado=1".format(nombre=self.nombre_insergrado.get())
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
 			resultado=cursor.execute(consulta)
@@ -174,7 +183,7 @@ def update_datos_panel(self):
 				
 				db =mysql_conection.mysql_conexion_tornasol()
 				cursor = db.cursor()
-				cursor.execute("select nombre from panel_solar")
+				cursor.execute("select nombre from panel_solar where isEliminado=1")
 				print("--->",type(cursor))
 				print("\n\n")
 				lista=tuple()
@@ -185,7 +194,10 @@ def update_datos_panel(self):
 					#lista.extend(row[0])
 					#print(row[0])
 				lista=list(lista)
-				
+				db.close()
+				if len(lista) <=0:
+					lista.append("No hay paneles para actualizar ")
+			
 				menu = self.has_memo["menu"]
 				menu.delete(0, "end")
 				for string in lista:
@@ -281,7 +293,7 @@ def update_ven_bateria(self):
 		ver = partial(ver_lista_bateria, self)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria")
+		cursor.execute("select nombre from bateria where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -292,6 +304,10 @@ def update_ven_bateria(self):
 		    #lista.extend(row[0])
 		    #print(row[0])
 		lista=list(lista)
+		db.close()
+		if len(lista) <=0:
+			lista.append("No hay paneles para actualizar ")
+			
 		self.has_mem=Tk.Label(self.dialogo, text="Actualizar bateria:",font="Arial 14",justify=Tk.CENTER) 
 		self.has_memo= Tk.OptionMenu(self.dialogo, self.has_memoria,*lista)
 
@@ -381,7 +397,7 @@ def ver_lista_bateria(self,*args):
 	print("--->",a)
 	db =mysql_conection.mysql_conexion_tornasol()
 	cursor = db.cursor()
-	consulta="select * from bateria where nombre= '{datos}'".format(datos=a)
+	consulta="select * from bateria where nombre= '{datos}' and isEliminado=1".format(datos=a)
 	print(consulta)
 	cursor.execute(consulta)
 	print("--->",type(cursor))
@@ -395,6 +411,10 @@ def ver_lista_bateria(self,*args):
 	    #lista.extend(row[0])
 	    #print(row[0])
 	lista=list(lista)
+	db.close()
+	if len(lista) <=0:
+			lista.append("No hay paneles para actualizar ")
+			
 	print(lista)
 	#print(lista[2])
 	#self.has_mem.configure(text = lista)
@@ -428,7 +448,7 @@ def update_datos_bateria(self):
 	else :
 		status=validar_bateria(self.nombre_insergrado.get(),self.voltaje_ingresado.get(),self.voltaje_minima.get(),self.corriente_ingresado.get(),self.num_celdas.get(),self.temperatura_ingresada.get(),self.memoria_ingresada.get())
 		if self.nombre_insergrado.get()!=self.respaldo.get() and status==True:
-			consulta="select * from bateria where nombre ='{nombre}'".format(nombre=self.nombre_insergrado.get())
+			consulta="select * from bateria where nombre ='{nombre}' and isEliminado=1".format(nombre=self.nombre_insergrado.get())
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
 			resultado=cursor.execute(consulta)
@@ -463,7 +483,7 @@ def update_datos_bateria(self):
 				
 				db =mysql_conection.mysql_conexion_tornasol()
 				cursor = db.cursor()
-				cursor.execute("select nombre from bateria")
+				cursor.execute("select nombre from bateria where isEliminado=1")
 				print("--->",type(cursor))
 				print("\n\n")
 				lista=tuple()
@@ -474,7 +494,10 @@ def update_datos_bateria(self):
 					#lista.extend(row[0])
 					#print(row[0])
 				lista=list(lista)
-				
+				db.close()
+				if len(lista) <=0:
+						lista.append("No hay paneles para actualizar ")
+			
 				menu = self.has_memo["menu"]
 				menu.delete(0, "end")
 				for string in lista:

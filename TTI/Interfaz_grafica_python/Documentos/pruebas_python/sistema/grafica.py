@@ -108,7 +108,7 @@ def mysql_datos():
     cursor.execute(sql)
 
     myresult = cursor.fetchall()
-    
+    valor=0
     for x in myresult:
       print(x[0])
       valor=x[0]
@@ -122,15 +122,18 @@ def mysql_datos_y():
          host='localhost',
          database='tornasol')
     cursor = db.cursor()
-    sql = "select b.voltaje_max from historial_bateria_panel hbp,panel_solar b where hbp.id_panel=b.id_panel and hbp.activo=1"
-
-    cursor.execute(sql)
+    #sql = "select b.voltaje_max from historial_bateria_panel hbp,panel_solar b where hbp.id_panel=b.id_panel and hbp.activo=1"
+    resultado=cursor.execute(sql)
 
     myresult = cursor.fetchall()
 	#lista=0
-    for x in myresult:
-      lista=x[0]
-      print(lista,"\n")
+    if resultado >0:
+	    for x in myresult:
+	      lista=x[0]
+	      print(lista,"\n")
+	      
+    else:
+	    lista=3
       
     db.close()
     return lista
@@ -143,10 +146,13 @@ eixo_x = 40
 f = open ('/home/pi/TTI/TTI/Interfaz_grafica_python/Documentos/pruebas_python/sistema/inicio.txt','w')
 f.write('1')
 f.close()
+y_amplitud=0
 while siguiente==0:
-	y=mysql_datos_y()
+	#y=mysql_datos_y()
 	datostext =mysql_datos()
-	
+	y=datostext
+	if y > y_amplitud:
+		y_amplitud=y+2
 	#print type(datostext)
 	try:
 		dados=float(datostext)
@@ -162,7 +168,7 @@ while siguiente==0:
 	#print dados
 	ax.clear()
 	ax.set_xlim([0,eixo_x])   #faixa do eixo horizontal
-	ax.set_ylim([0,y+2]) # faixa do eixo vertical   
+	ax.set_ylim([0,y_amplitud]) # faixa do eixo vertical   
 	#leitura.append(random.randint(0,1023))  #teste com numeros aleatorios
 	leitura.append(dados)
 
@@ -178,10 +184,7 @@ while siguiente==0:
 	contador = contador + 1
 	if (contador > eixo_x):
 	   leitura.pop(0)
-	a=len(leitura)
-	print "El número de elementos de la lista según la función len es",a
-	#datostext.close()
-
+	
 
 
 """

@@ -1,136 +1,82 @@
- 
-/*
+/** @brief: Este programa configura el BCM_GPIO 17 usando la libreria wiringPi
+ * El GPIO 17 corresponde con el pin 0 en wiring Pi
+ * Se debe compilar con: gcc gpio.c -o gpio -lwiringpi
  * 
  * 
- * 	gcc voltaje_pwm.c -o voltaje_pwm -lm -lwiringPi `mysql_config --cflags` `mysql_config --libs`
+ * gcc gpio.c -o gpio -lm -lwiringPi `mysql_config --cflags` `mysql_config --libs`
  * 
  * 
- * 
- * */
+ */
 
-
-
-
-#include <wiringPi.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
+#include <syslog.h>
 #include <unistd.h>
+#include <wiringPi.h>
+#include <mysql/mysql.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string.h>
-#include <signal.h>
-#include <syslog.h>
-#include <mysql/mysql.h>
 
 void demonio();
-double mysql_voltaje();
+double mysql_voltaje_panel();
 double mysql_voltaje_bateria();
-
-
-
-int main(int argc, char* argv[])
+double mysql_voltaje_bateria_max();
+double mysql_voltaje_bateria_min();
+int main( )
 {
-  demonio();
-
-  int div = 390;
-  int range = 1024;
-  int duty=1024;
-  float pendiente=0.0;
-  float b1=0.0;
-  float b2=0.0;
-  float b_a_usar=0.0;
-
-  float voltaje_ingresado=0.0;
-  float voltaje_deseado=0.0;
-  float voltaje_min=0.0;
-  
-  
-  wiringPiSetupGpio();
-
-  pinMode(12,PWM_OUTPUT);
-  pwmSetMode(PWM_MODE_MS);
-  pwmSetClock(div);
-  pwmSetRange(range);
-  
-  pwmWrite(12,duty);
-  delay(1000);
-
-    
-
-    while(1)
-    {
+	demonio();
+	syslog(LOG_INFO,"\n-->Reele---\n");
+//Se inicializa la libreria wiring Pi
+	wiringPiSetup();
+//Se configura el GPIO 17 como salida
+	pinMode( 0, OUTPUT );
+	pinMode( 2, OUTPUT );
+//Se escribe un valor digital al GPIO
 	
-	voltaje_ingresado=mysql_voltaje();
-	voltaje_deseado=mysql_voltaje_bateria();
-	
-	
-		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
-		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-
-
-
-
-
-
-
-
-        if (voltaje_deseado <= voltaje_ingresado)
-            {
-            pendiente=((1024-0)/(voltaje_min-voltaje_ingresado));
-            
-	    syslog(LOG_INFO,"%f\n",pendiente);
-            
-            b1=(1024.0-pendiente*(voltaje_min));
-            syslog(LOG_INFO,"-->%f\n",b1);
-	    b2=0-pendiente*(voltaje_ingresado);
-            syslog(LOG_INFO,"-->%f\n",b2);
-            duty=round(pendiente*(voltaje_ingresado)+(b1));
-            syslog(LOG_INFO,"-->%d\n",duty);
-            
-            if(duty>=0 && duty <= 1)   
-            {
-                
-	        syslog(LOG_INFO,"si entro en b1");
-		syslog(LOG_INFO,"Duty vale --->%d\n",duty);
-                b_a_usar=b1;
-            }
-            else
-            {
-                duty=round(pendiente*(voltaje_ingresado)+(b2));
-                if(duty>=0 && duty <= 1)
-		{
-		    syslog(LOG_INFO,"si entro en b2\n");
-		    syslog(LOG_INFO,"Duty vale -->%d\n",duty);
-                    b_a_usar=b2;
-		}
-            }
-            
-                
-	    syslog(LOG_INFO,"B a usar -->%f\n",b_a_usar);
-            duty=round(pendiente*(voltaje_deseado)+b_a_usar);
-            
-            if(duty >= 1024)
-                duty=1024;
-	    syslog(LOG_INFO,"Duty :-->%d\n",duty);
-            pwmWrite(12,duty);
-            delay(1000);             
-            }
-        else
+	double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0;
+	while( 1 )
 	{
-	    
-	    syslog(LOG_INFO,"No se puede entregar un voltaje superior al de la fuente\n");
-	    pwmWrite(12,1024);
-            delay(1000);
-         
-    	}
-	//delay(1000);
- 
-    }
+		
+		voltaje_panel=mysql_voltaje_panel();
+		voltaje_bateria=mysql_voltaje_bateria();
+		voltaje_bateria_max=mysql_voltaje_bateria_max();
+		voltaje_bateria_min=mysql_voltaje_bateria_min();
+		
+		
+		if(voltaje_panel>=voltaje_bateria_max)
+		{
+			syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
+			digitalWrite( 0,0 );
+			usleep(1000000);
+		}
+		else
+		{
+			syslog(LOG_INFO,"\n-->Reele abierto panel---\n");
+			digitalWrite( 0,1 );
+			usleep(1000000);
+		}
+		
+		
+		if(voltaje_bateria>=voltaje_bateria_min)
+		{
+			syslog(LOG_INFO,"\n-->Reele cerrado Batería---\n");
+			digitalWrite( 2,0 );
+			usleep(1000000);
+		}
+		else
+		{
+			syslog(LOG_INFO,"\n-->Reele abierto Batería---\n");
+			digitalWrite( 2,1 );
+			usleep(1000000);
+		}
+		
+	}
+	
 }
 
 
-double mysql_voltaje()
+
+double mysql_voltaje_panel()
 {
 	
 	MYSQL *con;
@@ -170,7 +116,50 @@ double mysql_voltaje()
 	return dato;
 }
 
+
+
 double mysql_voltaje_bateria()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row; 	 	
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+	}
+
+	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 10 SECOND) and (now()) order by fecha desc limit 1"))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			printf("%s\n",row[0]);
+			 dato=atof(row[0]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
+}
+
+
+double mysql_voltaje_bateria_max()
 {
 	
 	MYSQL *con;
@@ -209,6 +198,50 @@ double mysql_voltaje_bateria()
 		
 	return dato;
 }
+
+
+double mysql_voltaje_bateria_min()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row; 	 	
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+	}
+
+	if(mysql_query(con,"select b.voltaje_min*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			printf("%s\n",row[0]);
+			 dato=atof(row[0]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
+}
+
+
+
 
 void demonio()
 {
@@ -273,7 +306,7 @@ FILE *apArch;
     if( pid )
     {
 		printf("PID del segundo proceso hijo %d \n", pid);
-		apArch = fopen("/home/pi/demonio.pid", "w");
+		apArch = fopen("/home/pi/demonio_reeles.pid", "w");
 		fprintf(apArch, "%d", pid);
 		fclose(apArch);
 
@@ -308,6 +341,3 @@ FILE *apArch;
 
 
 }
-
-
-

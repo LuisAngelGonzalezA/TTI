@@ -177,7 +177,7 @@ double mysql_voltaje()
 		fprintf(stderr, "%s\n", mysql_error(con));
 	}
 
-	if(mysql_query(con,"select*from sensadoP order by hora desc limit 1"))
+	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
 	{
 		fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);

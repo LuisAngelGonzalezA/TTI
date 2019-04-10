@@ -12,6 +12,7 @@
 
 double voltaje_mysql;
 double corriente_mysql;
+double corriente_mysql_descarga;
 double temperatura_mysql;
 extern int espera_de_recepcion;
 int puerto_serial;  
@@ -119,6 +120,48 @@ void insert_voltaje(char *voltaje)
 	mysql_close(con);  
 }
 
+double mysql_corriente_bateria()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row; 	 	
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+	}
+
+	if(mysql_query(con,"select b.corriente from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
+	{
+		fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			printf("%s\n",row[0]);
+			 dato=atof(row[0]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
+}
+
+
+
 
 void hexadecimal_a_voltaje(int voltaje_alto,int voltaje_bajo)
 {
@@ -207,6 +250,17 @@ void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
   else printf("%d.%d A\n",valor/1000,valor%1000);
   */
 }
+
+void hexadecimal_a_corriente_descarga(int corriente_alto,int corriente_bajo)
+{
+  
+  corriente_mysql_descarga=(double)corriente_alto;
+  corriente_mysql_descarga+=(double) corriente_bajo/1000;
+   printf("\nCorriente médida  :  %lf\n",corriente_mysql);
+
+}
+
+
 void hexadecimal_a_temperatura(int temperatura_alto,int temperatura_bajo)
 {
     /*
@@ -252,7 +306,7 @@ void procesar_datos(int * datos_recibidos_UART,unsigned char dato_envio)
 void guardar_datos_voltaje(int * datos_recibidos_UART)
 {
   hexadecimal_a_voltaje(datos_recibidos_UART[0],datos_recibidos_UART[1]);
-  
+  hexadecimal_a_corriente_descarga(datos_recibidos_UART[2],datos_recibidos_UART[3]);
   /*
    * query de insert en sensadoP
    * 
@@ -291,6 +345,8 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   char temporal[200]={};
   char temporal1[200]={};
   char temporal2[200]={};
+  char estado[200]={};
+  
   char datos[200]="insert into sensadoB values(null,(select id_bateria from historial_bateria_panel where activo=1),now(),";
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);
@@ -302,17 +358,74 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   strcat(datos,",");
   
   
+  
+  
   sprintf(temporal2,"%lf",temperatura_mysql);
   strcat(datos,temporal2);
-  strcat(datos,")");
+  strcat(datos,",");
   
+  
+  sprintf(estado,"%d",etapa_de_bateria());
+  strcat(datos,estado);
+  
+  strcat(datos,")");
   insert_voltaje(datos);
+  
+  
+  /*
+  char sql_descarga[200]={};
+  char sql_temporal1[200]={};
+  char datos1[200]="insert into fase_bateria values(null,1,";
+  sprintf(sql_descarga,"%lf",corriente_mysql_descarga);
+  strcat(datos1,sql_descarga);
+  strcat(datos1,",");
+  
+  
+  sprintf(sql_temporal1,"%lf",voltaje_mysql);
+  strcat(datos1,sql_temporal1);
+  strcat(datos1,")");
+  
+  
+  insert_voltaje(datos1);
+  */
+  
   
   
   
   
   
 }
+
+int etapa_de_bateria()
+{
+
+  int estado_bateria=0;
+  double corriente_de_bateria_usada=mysql_corriente_bateria();
+  corriente_mysql*=1000;
+  printf("\n Corriente entrante = %lf \n",corriente_mysql); 
+  if(corriente_mysql<=0.0)
+  {
+    estado_bateria=4;
+  }
+  else if(corriente_de_bateria_usada<=corriente_mysql || corriente_mysql>=corriente_de_bateria_usada/5 || corriente_mysql>=corriente_de_bateria_usada/4)
+  {
+   estado_bateria=1;
+  }
+  else if(corriente_mysql<=corriente_de_bateria_usada/20)
+  {
+    estado_bateria=3;
+  }
+  else
+  {
+    estado_bateria=2;
+  }
+   
+  
+  return estado_bateria;
+
+}
+
+
 void guardar_datos_bateria_descarga(int * datos_recibidos_UART)
 {
   
@@ -434,7 +547,7 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 
 
 	 										*/
-	printf("serial abierto con descriptor: %d\n", puerto_serial);
+	//printf("serial abierto con descriptor: %d\n", puerto_serial);
 	/*dato_envio = 0xE1;*/ 						/*
 											Inicializamor la variable de dato envio la mas adelante se enviara
 											*/

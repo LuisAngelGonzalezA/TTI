@@ -105,13 +105,18 @@ def mysql_datos():
     cursor = db.cursor()
     sql = "select voltaje,corriente,temperatura from sensadoB order by hora desc limit 1"
 
-    cursor.execute(sql)
+    resultado=cursor.execute(sql)
 
     myresult = cursor.fetchall()
     lista=list()
-    for x in myresult:
-      lista=list(x)
-      print(lista,"\n")
+    if resultado >0:
+	    for x in myresult:
+	      lista=list(x)
+	      print(lista,"\n")
+    else:
+	    lista.append(0)
+	    lista.append(0)
+	    lista.append(0)
       
     db.close()
     return lista
@@ -127,15 +132,20 @@ def mysql_datos_y():
     cursor = db.cursor()
     sql = "select b.temperatura_max from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"
 
-    cursor.execute(sql)
+    resultado=cursor.execute(sql)
 
     myresult = cursor.fetchall()
 	#lista=0
-    for x in myresult:
-      lista=x[0]
-      print(lista,"\n")
+    if resultado >0:
+	    for x in myresult:
+	      lista=x[0]
+	      print(lista,"\n")
+	      
+    else:
+	    lista=3
       
     db.close()
+    
     return lista
 
 leitura =[]
@@ -196,8 +206,7 @@ while siguiente==0:
 	   leitura.pop(0)
 	   lectura2.pop(0)
 	   lectura3.pop(0)
-	a=len(leitura)
-	#datostext.close()
+	
 
 
 

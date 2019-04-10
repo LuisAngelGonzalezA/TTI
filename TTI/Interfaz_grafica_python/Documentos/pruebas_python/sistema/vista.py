@@ -46,7 +46,7 @@ def vista_select_tabla(self):
 
 		tabla_baterias = table.Table(self.dialogo, title="Baterias registradas", headers=lista)
 		lista=tuple()
-		cursor.execute("select*from bateria")
+		cursor.execute("select*from bateria where isEliminado=1")
 		for row in cursor:
 			lista=list(row)
 			del lista[0]
@@ -72,7 +72,7 @@ def vista_select_tabla(self):
 
 		tabla_panel = table.Table(self.dialogo, title="Paneles Fotovoltaicos registradas", headers=lista)
 		lista=tuple()
-		cursor.execute("select*from panel_solar")
+		cursor.execute("select*from panel_solar where isEliminado=1")
 		for row in cursor:
 			lista=list(row)
 			del lista[0]
@@ -264,10 +264,12 @@ def vista_eliminar(self):
 		action_insert_ventana_bateria = partial(update_ventana.update_ven_bateria, self.dialogo)
 		action_insert_ventana_panel = partial(update_ventana.update_ven, self.dialogo)
 		action_eliminar_panel = partial(eliminar.eliminar_panel,self)
+		action_eliminar_bateria = partial(eliminar.eliminar_bateria,self)
+		
 		imagen_inicio = Tk.Label(self.dialogo, image=img)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar")
+		cursor.execute("select nombre from panel_solar where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -278,6 +280,9 @@ def vista_eliminar(self):
 		    #lista.extend(row[0])
 		    #print(row[0])
 		lista=list(lista)
+		if len(lista) <=0:
+			lista.append("No hay paneles para eliminar ")
+			
 		db.close()
 		self.panel=Tk.Label(self.dialogo, text="Eliminar panel",font="Arial 14",justify=Tk.CENTER) 
 		self.panel_select= Tk.OptionMenu(self.dialogo, self.panel_eliminado,*lista)
@@ -286,7 +291,7 @@ def vista_eliminar(self):
 		
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria")
+		cursor.execute("select nombre from bateria where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -297,13 +302,16 @@ def vista_eliminar(self):
 		    #lista.extend(row[0])
 		    #print(row[0])
 		lista=list(lista)
+		if len(lista) <=0:
+			lista.append("No hay paneles para eliminar ")
+			
 		db.close()
 		
 		
 		
 		self.bateria=Tk.Label(self.dialogo, text="Eliminar panel",font="Arial 14",justify=Tk.CENTER) 
 		self.bateria_select= Tk.OptionMenu(self.dialogo, self.bateria_eliminado,*lista)
-		self.Boton_aceptar_eliminar_bateria=Tk.Button(self.dialogo, text ="Eliminar batería", command =self.grafica_vista , activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		self.Boton_aceptar_eliminar_bateria=Tk.Button(self.dialogo, text ="Eliminar batería", command =action_eliminar_bateria , activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 		
 		
 		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
@@ -361,7 +369,7 @@ def usar_panel_bateria(self):
 		imagen_inicio = Tk.Label(self.dialogo, image=img)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar")
+		cursor.execute("select nombre from panel_solar where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -373,6 +381,23 @@ def usar_panel_bateria(self):
 		    #print(row[0])
 		lista=list(lista)
 		db.close()
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select b.nombre from bateria b,historial_bateria_panel hpb where hpb.id_bateria=b.id_bateria and hpb.activo=1")
+		print("--->",type(cursor))
+		print("\n\n")
+		nombre_noti="No hay bateria usada actualmente"
+		for row in cursor:
+		    
+		    nombre_noti="Actualmente se usa \n '{nombre_bateria}'".format(nombre_bateria=row[0])
+		    
+		    #lista.extend(row[0])
+		    #print(row[0])
+		db.close()
+
+		
+		
+		self.panel_notificacion=Tk.Label(self.dialogo, text=nombre_noti,font="Arial 14",justify=Tk.CENTER)
 		self.panel=Tk.Label(self.dialogo, text="Usar panel",font="Arial 14",justify=Tk.CENTER) 
 		self.panel_select= Tk.OptionMenu(self.dialogo, self.panel_eliminado,*lista)
 		
@@ -380,7 +405,7 @@ def usar_panel_bateria(self):
 		
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria")
+		cursor.execute("select nombre from bateria where isEliminado=1")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -409,6 +434,8 @@ def usar_panel_bateria(self):
 		Letrero.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		
 		imagen_inicio.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		
+		self.panel_notificacion.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		self.panel.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		self.panel_select.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		
@@ -419,10 +446,10 @@ def usar_panel_bateria(self):
 		
 		
 		boton_regresar.pack(side=TOP,padx=10, pady=5)
-		self.dialogo.minsize(width=380, height=550)
-		self.dialogo.maxsize(width=500, height=650)
+		self.dialogo.minsize(width=380, height=680)
+		self.dialogo.maxsize(width=500, height=680)
 		width=450
-		heigth=550
+		heigth=680
 		x=(self.dialogo.winfo_width()//2)+30+(width//2)
 		y=(self.dialogo.winfo_height()//2)-(heigth//2)
 		self.dialogo.geometry('{}x{}+{}+{}'.format(width,heigth,x,y))
@@ -471,4 +498,21 @@ def usar_panel_bateria_vista(self):
 		else:
 			messagebox.showinfo("Error","No ha seleccionado panel y bateria a usar")
 		mysql.close()
+		db =mysql_conection.mysql_conexion_tornasol()
+		cursor = db.cursor()
+		cursor.execute("select b.nombre from bateria b,historial_bateria_panel hpb where hpb.id_bateria=b.id_bateria and hpb.activo=1")
+		print("--->",type(cursor))
+		print("\n\n")
+		nombre_noti="No hay bateria usada actualmente"
+		for row in cursor:
+		    
+		    nombre_noti="Actualmente se usa \n '{nombre_bateria}'".format(nombre_bateria=row[0])
+		    
+		    #lista.extend(row[0])
+		    #print(row[0])
+		db.close()
+
+		
+		
+		self.panel_notificacion.configure(text=nombre_noti)
 
