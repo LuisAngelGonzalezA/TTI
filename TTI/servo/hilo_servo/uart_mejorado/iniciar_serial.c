@@ -489,8 +489,10 @@ void * espera(void *arg)
 					syslog(LOG_INFO,"  ->Reinicie si se desconcto\n");
 					//printf("  ->Reinicie si se desconcto\n");
 					close( puerto_serial );
+					
 					sleep(5);
 					puerto_serial = config_serial( "/dev/ttyS0", B9600 );
+					syslog(LOG_INFO,"\nDescriptor %d\n",puerto_serial);
 					write( puerto_serial, &peticion, 1 );
 					close( puerto_serial );
 					sleep(5);
@@ -560,6 +562,7 @@ void recibir_valores_de_modulos(unsigned char dato_envio)
 											*/
 
 	puerto_serial = config_serial( "/dev/ttyS0", B9600 );
+	syslog(LOG_INFO,"\nDescriptor %d\n",puerto_serial);
 	 										/*
 												Al llamar a la función de config_serial esta nos puede devolver
 												 -Error al abrir el dispositivo

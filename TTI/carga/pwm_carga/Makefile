@@ -33,7 +33,6 @@ install: all
 		sudo mkdir $(DESTDIR) ; \
 	fi; \
 	sudo cp $(PROYECTO) $(DESTDIR)
-	sudo $(PROYECTO)
 
 
 uninstall:
