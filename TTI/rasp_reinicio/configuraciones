@@ -40,7 +40,7 @@ configurar
 sudo su 
 nano /boot/config.txt
 core_freq=250
-
+enable_uart=1
 
 
 y eliminar en cmdline hasta el 115200
@@ -51,4 +51,3 @@ y eliminar en cmdline hasta el 115200
 temperatura de la rasp
 
 /opt/vc/bin/vcgencmd measure_temp
-enable_uart=1

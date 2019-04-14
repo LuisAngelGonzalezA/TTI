@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#script start | stop | status       		Necesita algun parametro para ejecutar  a lo cual usaremos una estructura case
+PATH_PID=/home/pi/demonio_reeles.pid
+verifica()
+{
+	if [ -e $PATH_PID ] ; then
+		MI_PID=$(cat $PATH_PID)
+		if [ -d /proc/$MI_PID ] ; then
+				echo "El demonio reeles esta en ejecución"
+				return 0
+		fi
+	fi
+	echo "No exite el archivo pid, inicie el servicio con start"
+	return 1
+}
+
+case $1 in 
+		start)
+		if verifica ; then
+				MI_PID=$(cat $PATH_PID)
+				echo "El demonio reeles, $MI_PID esta en ejecucion "
+		else
+				echo "Opcion de start"
+				echo "Ejecutando demonio reeles..."
+				/usr/local/bin/mi_demonio
+		fi
+		;;
+		stop)
+		#kill -SIGTERM ps -e | grep mi_demonio
+		if verifica ; then
+				MI_PID=$(cat $PATH_PID)
+				echo "Opcion de stop"
+				echo "Deteniedo demonio $MI_PID (ok)..."
+				kill -SIGTERM $MI_PID
+		else
+				echo "El demonio no se esta ejecutando..."
+		fi	
+
+
+		
+		;;
+		status)
+		if verifica ; then
+				echo "Status ..."
+				MI_PID=$(cat $PATH_PID)
+				echo "Demonio reeles, $MI_PID en ejecucuion"
+		else
+				echo "Demonio reeles no se esta ejecutando"
+		fi
+		
+		;;
+		*)
+		echo "Sitaxis de ejecucion : $0 [start | stop | status]"
+esac
