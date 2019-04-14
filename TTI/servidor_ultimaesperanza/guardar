@@ -1,0 +1,26 @@
+sudo cp uart_datos.sysv /etc/init.d/uart_datos.sysv
+
+sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc3.d/S99uart_datos.sysv
+sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc5.d/S99uart_datos.sysv
+sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc0.d/K01uart_datos.sysv
+sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc6.d/K01uart_datos.sysv
+
+
+
+sudo cp monitor_reles.sysv /etc/init.d/monitor_reles.sysv
+
+sudo ln -s /etc/init.d/monitor_reles.sysv /etc/rc3.d/S99monitor_reles.sysv
+sudo ln -s /etc/init.d/monitor_reles.sysv /etc/rc5.d/S99monitor_reles.sysv
+sudo ln -s /etc/init.d/monitor_reles.sysv /etc/rc0.d/K01monitor_reles.sysv
+sudo ln -s /etc/init.d/monitor_reles.sysv /etc/rc6.d/K01monitor_reles.sysv
+
+
+
+
+sudo cp calculo_pwm.sysv /etc/init.d/calculo_pwm.sysv
+
+sudo ln -s /etc/init.d/calculo_pwm.sysv /etc/rc3.d/S99calculo_pwm.sysv
+sudo ln -s /etc/init.d/calculo_pwm.sysv /etc/rc5.d/S99calculo_pwm.sysv
+sudo ln -s /etc/init.d/calculo_pwm.sysv /etc/rc0.d/K01calculo_pwm.sysv
+sudo ln -s /etc/init.d/calculo_pwm.sysv /etc/rc6.d/K01calculo_pwm.sysv
+

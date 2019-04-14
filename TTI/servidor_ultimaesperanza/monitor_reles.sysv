@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #script start | stop | status       		Necesita algun parametro para ejecutar  a lo cual usaremos una estructura case
-PATH_PID=/home/pi/UARTDATOS.pid
+PATH_PID=/home/pi/demonio_reeles.pid
 verifica()
 {
 	if [ -e $PATH_PID ] ; then
@@ -23,7 +23,7 @@ case $1 in
 		else
 				echo "Opcion de start"
 				echo "Ejecutando demonio reeles..."
-				sudo /usr/local/bin/UART_DATOS
+				sudo /usr/local/bin/reeles
 		fi
 		;;
 		stop)

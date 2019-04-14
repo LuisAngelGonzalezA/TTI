@@ -1,5 +1,5 @@
 [Unit]
-Description     = Uart datos de pic
+Description     = Monitoreo de Reeles
 After		= syslog.target 
 
 [Service]
@@ -7,7 +7,7 @@ After		= syslog.target
 #demonios en UNIX
 Type		= forking
 PIDFile		= /home/pi/demonio_reeles.pid
-ExecStart	= /etc/init.d/uart_datos.sysv start
+ExecStart	= /etc/init.d/monitor_reles.sysv start
 #ExecReload	= kill -HUP $MAINPID
 #ExecStop	= kill -TERM $MAINPID
 
