@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Studio Android
+Comment=Hacer app
+Exec=sudo apt-get update
+Icon=/home/pi/Desktop/2019-01-16-174504_1366x768_scrot.png
+Path=/home/pi/Desktop
+Terminal=true
+StartupNotify=true

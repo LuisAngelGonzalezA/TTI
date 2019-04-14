@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Studio Android
+Comment=Hacer app
+Exec=sudo /home/luis/Descargas/android-studio/bin/studio.sh
+Icon=/home/luis/Descargas/android-studio/bin/studio.png
+Path=/home/luis/Escritorio
+Terminal=true
+StartupNotify=true

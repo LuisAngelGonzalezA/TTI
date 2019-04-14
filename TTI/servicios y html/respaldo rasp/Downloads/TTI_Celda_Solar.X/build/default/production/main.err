@@ -1,0 +1,51 @@
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 279 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 329 : Using default destination of 1 (file).
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 333 : Using default destination of 1 (file).
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 338 : Using default destination of 1 (file).
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 342 : Using default destination of 1 (file).
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 349 : Using default destination of 1 (file).
+Message[305] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 353 : Using default destination of 1 (file).
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 373 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 374 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 376 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 416 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 418 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 427 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 470 : Found label after column 1. (Resta4CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 473 : Found label after column 1. (Sig_Resta4CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 480 : Found label after column 1. (decrementa_adcalto_Resta4CalCorriente)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 480 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 482 : Found label after column 1. (continua_Resta4CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 486 : Found label after column 1. (Resta9CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 489 : Found label after column 1. (Sig_Resta9CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 496 : Found label after column 1. (decrementa_adcalto_Resta9CalCorriente)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 496 : Label truncated at 32 characters. (decrementa_adcalto_Resta9CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 498 : Found label after column 1. (continua_Resta9CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 502 : Found label after column 1. (Resta18CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 505 : Found label after column 1. (Sig_Resta18CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 512 : Found label after column 1. (decrementa_adcalto_Resta18CalCorriente)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 512 : Label truncated at 32 characters. (decrementa_adcalto_Resta18CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 514 : Found label after column 1. (continua_Resta18CalCorriente)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 604 : Found label after column 1. (Resta4CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 607 : Found label after column 1. (Sig_Resta4CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 614 : Found label after column 1. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 614 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 616 : Found label after column 1. (continua_Resta4CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 620 : Found label after column 1. (Resta8CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 623 : Found label after column 1. (Sig_Resta8CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 630 : Found label after column 1. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 630 : Label truncated at 32 characters. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 632 : Found label after column 1. (continua_Resta8CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 636 : Found label after column 1. (Resta11CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 639 : Found label after column 1. (Sig_Resta11CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 646 : Found label after column 1. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[208] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 646 : Label truncated at 32 characters. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[207] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 648 : Found label after column 1. (continua_Resta11CalVoltaje)
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 806 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 807 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 808 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 809 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 810 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 820 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 1948 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/luis/MPLABXProjects/TTI_Celda_Solar.X/main.asm 1950 : Register in operand not in bank 0.  Ensure that bank bits are correct.

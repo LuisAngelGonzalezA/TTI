@@ -1,0 +1,26 @@
+    1  ifconfig
+    2  man ping
+    3  ping -c 5 google.com
+    4  ifconfig
+    5  ping google.com -c 5
+    6  reboot
+    7  service --status-all
+    8  status ssh
+    9  service ssh status
+   10  ifconfig -all
+   11  ifconfig --all
+   12  ifconfig wlan0
+   13  man ifconfig
+   14  iwlist wlan0 scan
+   15  nm-tool |grep \*
+   16  nmcli
+   17  iwconfig |grep wlan0
+   18  ~iwgetid
+   19  ~iwgetid -r
+   20  iwconfig |grep wlan0
+   21  iwconfig
+   22  iw dev wlan0 
+   23  iw dev wlan0 info
+   24  cd Desktop/
+   25  history
+   26  history > historial_cmd_interfaz_wireless_conf.txt

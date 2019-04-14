@@ -15,9 +15,9 @@ int espera_de_recepcion;
 int main()
 {                                             
 	espera_de_recepcion=0;
-	
+	pthread_t tids;
 	int i=0;
-    
+    pthread_create(&tids,NULL,espera,NULL);
     while(EVER)
     {
 			i=0;
@@ -26,7 +26,7 @@ int main()
 			
 			
 			peticion= 0xE1;
-			for(;i<2;i++)
+			for(;i<3;i++)
 			 {
 				printf("\n\n\n\t0x%X\n\n\n",peticion);
 				

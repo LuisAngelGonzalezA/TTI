@@ -3,7 +3,11 @@
  * Se debe compilar con: gcc gpio.c -o gpio -lwiringpi
  * 
  * 
- * gcc gpio.c -o gpio -lm -lwiringPi `mysql_config --cflags` `mysql_config --libs`
+ * 
+ * 
+ * 
+ * 
+ * 	gcc reeles.c -o reeles -lm -lwiringPi `mysql_config --cflags` `mysql_config --libs`
  * 
  * 
  */
@@ -47,13 +51,15 @@ int main( )
 		{
 			syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 			digitalWrite( 0,0 );
-			usleep(1000000);
+			//usleep(100000);
+			sleep(1);
 		}
 		else
 		{
 			syslog(LOG_INFO,"\n-->Reele abierto panel---\n");
 			digitalWrite( 0,1 );
-			usleep(1000000);
+			//usleep(100000);
+			sleep(1);
 		}
 		
 		
@@ -61,13 +67,15 @@ int main( )
 		{
 			syslog(LOG_INFO,"\n-->Reele cerrado Batería---\n");
 			digitalWrite( 2,0 );
-			usleep(1000000);
+			//usleep(100000);
+			sleep(1);
 		}
 		else
 		{
 			syslog(LOG_INFO,"\n-->Reele abierto Batería---\n");
 			digitalWrite( 2,1 );
-			usleep(1000000);
+			//usleep(100000);
+			sleep(1);
 		}
 		
 	}
@@ -334,7 +342,7 @@ FILE *apArch;
     close( STDOUT_FILENO );
     close( STDERR_FILENO );
 // Se abre un archivo log en modo de escritura.
-    openlog( "demonio", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
+    openlog( "demonio_reeles", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
 
     
     closelog( );

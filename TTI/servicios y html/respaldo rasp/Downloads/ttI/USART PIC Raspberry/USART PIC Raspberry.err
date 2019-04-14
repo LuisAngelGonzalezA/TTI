@@ -1,0 +1,51 @@
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 279 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 329 : Using default destination of 1 (file).
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 333 : Using default destination of 1 (file).
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 338 : Using default destination of 1 (file).
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 342 : Using default destination of 1 (file).
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 347 : Using default destination of 1 (file).
+Message[305] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 351 : Using default destination of 1 (file).
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 371 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 372 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 374 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 414 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 416 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 425 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 468 : Found label after column 1. (Resta4CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 471 : Found label after column 1. (Sig_Resta4CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 478 : Found label after column 1. (decrementa_adcalto_Resta4CalCorriente)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 478 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 480 : Found label after column 1. (continua_Resta4CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 484 : Found label after column 1. (Resta9CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 487 : Found label after column 1. (Sig_Resta9CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 494 : Found label after column 1. (decrementa_adcalto_Resta9CalCorriente)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 494 : Label truncated at 32 characters. (decrementa_adcalto_Resta9CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 496 : Found label after column 1. (continua_Resta9CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 500 : Found label after column 1. (Resta18CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 503 : Found label after column 1. (Sig_Resta18CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 510 : Found label after column 1. (decrementa_adcalto_Resta18CalCorriente)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 510 : Label truncated at 32 characters. (decrementa_adcalto_Resta18CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 512 : Found label after column 1. (continua_Resta18CalCorriente)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 602 : Found label after column 1. (Resta4CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 605 : Found label after column 1. (Sig_Resta4CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 612 : Found label after column 1. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 612 : Label truncated at 32 characters. (decrementa_adcalto_Resta4CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 614 : Found label after column 1. (continua_Resta4CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 618 : Found label after column 1. (Resta8CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 621 : Found label after column 1. (Sig_Resta8CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 628 : Found label after column 1. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 628 : Label truncated at 32 characters. (decrementa_adcalto_Resta8CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 630 : Found label after column 1. (continua_Resta8CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 634 : Found label after column 1. (Resta11CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 637 : Found label after column 1. (Sig_Resta11CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 644 : Found label after column 1. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[208] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 644 : Label truncated at 32 characters. (decrementa_adcalto_Resta11CalVoltaje)
+Warning[207] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 646 : Found label after column 1. (continua_Resta11CalVoltaje)
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 804 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 805 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 806 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 807 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 808 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 818 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 1946 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\TIAFA\DESKTOP\USART PIC RASPBERRY\USART PIC RASPBERRY.ASM 1948 : Register in operand not in bank 0.  Ensure that bank bits are correct.

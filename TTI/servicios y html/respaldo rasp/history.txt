@@ -1,0 +1,1000 @@
+ 1002  cd ..
+ 1003  cd Desktop/
+ 1004  cd lab10/
+ 1005  ls 
+ 1006  cd GonzalezAmbrizLuisAngel/
+ 1007  ls 
+ 1008  cd serial/
+ 1009  ls 
+ 1010  ./serial 
+ 1011  ls -l 
+ 1012  gcc datos.c procesos.c serial.c -o serial
+ 1013  ./serial 
+ 1014  cd ..
+ 1015  n
+ 1016  ls 
+ 1017  ls
+ 1018  cd GonzalezAmbrizLuisAngel
+ 1019  lsbls
+ 1020  ls
+ 1021  nr serliror
+ 1022  cd servidor/
+ 1023  ls
+ 1024  make install 
+ 1025  make uninstall 
+ 1026  make clean 
+ 1027  make install 
+ 1028  make clean 
+ 1029  make uninstall 
+ 1030  make install
+ 1031  make clean 
+ 1032  make uninstall 
+ 1033  make install 
+ 1034  make clean 
+ 1035  make uninstall 
+ 1036  make install 
+ 1037  init 0
+ 1038  ifconfig 
+ 1039  cd Downloads/
+ 1040  ls 
+ 1041  ./serial 
+ 1042  cd 
+ 1043  ls 
+ 1044  cd Desktop/lab10/GonzalezAmbrizLuisAngel/serial/
+ 1045  ls 
+ 1046  gcc datos.c procesos.c serial.c 
+ 1047  ./serial 
+ 1048  make clean 
+ 1049  make uninstall 
+ 1050  make install 
+ 1051  ls -l /dev/ttyACM0 
+ 1052  make uninstall 
+ 1053  make clean 
+ 1054  make install 
+ 1055  make clean 
+ 1056  make install 
+ 1057  make c
+ 1058  make clean 
+ 1059  make uninstall 
+ 1060  make install 
+ 1061  make clean 
+ 1062  make install 
+ 1063  make clean 
+ 1064  make install 
+ 1065  make clean 
+ 1066  make install 
+ 1067  make clean 
+ 1068  make uninstall 
+ 1069  make install 
+ 1070  make clean 
+ 1071  make uninstall 
+ 1072  make install 
+ 1073  make clean 
+ 1074  make install 
+ 1075  make clean 
+ 1076  make uninstall 
+ 1077  make install 
+ 1078  cd Desktop/
+ 1079  ls 
+ 1080  cd lab10/
+ 1081  ls 
+ 1082  cd GonzalezAmbrizLuisAngel/
+ 1083  ls 
+ 1084  cd ser
+ 1085  cd servidor/
+ 1086  ls 
+ 1087  make uninstall 
+ 1088  make clean 
+ 1089  make install 
+ 1090  cd --
+ 1091  cd Downloads/
+ 1092  ls 
+ 1093  gcc serial.c -o serial
+ 1094  ./serial 
+ 1095  gcc serial2.c -o serial
+ 1096  ./serial 
+ 1097  gcc serial2.c -o serial
+ 1098  ./serial 
+ 1099  gcc serial2.c -o serial
+ 1100  ./serial 
+ 1101  reset 
+ 1102  ./serial 
+ 1103  reset 
+ 1104  gcc serial2.c -o serial
+ 1105  ./serial 
+ 1106  exit 
+ 1107  cd Desktop/
+ 1108  ls 
+ 1109  cd lab10/GonzalezAmbrizLuisAngel/cliente/
+ 1110  gcc clienteTCP.c -o cliente
+ 1111  nano clienteTCP.c 
+ 1112  gcc clienteTCP.c -o cliente
+ 1113  ./cliente 
+ 1114  cd Desktop/lab10/GonzalezAmbrizLuisAngel/cliente/
+ 1115  ls 
+ 1116  nano cliente_windows.py 
+ 1117  python cliente_windows.py 
+ 1118  cd Desktop/lab10/GonzalezAmbrizLuisAngel/serial/
+ 1119  make uninstall 
+ 1120  make clean 
+ 1121  make install 
+ 1122  make clean 
+ 1123  make uninstall 
+ 1124  make install 
+ 1125  make clean 
+ 1126  make uninstall 
+ 1127  make install 
+ 1128  make clean 
+ 1129  make uninstall 
+ 1130  make install 
+ 1131  make uninstall 
+ 1132  make clean 
+ 1133  make install 
+ 1134  make clean 
+ 1135  make uninstall 
+ 1136  make install 
+ 1137  make uninstall 
+ 1138  make clean 
+ 1139  make install 
+ 1140  make clean 
+ 1141  make uninstall 
+ 1142  make install 
+ 1143  reset 
+ 1144  make install 
+ 1145  reset 
+ 1146  make uninstall 
+ 1147  make clean 
+ 1148  make install 
+ 1149  make clean 
+ 1150  make uninstall 
+ 1151  make install 
+ 1152  make clean 
+ 1153  make uninstall 
+ 1154  make install 
+ 1155  cd --
+ 1156  cd Downloads/
+ 1157  gcc serial2.c -o serial
+ 1158  ./serial 
+ 1159  gcc serial2.c -o serial
+ 1160  ./serial 
+ 1161  gcc serial2.c -o serial
+ 1162  ./serial 
+ 1163  gcc serial2.c -o serial
+ 1164  ./serial 
+ 1165  gcc serial2.c -o serial
+ 1166  ./serial 
+ 1167  gcc serial2.c -o serial
+ 1168  ./serial 
+ 1169  gcc serial2.c -o serial
+ 1170  ./serial 
+ 1171  gcc serial2.c -o serial
+ 1172  ./serial 
+ 1173  gcc serial2.c -o serial
+ 1174  ./serial 
+ 1175  gcc serial2.c -o serial
+ 1176  ./serial 
+ 1177  gcc serial2.c -o serial
+ 1178  ./serial 
+ 1179  gcc serial2.c -o serial
+ 1180  ./serial 
+ 1181  gcc serial2.c -o serial
+ 1182  ./serial 
+ 1183  gcc serial2.c -o serial
+ 1184  ./serial 
+ 1185  gcc serial2.c -o serial
+ 1186  ./serial 
+ 1187  gcc serial2.c -o serial
+ 1188  ./serial 
+ 1189  gcc serial2.c -o serial
+ 1190  ./serial 
+ 1191  gcc -Wall serial2.c -o serial
+ 1192  gcc -Wall serial2.c -o serial}
+ 1193  ls -l 
+ 1194  rm serial} 
+ 1195  gcc -Wall serial2.c -o serial
+ 1196  ./serial 
+ 1197  gcc -Wall serial2.c -o serial
+ 1198  ./serial 
+ 1199  gcc -Wall serial2.c -o serial
+ 1200  ./serial 
+ 1201  gcc -Wall serial2.c -o serial
+ 1202  ./serial 
+ 1203  gcc -Wall serial2.c -o serial
+ 1204  ./serial 
+ 1205  gcc -Wall serial2.c -o serial
+ 1206  ./serial 
+ 1207  gcc -Wall serial2.c -o serial
+ 1208  ./serial 
+ 1209  gcc -Wall serial2.c -o serial
+ 1210  ./serial 
+ 1211  gcc -Wall serial2.c -o serial
+ 1212  ./serial 
+ 1213  gcc -Wall serial2.c -o serial
+ 1214  ./serial 
+ 1215  gcc -Wall serial2.c -o serial
+ 1216  ./serial 
+ 1217  gcc -Wall serial2.c -o serial
+ 1218  ./serial 
+ 1219  gcc -Wall serial2.c -o serial
+ 1220  ./serial 
+ 1221  gcc -Wall serial2.c -o serial
+ 1222  ./serial 
+ 1223  gcc -Wall serial2.c -o serial
+ 1224  ./serial 
+ 1225  gcc -Wall serial2.c -o serial
+ 1226  ./serial 
+ 1227  gcc -Wall serial2.c -o serial
+ 1228  ./serial 
+ 1229  gcc -Wall serial2.c -o serial
+ 1230  ./serial 
+ 1231  gcc -Wall serial2.c -o serial
+ 1232  ./serial 
+ 1233  gcc -Wall serial2.c -o serial
+ 1234  ./serial 
+ 1235  gcc -Wall serial2.c -o serial
+ 1236  ./serial 
+ 1237  gcc -Wall serial2.c -o serial
+ 1238  ./serial 
+ 1239  gcc -Wall serial2.c -o serial
+ 1240  ./serial 
+ 1241  gcc -Wall serial2.c -o serial
+ 1242  ./serial 
+ 1243  gcc -Wall serial2.c -o serial
+ 1244  ./serial 
+ 1245  gcc -Wall serial2.c -o serial
+ 1246  ./serial 
+ 1247  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1248  ls 
+ 1249  make clean 
+ 1250  make uninstall 
+ 1251  make install 
+ 1252  make uninstall 
+ 1253  make clean 
+ 1254  make install 
+ 1255  make clean 
+ 1256  make uninstall 
+ 1257  make install 
+ 1258  make clean 
+ 1259  make uninstall 
+ 1260  make install 
+ 1261  make clean 
+ 1262  make uninstall 
+ 1263  make install 
+ 1264  make clean 
+ 1265  make uninstall 
+ 1266  make install 
+ 1267  make clean 
+ 1268  make uninstall 
+ 1269  make install 
+ 1270  make clean 
+ 1271  make uninstall 
+ 1272  make clean 
+ 1273  make uninstall 
+ 1274  make install 
+ 1275  make clean 
+ 1276  make uninstall 
+ 1277  make install 
+ 1278  make uninstall 
+ 1279  make clean 
+ 1280  make install 
+ 1281  make c
+ 1282  make clean 
+ 1283  make uninstall 
+ 1284  cd Desktop/lab10/GonzalezAmbrizLuisAngel/cliente/
+ 1285  ./cliente 
+ 1286  python cliente_windows.py 
+ 1287  exit 
+ 1288  cd Desktop/
+ 1289  cd lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1290  make clean 
+ 1291  make uninstall 
+ 1292  make install 
+ 1293  make clean 
+ 1294  make uninstall 
+ 1295  make install 
+ 1296  make uninstall 
+ 1297  make clean 
+ 1298  make install 
+ 1299  make clean 
+ 1300  make uninstall 
+ 1301  make install 
+ 1302  make clean 
+ 1303  make uninstall 
+ 1304  make install 
+ 1305  make clean 
+ 1306  make uninstall 
+ 1307  make install 
+ 1308  make clean 
+ 1309  make uninstall 
+ 1310  make install 
+ 1311  make clean 
+ 1312  make uninstall 
+ 1313  make install 
+ 1314  make uninstall 
+ 1315  make clean 
+ 1316  make install 
+ 1317  cd --
+ 1318  cd Downloads/
+ 1319  ls 
+ 1320  gcc serial2.c -o serial
+ 1321  ./serial 
+ 1322  gcc serial2.c -o serial
+ 1323  ./serial 
+ 1324  exit
+ 1325  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1326  make clean 
+ 1327  make uninstall 
+ 1328  make install 
+ 1329  exit 
+ 1330  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1331  make clean 
+ 1332  make uninstall 
+ 1333  make install 
+ 1334  make uninstall 
+ 1335  make clean 
+ 1336  make install 
+ 1337  exit 
+ 1338  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1339  make clean 
+ 1340  make uninstall 
+ 1341  make install 
+ 1342  nano serial
+ 1343  nano serial.c 
+ 1344  make clean 
+ 1345  make uninstall 
+ 1346  make install 
+ 1347  exit 
+ 1348  cd Desktop/lab10/GonzalezAmbrizLuisAngel/cliente/
+ 1349  nano clienteTCP.c
+ 1350  gcc clienteTCP.c -o cliente
+ 1351  ./cliente 
+ 1352  cd Desktop/lab10/GonzalezAmbrizLuisAngel/cliente/
+ 1353  python cliente_windows.py 
+ 1354  nano cliente_windows.py 
+ 1355  python cliente_windows.py 
+ 1356  ./cliente 
+ 1357  python cliente_windows.py 
+ 1358  ./cliente 
+ 1359  python cliente_windows.py 
+ 1360  ./cliente 
+ 1361  python cliente_windows.py 
+ 1362  ./cliente 
+ 1363  python cliente_windows.py 
+ 1364  ./cliente 
+ 1365  python cliente_windows.py 
+ 1366  ./cliente 
+ 1367  python cliente_windows.py 
+ 1368  ./cliente 
+ 1369  python cliente_windows.py 
+ 1370  ./cliente 
+ 1371  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1372  ls 
+ 1373  make clean 
+ 1374  make uninstall 
+ 1375  make install 
+ 1376  nano serial.c 
+ 1377  make clean 
+ 1378  make uninstall 
+ 1379  make install 
+ 1380  make uninstall 
+ 1381  make clean 
+ 1382  make install 
+ 1383  make clean 
+ 1384  make un| ;
+ 1385  make un| ;
+ 1386  make uninstall 
+ 1387  make install 
+ 1388  make uninstall 
+ 1389  make clean 
+ 1390  make install 
+ 1391  make clean 
+ 1392  make uninstall 
+ 1393  make install 
+ 1394  make clean 
+ 1395  make uninstall 
+ 1396  make install 
+ 1397  make clean 
+ 1398  make uninstall 
+ 1399  make install 
+ 1400  make uninstall 
+ 1401  make clean 
+ 1402  make install 
+ 1403  make clean 
+ 1404  make install 
+ 1405  cd Desktop/lab10/GonzalezAmbrizLuisAngel/servidor/
+ 1406  make clean 
+ 1407  make uninstall 
+ 1408  make install 
+ 1409  nano serial.c 
+ 1410  make clean 
+ 1411  make uninstall 
+ 1412  make install 
+ 1413  nano serial.c 
+ 1414  make clean 
+ 1415  make uninstall 
+ 1416  make install 
+ 1417  cd Downloads/
+ 1418  ls 
+ 1419  python pwm.py 
+ 1420  python3 pwm.py 
+ 1421  pinout 
+ 1422  init 0
+ 1423  uptime 
+ 1424  init 0
+ 1425  cd Dowl
+ 1426  cd Downloads/
+ 1427  LS 
+ 1428  ls 
+ 1429  python3 pwm.py 
+ 1430  cls 
+ 1431  clear 
+ 1432  python3 pwm.py 
+ 1433  ls 
+ 1434  python pwm.py [B
+ 1435  python3 pwm.py 
+ 1436  reset 
+ 1437  python3 pwm.py 
+ 1438  [1;5A
+ 1439  python3 pwm.py 
+ 1440  cd Downloads/pwm_carga/
+ 1441  python pwm_servo.py 
+ 1442  cd Downloads/pwm_carga/
+ 1443  python3 pwm_servo.py 
+ 1444  python pwm_servo.py 
+ 1445  python3 pwm_servo.py 
+ 1446  python3 pwm.py 
+ 1447  python3 pwm_servo.py 
+ 1448  python3 pwm.py 
+ 1449  python3 pwm_servo.py 
+ 1450  python3 pwm.py 
+ 1451  python3 pwm_servo.py 
+ 1452  python3 pwm.py 
+ 1453  EXIT 
+ 1454  exit 
+ 1455  cd Downloads/pwm_carga/
+ 1456  ls 
+ 1457  python3 pwm.py 
+ 1458  init ~0
+ 1459  init 0
+ 1460  cd Downloads/pwm_carga/
+ 1461  ls 
+ 1462  python pwm.py 
+ 1463  python3 pwm.py 
+ 1464  gcc servo_final.c -lwiringPi -o servo_final
+ 1465  ./servo_final 
+ 1466  sudo ./servo_final 
+ 1467  python3 pwm.py 
+ 1468  gcc servo_final.c -lwiringPi -o servo_final
+ 1469  sudo ./servo_final 
+ 1470  gcc servo_final.c -lwiringPi -o servo_final
+ 1471  sudo ./servo_final 
+ 1472  gcc servo_final.c -lwiringPi -o servo_final
+ 1473  sudo ./servo_final 
+ 1474  gcc servo_final.c -lwiringPi -o servo_final
+ 1475  gcc -Wall servo_final.c -lwiringPi -o servo_final
+ 1476  sudo ./servo_final 
+ 1477  gcc -Wall servo_final.c -lwiringPi -o servo_final
+ 1478  gcc -Wall servo_final.c -lwiringPi -o servo_final -lm
+ 1479  sudo ./servo_final 
+ 1480  gcc -Wall servo_final.c -lwiringPi -o servo_final -lm
+ 1481  sudo ./servo_final 
+ 1482  gcc -Wall servo_final.c -lwiringPi -o servo_final -lm
+ 1483  sudo ./servo_final 
+ 1484  gcc servo_final.c -lwiringPi -o servo_final
+ 1485  gcc -Wall servo_final.c -lwiringPi -o servo_final -lm
+ 1486  ./servo_final 
+ 1487  sudo ./servo_final 
+ 1488  ./servo_final 
+ 1489  gcc -Wall servo_final.c -lwiringPi -o servo_final -lm
+ 1490  ./servo_final 
+ 1491  sudo ./servo_final 
+ 1492  init 0
+ 1493  ifconfig 
+ 1494  journalctl -f
+ 1495  cd Downloads/
+ 1496  gcc serial.c -o serial
+ 1497  ./s
+ 1498  ./serial 
+ 1499  ./serial }
+ 1500  gcc serial.c -o serial
+ 1501  ./serial }
+ 1502  gcc serial.c -o serial
+ 1503  ./serial 
+ 1504  gcc serial.c -o serial
+ 1505  ./serial 
+ 1506  gcc serial.c -o serial
+ 1507  ./serial 
+ 1508  gcc serial.c -o serial
+ 1509  ./serial 
+ 1510  gcc serial.c -o serial
+ 1511  ./serial 
+ 1512  gcc serial.c -o serial
+ 1513  ./serial 
+ 1514  gcc serial.c -o serial
+ 1515  ./serial 
+ 1516  gcc serial.c -o serial
+ 1517  ./serial 
+ 1518  ls 
+ 1519  cd .
+ 1520  cd ..
+ 1521  ls 
+ 1522  cd TTI/
+ 1523  ls 
+ 1524  cd TTI/
+ 1525  ls
+ 1526  cd medidor_uart/
+ 1527  ls 
+ 1528  cd ..
+ 1529  ls 
+ 1530  cd uart/
+ 1531  ls 
+ 1532  cd --
+ 1533  cd Desktop/
+ 1534  ls 
+ 1535  cd --
+ 1536  ls 
+ 1537  cd Do
+ 1538  cd Documents/
+ 1539  ls 
+ 1540  nano servo.c 
+ 1541  ls 
+ 1542  cd ..
+ 1543  ls 
+ 1544  cd Downloads/
+ 1545  ls 
+ 1546  cd pwm_carga/
+ 1547  ls 
+ 1548  nano servo_final.c 
+ 1549  gcc -lwiringPi servo_final.c -o servo_final
+ 1550  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1551  ./servo_final 
+ 1552  sudo ./servo_final 
+ 1553  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1554  sudo ./servo_final 
+ 1555  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1556  sudo ./servo_final 
+ 1557  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1558  sudo ./servo_final 
+ 1559  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1560  sudo ./servo_final 
+ 1561  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1562  sudo ./servo_final 
+ 1563  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1564  sudo ./servo_final 
+ 1565  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1566  sudo ./servo_final 
+ 1567  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1568  sudo ./servo_final 
+ 1569  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1570  sudo ./servo_final 
+ 1571  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1572  sudo ./servo_final 
+ 1573  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1574  sudo ./servo_final 
+ 1575  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1576  sudo ./servo_final 
+ 1577  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1578  sudo ./servo_final 
+ 1579  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1580  sudo ./servo_final 
+ 1581  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1582  sudo ./servo_final 
+ 1583  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1584  sudo ./servo_final 
+ 1585  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1586  sudo ./servo_final 
+ 1587  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1588  sudo ./servo_final 
+ 1589  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1590  sudo ./servo_final 
+ 1591  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1592  sudo ./servo_final 
+ 1593  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1594  sudo ./servo_final 
+ 1595  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1596  sudo ./servo_final 
+ 1597  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1598  sudo ./servo_final 
+ 1599  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1600  sudo ./servo_final 
+ 1601  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1602  sudo ./servo_final 
+ 1603  gcc -lwiringPi servo_final.c -o servo_final -lm
+ 1604  sudo ./servo_final 
+ 1605  cd Downloads/pwm_carga/
+ 1606  ls 
+ 1607  gcc servo_final.c -lwirngPi -o servo_final -lm
+ 1608  gcc servo_final.c -lwiringPi -o servo_final -lm
+ 1609  ./servo_final 
+ 1610  sudo ./servo_final 
+ 1611  gcc servo_final.c -lwiringPi -o servo_final -lm
+ 1612  ./servo_final 
+ 1613  sudo ./servo_final 
+ 1614  ps -e | grep servo_final
+ 1615  kill -SIGTERM 3421
+ 1616  sudo kill -SIGTERM 3421
+ 1617  ls -l 
+ 1618  rm servo_final
+ 1619  ls -l 
+ 1620  gcc voltaje_pwm.c -lwiringPi -o voltaje_pwm -lm
+ 1621  sudo cp voltaje_pwm /usr/local/bin/
+ 1622  sudo cp pwm_calculado.service /etc/systemd/system/
+ 1623  systemctl status pwm_calculado.service | ;
+ 1624  systemctl status pwm_calculado.service 
+ 1625  systemctl start pwm_calculado.service 
+ 1626  sudo nano /etc/systemd/system/pwm_calculado.service 
+ 1627  systemctl start pwm_calculado.service 
+ 1628  ps -e |grep pwm
+ 1629  systemctl start pwm_calculado.service 
+ 1630  systemctl status pwm_calculado.service 
+ 1631  sudo nano /etc/systemd/system/pwm_calculado.service 
+ 1632  sudo gcc voltaje_pwm.c -lwiringPi -o voltaje_pwm -lm
+ 1633  sudo cp voltaje_pwm /usr/local/bin/
+ 1634  systemctl status pwm_calculado.service 
+ 1635  systemctl start pwm_calculado.service 
+ 1636  systemctl status pwm_calculado.service 
+ 1637  systemctl enable pwm_calculado.service 
+ 1638  journalctl -f
+ 1639  journalctl -f
+ 1640  ps -e | grep pwm
+ 1641  top
+ 1642  ps -e | grep pwm
+ 1643  kill -SIGTERM 3860
+ 1644  sudo kill -SIGTERM 3860
+ 1645  ps -e | grep pwm
+ 1646  sudo kill -SIGTERM 3884
+ 1647  journalctl -f
+ 1648  reboot 
+ 1649  ps -e |grep vol
+ 1650  kill -SIGTERM 1005
+ 1651  sudo kill -SIGTERM 1005
+ 1652  systemctl status pwm_calculado.service
+ 1653  systemctl stop pwm_calculado.service
+ 1654  systemctl status pwm_calculado.service
+ 1655  journalctl -f
+ 1656  systemctl stop pwm_calculado.service
+ 1657  pinout 
+ 1658  ls 
+ 1659  journalctl -f
+ 1660  cd Downloads/reeles/
+ 1661  ls 
+ 1662  gcc gpio.c -lwiringPi -o gpio
+ 1663  ./gpio 
+ 1664  gcc gpio.c -lwiringPi -o gpio
+ 1665  ./gpio 
+ 1666  gcc gpio.c -lwiringPi -o gpio
+ 1667  ./gpio 
+ 1668  gcc gpio.c -lwiringPi -o gpio
+ 1669  ./gpio 
+ 1670  gcc gpio.c -lwiringPi -o gpio
+ 1671  ./gpio 
+ 1672  gcc gpio.c -lwiringPi -o gpio
+ 1673  ./gpio 
+ 1674  gcc gpio.c -lwiringPi -o gpio
+ 1675  ./gpio 
+ 1676  gcc gpio.c -lwiringPi -o gpio
+ 1677  ./gpio 
+ 1678  gcc gpio.c -lwiringPi -o gpio
+ 1679  ./gpio 
+ 1680  cd Downloads/reeles/
+ 1681  ./gpio 
+ 1682  init 0
+ 1683  cd Desktop/yocto/
+ 1684  gcc mi_demonio.c -o mi_demonio
+ 1685  serial
+ 1686  sudo rm /usr/local/bin/serial 
+ 1687  serial
+ 1688  cd Desktop/
+ 1689  ls 
+ 1690  cd lab10/
+ 1691  ls 
+ 1692  cd GonzalezAmbrizLuisAngel/servidor/
+ 1693  ls 
+ 1694  make clean 
+ 1695  make uninstall 
+ 1696  make install 
+ 1697  cd Downloads/
+ 1698  unrar -x ,l
+ 1699  unrar -x ,
+ 1700  unrar -x luis.rar 
+ 1701  cd /media/pi
+ 1702  cd --
+ 1703  file -s /dev/sda
+ 1704  sudo file -s /dev/sda
+ 1705  ls /dev/
+ 1706  ls /dev |wc
+ 1707  ls /dev/
+ 1708  fdisk -l /dev/sda
+ 1709  sudo fdisk -l /dev/sda
+ 1710  sudo lsblk -fm
+ 1711  cd  /etc/systemd/system
+ 1712  ls 
+ 1713  less pwm_calculado.service 
+ 1714  cat pwm_calculado.service 
+ 1715  less /etc/network/interfaces
+ 1716  cat /etc/network/interfaces
+ 1717  cat /etc/network/interfaces.d
+ 1718  cd /etc/network/interfaces.d/
+ 1719  ls 
+ 1720  cd 
+ 1721  ls /usr/local/bin/
+ 1722  journalctl 
+ 1723  ifconfig 
+ 1724  journalctl 
+ 1725  apt-get install unrar-free
+ 1726  sudo apt-get install unrar-free
+ 1727  halt 
+ 1728  ifconfig 
+ 1729  ls 
+ 1730  ls -l
+ 1731  exit 
+ 1732  halt 
+ 1733  init 0
+ 1734  cd TTI/TTI/servo/
+ 1735  ./servo
+ 1736  sudo ./servo
+ 1737  init 0
+ 1738  cd TTI/TTI/
+ 1739  ls 
+ 1740  cd servo/
+ 1741  ls 
+ 1742  ./servo
+ 1743  sudo ./servo
+ 1744  nano servo_final.c 
+ 1745  gcc servo_final.c -o servo
+ 1746  gcc servo_final.c -lwiringPi -o servo
+ 1747  sudo ./servo
+ 1748  gcc pwm_rangos.c -o servo
+ 1749  gcc pwm_rangos.c -lwiringPi -o servo
+ 1750  sudo ./servo 12 123
+ 1751  sudo ./servo 25 124
+ 1752  sudo ./servo 25 130
+ 1753  sudo ./servo 30 130
+ 1754  sudo ./servo 35 130
+ 1755  sudo ./servo 33 128
+ 1756  sudo ./servo 31 125
+ 1757  sudo ./servo 30 120
+ 1758  sudo ./servo 28 118
+ 1759  sudo ./servo 27 115
+ 1760  sudo ./servo 27 117
+ 1761  sudo ./servo 54 117
+ 1762  sudo ./servo 0 54 
+ 1763  sudo ./servo 27  54 
+ 1764  sudo ./servo 27 54 
+ 1765  sudo ./servo 27 64 
+ 1766  sudo ./servo 27 70 
+ 1767  sudo ./servo 27 118
+ 1768  gcc pwm_rangos.c -lwiringPi -o servo
+ 1769  sudo ./servo 27 118
+ 1770  cd ..
+ 1771  cd --
+ 1772  ls 
+ 1773  sudo addgroup www-data
+ 1774  sudo usermod -a -G www-data www-data 
+ 1775  sudo apt-get update 
+ 1776  sudo APT
+ 1777  sudo apt-get install apache2 php5 libapache2-mod-ph5
+ 1778  sudo apt-get install apache2 php5 libapache2-mod-php5
+ 1779  sudo apt-get upgrade 
+ 1780  reboot 
+ 1781  sudo apt-get install apache2 php5 libapache2-mod-php5
+ 1782  sudo apt-get install apache2
+ 1783  sudo chown -R pi:www-data  /var/www/html/
+ 1784  sudo chown -R 770  /var/www/html/
+ 1785  wget -O check_apache.html http://127.0.01
+ 1786  wget -O check_apache.html http://127.0.0.1
+ 1787  sudo apt-get install php php-mbstring
+ 1788  sudo apt-get install mysql-server php-mysql
+ 1789  sudo mysql --user=root
+ 1790  mysql -h localhost -u root -p
+ 1791  mysql -u root -p
+ 1792  sudo mysql --user=root
+ 1793  +
+ 1794  mysql -h tt -u root -pescom
+ 1795  mysql -h localhost -u tt -pescom
+ 1796  mysql -h localhost -u tt -p
+ 1797  mysql -u tt -p
+ 1798  mysql -u tt -pescom
+ 1799  mysql -h 192.168.100.32 -u tt -p
+ 1800  mysql -h 192.168.100.32 -u TT -p
+ 1801  mysql -h localhost -u TT -pescom
+ 1802  mysql 
+ 1803  init 0
+ 1804  cd TTI/TTI/servo/
+ 1805  ls 
+ 1806  gcc servo_final.c -o servo
+ 1807  gcc servo_final.c -lwirngPi -o servo
+ 1808  gcc servo_final.c -lwiringPi -o servo
+ 1809  pinout 
+ 1810  sudo ./servo
+ 1811  gcc servo_final.c -lwiringPi -o servo
+ 1812  sudo ./servo
+ 1813  gcc servo_final.c -lwiringPi -o servo
+ 1814  sudo ./servo
+ 1815  init 0
+ 1816  cd TTI/TTI/servo/hilo_servo/
+ 1817  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1818  ./servo 
+ 1819  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1820  ./servo 
+ 1821  sudo ./servo 
+ 1822  ./servo 
+ 1823  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1824  ./servo 
+ 1825  sudo ./servo 
+ 1826  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1827  sudo ./servo 
+ 1828  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1829  sudo ./servo 
+ 1830  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1831  sudo ./servo 
+ 1832  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1833  sudo ./servo 
+ 1834  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1835  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1836  gcc servo_final.c -lwiringPi -lpthread -o servo
+ 1837  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1838  ./servo 
+ 1839  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1840  sudo ./servo 
+ 1841  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1842  sudo ./servo 
+ 1843  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1844  sudo ./servo 
+ 1845  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1846  sudo ./servo 
+ 1847  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1848  sudo ./servo 
+ 1849  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1850  sudo ./servo 
+ 1851  gcc servo_final.c -lwiringPi -lpthread -o servo -Wall
+ 1852  sudo ./servo 
+ 1853  cd ..
+ 1854  ls 
+ 1855  cd ..
+ 1856  ls 
+ 1857  git pull
+ 1858  git add TTI/
+ 1859  git status 
+ 1860  git commit -m "Agregando"
+ 1861  git push 
+ 1862  git pull
+ 1863  cd ..
+ 1864  ls 
+ 1865  init 0
+ 1866  cd TTI/TTI/servo/
+ 1867  ls 
+ 1868  cd hilo_servo/
+ 1869  ls 
+ 1870  sudo ./servo 
+ 1871  history 
+ 1872  mysql -h 192.168.100.32 -u tt -p
+ 1873  mysql -h 192.168.100.32 -u tt -p5515
+ 1874  mysql -h localhost -u tt -p5515
+ 1875  mysql -h localhost -u tt -proot
+ 1876  mysql -u root
+ 1877  sudo mysql -u root
+ 1878  systemctl status apache
+ 1879  systemctl status apache2.service 
+ 1880  ifconfig 
+ 1881  free -h
+ 1882  journalctl -f
+ 1883  tail -f /var/log/syslog 
+ 1884  init 0
+ 1885  cd TTI/TTI/servo/
+ 1886  ls 
+ 1887  cd s
+ 1888  cd hilo_servo/
+ 1889  ls 
+ 1890  sudo ./servo 
+ 1891  init 0
+ 1892  cd TTI/TTI/servo/hilo_servo/
+ 1893  +++++++++++++
+ 1894  ++
+ 1895  +
+ 1896  -+
+ 1897  reset 
+ 1898  sudo ./servo 
+ 1899  init 0
+ 1900  pinout 
+ 1901  cd TTI/
+ 1902  ls
+ 1903  cd servo/
+ 1904  ls
+ 1905  cd hilo_servo/
+ 1906  ls
+ 1907  sudo ./servo 
+ 1908  pinout 
+ 1909  90
+ 1910  journalctl -f
+ 1911  pinout 
+ 1912  ls 
+ 1913  cd TTI/TTI/servo/hilo_servo/
+ 1914  ls 
+ 1915  sudo ./servo 
+ 1916  clear
+ 1917  reset
+ 1918  systemctl status pwm_calculado.service 
+ 1919  systemctl -f status pwm_calculado.service 
+ 1920  ls /etc/init
+ 1921  ls /etc/systemd/system/
+ 1922  cd /home/pi/Downloads/
+ 1923  ls 
+ 1924  cd pwm_carga/
+ 1925  ls 
+ 1926  gcc -lwiringPi -o voltaje_pwm.c -o voltaje_pwm
+ 1927  gcc -lwiringPi -lpthread -o voltaje_pwm.c -o voltaje_pwm
+ 1928  gcc -lwiringPi -o voltaje_pwm.c -o -lpthread voltaje_pwm
+ 1929  gcc voltaje_pwm.c -o -lwirngPi -lpthread voltaje_pwm
+ 1930  gcc voltaje_pwm.c -o -lwiringPi -lpthread voltaje_pwm
+ 1931  history 
+ 1932  ls 
+ 1933  gcc voltaje_pwm.c -o  voltaje_pwm
+ 1934  gcc voltaje_pwm.c -o  voltaje_pwm -lwiringPi
+ 1935  gcc voltaje_pwm.c -o -lwiringPi voltaje_pwm
+ 1936  ls 
+ 1937  gcc voltaje_pwm.c 
+ 1938  gcc voltaje_pwm.c -o voltaje_pwm.c 
+ 1939  gcc voltaje_pwm.c -o voltaje_pwm
+ 1940  gcc -lwiringPi voltaje_pwm.c -o voltaje_pwm
+ 1941  gcc voltaje_pwm.c -wiringPi -o voltaje_pwm
+ 1942  history | grep wirin
+ 1943  gcc voltaje_pwm.c -o -lwirngPi -lpthread voltaje_pwm -lm
+ 1944  gcc voltaje_pwm.c -o -lpthread voltaje_pwm -lm
+ 1945  history | grep voltaje
+ 1946  gcc voltaje_pwm.c -lwiringPi -o voltaje_pwm -lm
+ 1947  sudo cp voltaje_pwm /usr/bin/
+ 1948  cd ..
+ 1949  ls 
+ 1950  cd ..
+ 1951  ls 
+ 1952  ls
+ 1953  systemctl status pwm_calculado.service 
+ 1954  systemctl reload  pwm_calculado.service 
+ 1955  systemctl reload pwm_calculado.service 
+ 1956  systemctl stop pwm_calculado.service 
+ 1957  systemctl reload pwm_calculado.service 
+ 1958  sudo su
+ 1959  ls
+ 1960  nano demonio.pid 
+ 1961  ls 
+ 1962  more demonio.pid 
+ 1963  reboot 
+ 1964  cd Downloads/
+ 1965  ls 
+ 1966  cd pwm_carga/
+ 1967  ls 
+ 1968  ./voltaje_pwm 
+ 1969  ps -e
+ 1970  ps -e | grep pwm
+ 1971  sudo 
+ 1972  sudo su 
+ 1973  cd TTI/TTI/
+ 1974  ls 
+ 1975  cd ..
+ 1976  git add TTI/
+ 1977  git commit -m "Agregar"
+ 1978  git status 
+ 1979  git pull
+ 1980  ls 
+ 1981  cd TTI/
+ 1982  cd ..
+ 1983  ls 
+ 1984  git add TTI/
+ 1985  git status 
+ 1986  ls 
+ 1987  cd TTI/
+ 1988  ls 
+ 1989  cd servo/hilo_servo/
+ 1990  ls 
+ 1991  rm servo
+ 1992  cd ..
+ 1993  git add TTI/
+ 1994  git status 
+ 1995  git commit -m "Agregando"
+ 1996  git status 
+ 1997  git push 
+ 1998  init 0
+ 1999  history 
+ 2000  ls
+ 2001  history >> history.txt

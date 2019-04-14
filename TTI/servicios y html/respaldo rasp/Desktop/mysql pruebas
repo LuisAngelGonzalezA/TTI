@@ -1,0 +1,7 @@
+select mes,estacion,fecha_inicio from posicion_servo where fecha_inicio >= Date_format(now(),'%d-%m');
+
+select mes,estacion from posicion_servo where fecha_inicio between date(now()) and fecha_fin;
+
+
+
+select mes,estacion from posicion_servo where fecha_inicio >= date(now()) and fecha_fin < date(now());
