@@ -43,4 +43,14 @@ int etapa_de_bateria();
  * */
 void * espera(void *arg);
 
+/*
+ * 
+ * Creación del demomio
+ * */
+
+
+void demonio();
+
 #endif
+
+
