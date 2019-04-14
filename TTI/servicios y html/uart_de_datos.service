@@ -1,13 +1,13 @@
 [Unit]
-Description     = Uart datos de pic
+Description     = Monitoreo de Sistema
 After		= syslog.target 
 
 [Service]
 #forking, describe el comportamiento tradicional de los
 #demonios en UNIX
 Type		= forking
-PIDFile		= /home/pi/demonio_reeles.pid
-ExecStart	= /etc/init.d/uart_datos.sysv start
+PIDFile		= /home/pi/UARTDATOS.pid
+ExecStart	= /usr/local/bin/UART_DATOS
 #ExecReload	= kill -HUP $MAINPID
 #ExecStop	= kill -TERM $MAINPID
 

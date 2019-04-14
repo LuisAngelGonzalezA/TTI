@@ -1,6 +1,6 @@
 PROYECTO=UART_DATOS
 DESTDIR=/usr/local/bin
-CFLAGS=`mysql_config --cflags` `mysql_config --libs` -Wall 
+CFLAGS=-lm -lwiringPi `mysql_config --cflags` `mysql_config --libs` -Wall 
 CC=gcc
 FILES := $(patsubst %.c, %.o, $(wildcard *.c))
 

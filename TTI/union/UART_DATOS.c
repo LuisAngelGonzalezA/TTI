@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <wiringPi.h>
+#include <math.h>
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
+#include <signal.h>
 #include <syslog.h>
+#include <mysql/mysql.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "iniciar_serial.h" /*Mandamos a llamar la funcion de config_serial para posteriormente hacer la

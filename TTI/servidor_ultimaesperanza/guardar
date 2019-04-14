@@ -1,5 +1,5 @@
 sudo cp uart_datos.sysv /etc/init.d/uart_datos.sysv
-
+chmod u+x uart_datos.sysv
 sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc3.d/S99uart_datos.sysv
 sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc5.d/S99uart_datos.sysv
 sudo ln -s /etc/init.d/uart_datos.sysv /etc/rc0.d/K01uart_datos.sysv
