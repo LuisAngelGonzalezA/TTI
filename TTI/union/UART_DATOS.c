@@ -72,7 +72,7 @@ void * reiniciar(void *arg)
 	int espera_de_reinicio=0;
 	while(1)
   {
-  if(espera_de_reinicio>36000)
+  if(espera_de_reinicio>7200)
   {
   //sleep(1);
   syslog(LOG_INFO,"\n\n\n\n\nReiniciando\n\n\n");
@@ -83,7 +83,7 @@ void * reiniciar(void *arg)
   }
   else{
 	 espera_de_reinicio++;
-	 //syslog(LOG_INFO,"\n\n\n\n\nContador %d\n\n\n",espera_de_reinicio);
+	 syslog(LOG_INFO,"\n\n\n\n\nContador %d\n\n\n",espera_de_reinicio);
 	 sleep(1);
 	  
 	} 
