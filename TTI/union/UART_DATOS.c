@@ -19,6 +19,7 @@
 
 void * carga(void *arg);
 void * reles_activos(void *arg);
+void * reiniciar(void *arg);
 void demonio();
 double mysql_voltaje();
 double mysql_voltaje_bateria();
@@ -40,6 +41,7 @@ int main()
     pthread_create(&tids[0],NULL,espera,NULL);
     pthread_create(&tids[1],NULL,carga,NULL);
     pthread_create(&tids[2],NULL,reles_activos,NULL);
+    pthread_create(&tids[3],NULL,reiniciar,NULL);
 
     while(EVER)
     {
@@ -63,6 +65,33 @@ int main()
 			 }			
 	}
 	return 0;
+}
+
+void * reiniciar(void *arg)
+{
+	int espera_de_reinicio=0;
+	while(1)
+  {
+  if(espera_de_reinicio>36000)
+  {
+  //sleep(1);
+  syslog(LOG_INFO,"\n\n\n\n\nReiniciando\n\n\n");
+  exit(1);
+  //printf("\n\nHa pasado un segundo\n");
+  //syslog(LOG_INFO,"\n\nHa pasado un segundo\n");
+
+  }
+  else{
+	 espera_de_reinicio++;
+	 //syslog(LOG_INFO,"\n\n\n\n\nContador %d\n\n\n",espera_de_reinicio);
+	 sleep(1);
+	  
+	} 
+	}
+	
+	
+	
+	
 }
 
 
@@ -156,7 +185,7 @@ double mysql_voltaje_panel()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[3]);
+			//printf("%s\n",row[3]);
 			 dato=atof(row[3]);
 			
 		}
@@ -198,7 +227,7 @@ double mysql_voltaje_bateria_reeles()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
@@ -239,7 +268,7 @@ double mysql_voltaje_bateria_max()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
@@ -280,7 +309,7 @@ double mysql_voltaje_bateria_min()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
@@ -425,7 +454,7 @@ double mysql_voltaje()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[3]);
+			//printf("%s\n",row[3]);
 			 dato=atof(row[3]);
 			
 		}
@@ -465,7 +494,7 @@ double mysql_voltaje_bateria()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}

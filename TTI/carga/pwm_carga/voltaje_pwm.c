@@ -159,7 +159,7 @@ double mysql_voltaje()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[3]);
+			//printf("%s\n",row[3]);
 			 dato=atof(row[3]);
 			
 		}
@@ -199,7 +199,7 @@ double mysql_voltaje_bateria()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
