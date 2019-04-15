@@ -41,7 +41,7 @@ int main()
     pthread_create(&tids[0],NULL,espera,NULL);
     pthread_create(&tids[1],NULL,carga,NULL);
     pthread_create(&tids[2],NULL,reles_activos,NULL);
-    pthread_create(&tids[3],NULL,reiniciar,NULL);
+    //pthread_create(&tids[3],NULL,reiniciar,NULL);
 
     while(EVER)
     {
@@ -72,7 +72,7 @@ void * reiniciar(void *arg)
 	int espera_de_reinicio=0;
 	while(1)
   {
-  if(espera_de_reinicio>7200)
+  if(espera_de_reinicio>18000)
   {
   //sleep(1);
   syslog(LOG_INFO,"\n\n\n\n\nReiniciando\n\n\n");
@@ -175,7 +175,7 @@ double mysql_voltaje_panel()
 		fprintf(stderr, "%s\n", mysql_error(con));
 	}
 
-	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
+	if(mysql_query(con,"select * from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
 	{
 		fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
@@ -217,7 +217,7 @@ double mysql_voltaje_bateria_reeles()
 		fprintf(stderr, "%s\n", mysql_error(con));
 	}
 
-	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 10 SECOND) and (now()) order by fecha desc limit 1"))
+	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 5 SECOND) and (now()) order by fecha desc limit 1"))
 	{
 		fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
@@ -444,7 +444,7 @@ double mysql_voltaje()
 		fprintf(stderr, "%s\n", mysql_error(con));
 	}
 
-	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
+	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 5 SECOND) and (now()) order by hora desc limit 1"))
 	{
 		fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
