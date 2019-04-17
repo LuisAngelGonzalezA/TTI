@@ -1,27 +1,17 @@
-    1  uname /a
-    2  uname -a
-    3  reboot 
-    4  free -h
-    5  uptime 
-    6  exit 
-    7  uptime 
-    8  git 
-    9  git config --global user.name "luisangelgonzaleza"
-   10  git config --global user.email "vivi_luis15@hotmail.com"
-   11  git clone https://github.com/LuisAngelGonzalezA/TTI.git
-   12  cd TTI/
-   13  ls 
-   14  git pull
-   15  sudo apt-get install mysql-server
-   16  sudo apt-get install mysql-server mysql-client
-   17  sudo apt-get install libmysqlclient-dev
-   18  sudo apt-get install libmysqlclient.dev
-	
-       sudo apt-get install python3-mysqldb
-       sudo apt-get install python-matplotlib
-       sudo apt-get install python-pymysql
-
-
+uname /a
+uname -a
+reboot 
+free -h
+uptime 
+exit 
+uptime 
+git 
+git config --global user.name "luisangelgonzaleza"
+git config --global user.email "vivi_luis15@hotmail.com"
+git clone https://github.com/LuisAngelGonzalezA/TTI.git
+cd TTI/
+ls 
+git pull
 sudo apt install apache2
 sudo apt install php php-mbstring
 sudo rm /var/www/html/index.html
@@ -30,6 +20,16 @@ echo "<?php phpinfo ();?>" > /var/www/html/index.php
 
 
 sudo apt install mysql-server php-mysql
+sudo apt-get install mysql-server
+sudo apt-get install libmysqlclient-dev
+sudo apt-get install libmysqlclient.dev
+	
+       sudo apt-get install python3-mysqldb
+       sudo apt-get install python-matplotlib
+       sudo apt-get install python-pymysql
+
+
+
 GRANT ALL PRIVILEGES ON *.* TO TT IDENTIFIED BY 'TT';
  create database tornasol;
 use tornasol;
