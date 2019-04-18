@@ -146,12 +146,13 @@ double mysql_voltaje()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -186,12 +187,13 @@ double mysql_voltaje_bateria()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_max*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -273,7 +275,7 @@ FILE *apArch;
     if( pid )
     {
 		printf("PID del segundo proceso hijo %d \n", pid);
-		apArch = fopen("/home/pi/demonio.pid", "w");
+		apArch = fopen("/home/pi/voltaje_pwm_pid.pid", "w");
 		fprintf(apArch, "%d", pid);
 		fclose(apArch);
 
@@ -301,7 +303,7 @@ FILE *apArch;
     close( STDOUT_FILENO );
     close( STDERR_FILENO );
 // Se abre un archivo log en modo de escritura.
-    openlog( "demonio", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
+    openlog( "voltaje_pwm_pid", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
 
     
     closelog( );
