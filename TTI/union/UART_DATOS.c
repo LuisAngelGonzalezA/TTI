@@ -121,13 +121,13 @@ void * reles_activos(void *arg)
 	{
 		digitalWrite( 0, HIGH );
 		digitalWrite( 2, HIGH );
-		syslog(LOG_INFO,"\nEl reelé abierto\n");
+		syslog(LOG_INFO,"\nEl reelé abierto HIGH\n");
 		//printf("\nEl reelé del panel esta abierto\n");
-		usleep(1000000);
+		usleep(180000000);
 		digitalWrite( 0, LOW );
 		digitalWrite( 2, LOW );
-		syslog(LOG_INFO,"\nEl reelé esta abierto\n");
-		usleep(1000000);
+		syslog(LOG_INFO,"\nEl reelé esta abierto LOW\n");
+		usleep(180000000);
 		
 		
 		/*voltaje_panel=mysql_voltaje_panel();
