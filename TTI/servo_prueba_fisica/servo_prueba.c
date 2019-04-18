@@ -86,10 +86,13 @@ void * movimiento_x(void *arg)
     syslog(LOG_INFO,"\nEmpieza servo en x con uno mayor");
     pwmWrite(19,1024);
     sleep(1);
-    pwmWrite(19,512);
-    sleep(1);
     pwmWrite(19,0);
     sleep(1);
+    pwmWrite(19,512);
+    sleep(1);
+    pwmWrite(19,1024);
+    sleep(1);
+    sleep(10);
   }
 }
 void * movimiento_y(void *arg)
@@ -97,18 +100,21 @@ void * movimiento_y(void *arg)
   while(1)
   {
       syslog(LOG_INFO,"\nEmpieza servo en y con uno menor");
-    pwmWrite(13,0);
-    sleep(1);
-    syslog(LOG_INFO,"\nEmpieza servo en y con uno menor");
-    pwmWrite(13,512);
-    sleep(1);
-    syslog(LOG_INFO,"\nEmpieza servo en y con uno menor");
     pwmWrite(13,1024);
     sleep(1);
+    syslog(LOG_INFO,"\nEmpieza servo en y con uno menor");
     pwmWrite(13,512);
+    sleep(1);
+    syslog(LOG_INFO,"\nEmpieza servo en y con uno menor");
+    pwmWrite(13,0);
     sleep(1);
     pwmWrite(13,0);
     sleep(1);
+    pwmWrite(13,512);
+    sleep(1);
+    pwmWrite(13,1024);
+    sleep(1);
+    sleep(10);
   }
 }
 

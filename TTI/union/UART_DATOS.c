@@ -37,12 +37,12 @@ int main()
 {                             
 	demonio();                
 	espera_de_recepcion=0;
-	pthread_t tids[5];
+	pthread_t tids[4];
     pthread_create(&tids[0],NULL,espera,NULL);
     //pthread_create(&tids[1],NULL,carga,NULL);
-    pthread_create(&tids[2],NULL,reles_activos,NULL);
-    pthread_create(&tids[3],NULL,reiniciar,NULL);
-	pthread_create(&tids[4],NULL,datos_recibidos_uart,NULL);
+    pthread_create(&tids[1],NULL,reles_activos,NULL);
+    pthread_create(&tids[2],NULL,reiniciar,NULL);
+	pthread_create(&tids[3],NULL,datos_recibidos_uart,NULL);
     while(EVER)
     { 
 		
