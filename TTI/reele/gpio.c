@@ -28,32 +28,31 @@ double mysql_voltaje();
 double mysql_voltaje_bateria();
 double mysql_voltaje_bateria_sensado();
 int mysql_voltaje_bateria_cierre_abertura();
-
+void * hilo_panel(void *arg);
+void * hilo_panel2(void *arg);
 int main( )
 {
-//Se inicializa la libreria wiring Pi
-	wiringPiSetup();
-//Se configura el GPIO 17 como salida
-	pinMode( 0, OUTPUT );
-	pinMode( 3, OUTPUT );
-//Se escribe un valor digital al GPIO
-
+	pthread_t tids[4];
+	pthread_create(&tids[0],NULL,hilo_panel,NULL);
+	//pthread_create(&tids[1],NULL,hilo_panel2,NULL);
 	while( 1 )
 	{
 		
 		
+		
+	/*	
 		double panel=mysql_voltaje(),bateria=mysql_voltaje_bateria();
 		printf("\nPanel = %lf  Bateria = %lf \n",panel,bateria);
 		if(panel>=bateria)
 		{
 //Entonces el reelé se cierra
-			//digitalWrite( 0, HIGH );
+			digitalWrite( 0, LOW );
 			printf("\nSe cierra el reelé de panel\n");
 		}
 		else
 		{
 			
-			//digitalWrite( 0, LOW );
+			digitalWrite( 0, HIGH );
 			printf("Se abré el reelé de panel\n");
 		}
 		
@@ -64,15 +63,62 @@ int main( )
 		else {
 			printf("\nEl reelé de batería esta abierto\n");
 		}
+	*/
+	printf("\nSolo espero al hilo\n");
+	usleep(1000000);
 		
 		
 		
 		
 		
-		
+	}
+	
+	return 0;
+}
+
+
+void * hilo_panel(void *arg)
+{
+	//Se inicializa la libreria wiring Pi
+	wiringPiSetup();
+//Se configura el GPIO 17 como salida
+	pinMode( 0, OUTPUT );
+	pinMode( 2, OUTPUT );
+//Se escribe un valor digital al GPIO
+	while( 1 )
+	{			
+		digitalWrite( 0, HIGH );
+		digitalWrite( 2, HIGH );
+		printf("\nEl reelé del panel esta abierto\n");
+		usleep(1000000);
+		digitalWrite( 0, LOW );
+		digitalWrite( 2, LOW );
+		printf("\nEl reelé del panel esta cerrado\n");
 		usleep(1000000);
 	}
-	return 0;
+
+
+	
+}
+
+void * hilo_panel2(void *arg)
+{
+	//Se inicializa la libreria wiring Pi
+	wiringPiSetup();
+//Se configura el GPIO 17 como salida
+	
+	pinMode( 2, OUTPUT );
+//Se escribe un valor digital al GPIO
+	while( 1 )
+	{
+		digitalWrite( 2, HIGH );
+		printf("\nEl reelé de batería esta abierto\n");
+		usleep(1000000);
+		digitalWrite( 2, LOW );
+		printf("\nEl reelé de batería esta cerrado\n");
+		usleep(1000000);
+	}
+	
 }
 
 

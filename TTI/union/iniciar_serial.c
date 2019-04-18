@@ -117,7 +117,8 @@ void insert_voltaje(char *voltaje)
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 	if (mysql_query(con, voltaje)) 
 	{
@@ -145,12 +146,13 @@ double mysql_corriente_bateria()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.corriente from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);

@@ -20,6 +20,7 @@
 void * carga(void *arg);
 void * reles_activos(void *arg);
 void * reiniciar(void *arg);
+void *datos_recibidos_uart(void *arg);
 void demonio();
 double mysql_voltaje();
 double mysql_voltaje_bateria();
@@ -36,15 +37,24 @@ int main()
 {                             
 	demonio();                
 	espera_de_recepcion=0;
-	pthread_t tids[4];
-	int i=0;
+	pthread_t tids[5];
     pthread_create(&tids[0],NULL,espera,NULL);
-    pthread_create(&tids[1],NULL,carga,NULL);
+    //pthread_create(&tids[1],NULL,carga,NULL);
     pthread_create(&tids[2],NULL,reles_activos,NULL);
-    //pthread_create(&tids[3],NULL,reiniciar,NULL);
-
+    pthread_create(&tids[3],NULL,reiniciar,NULL);
+	pthread_create(&tids[4],NULL,datos_recibidos_uart,NULL);
     while(EVER)
-    {
+    { 
+		
+	}
+	return 0;
+}
+void *datos_recibidos_uart(void *arg)
+{
+	int i=0;
+	while(EVER)
+    { 
+		
 			i=0;
 
 			
@@ -63,8 +73,8 @@ int main()
 				
 				peticion+=2;
 			 }			
+			 
 	}
-	return 0;
 }
 
 void * reiniciar(void *arg)
@@ -106,11 +116,21 @@ void * reles_activos(void *arg)
 	pinMode( 2, OUTPUT );
 //Se escribe un valor digital al GPIO
 	
-	double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0;
+	//double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0;
 	while( 1 )
 	{
+		digitalWrite( 0, HIGH );
+		digitalWrite( 2, HIGH );
+		syslog(LOG_INFO,"\nEl reelé abierto\n");
+		//printf("\nEl reelé del panel esta abierto\n");
+		usleep(1000000);
+		digitalWrite( 0, LOW );
+		digitalWrite( 2, LOW );
+		syslog(LOG_INFO,"\nEl reelé esta abierto\n");
+		usleep(1000000);
 		
-		voltaje_panel=mysql_voltaje_panel();
+		
+		/*voltaje_panel=mysql_voltaje_panel();
 		voltaje_bateria=mysql_voltaje_bateria_reeles();
 		voltaje_bateria_max=mysql_voltaje_bateria_max();
 		voltaje_bateria_min=mysql_voltaje_bateria_min();
@@ -145,7 +165,7 @@ void * reles_activos(void *arg)
 			digitalWrite( 2,1 );
 			//usleep(100000);
 			sleep(1);
-		}
+		}*/
 		
 	}
 }
@@ -172,12 +192,13 @@ double mysql_voltaje_panel()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select * from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -214,12 +235,13 @@ double mysql_voltaje_bateria_reeles()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 5 SECOND) and (now()) order by fecha desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -255,12 +277,13 @@ double mysql_voltaje_bateria_max()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_max*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -296,12 +319,13 @@ double mysql_voltaje_bateria_min()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_min*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -339,7 +363,7 @@ void * carga(void *arg)
   float voltaje_min=0.0;
   
   
-  wiringPiSetupGpio();
+  wiringPiSetup();
 
   pinMode(12,PWM_OUTPUT);
   pwmSetMode(PWM_MODE_MS);
@@ -441,12 +465,12 @@ double mysql_voltaje()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 	}
 
 	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 5 SECOND) and (now()) order by hora desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -481,12 +505,13 @@ double mysql_voltaje_bateria()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_max*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);

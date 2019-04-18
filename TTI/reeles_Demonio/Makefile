@@ -1,6 +1,8 @@
-PROYECTO=UART_DATOS
+PROYECTO=reele
 DESTDIR=/usr/local/bin
-CFLAGS=-lm -lpthread -lwiringPi `mysql_config --cflags` `mysql_config --libs` -Wall 
+CFLAGS=
+Hilo=-lwiringPi -lpthread
+
 CC=gcc
 FILES := $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -10,7 +12,7 @@ all: $(PROYECTO)
 	$(CC) -c $< $(CFLAGS)
 
 $(PROYECTO): $(FILES)
-	$(CC) $^ -o $@ $(CFLAGS)
+	$(CC) $^ -o $@ $(Hilo) 
 
 	
 #EN FILES se obtienen todos los archivos con la terminación .c gracias a $(wildcard *-c), 
@@ -22,7 +24,7 @@ $(PROYECTO): $(FILES)
 
 #EQUIVALENTE A LO DE ARRIBA
 #$(PROYECTO): muestreo.o procesamiento.o archivos.o
-#	$(CC) muestreo.o procesamiento.o archivos.o -o $(PROYECTO) $(CFLAGS)
+#	$(CC) muestreo.o procesamiento.o archivos.o -o $(PROYECTO) $(LDFLAGS)
 
 .PHONY: clean
 
@@ -31,7 +33,7 @@ install: all
 		sudo mkdir $(DESTDIR) ; \
 	fi; \
 	sudo cp $(PROYECTO) $(DESTDIR)
-	
+	$(PROYECTO)
 
 
 uninstall:
