@@ -24,6 +24,7 @@
 void demonio();
 double mysql_voltaje_panel();
 double mysql_voltaje_bateria();
+double mysql_voltaje_bateria_validacion();
 double mysql_voltaje_bateria_max();
 double mysql_voltaje_bateria_min();
 int main( )
@@ -37,7 +38,7 @@ int main( )
 	pinMode( 2, OUTPUT );
 //Se escribe un valor digital al GPIO
 	
-	double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0;
+	double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0,validacion=0.0;
 	while( 1 )
 	{
 		
@@ -45,7 +46,7 @@ int main( )
 		voltaje_bateria=mysql_voltaje_bateria();
 		voltaje_bateria_max=mysql_voltaje_bateria_max();
 		voltaje_bateria_min=mysql_voltaje_bateria_min();
-		
+		validacion=mysql_voltaje_bateria_validacion();
 		
 		if(voltaje_panel>=voltaje_bateria_max-.4)
 		{
@@ -55,20 +56,35 @@ int main( )
 			//			I M P O R T A N T E
 			
 			//
-			//if(voltaje_panel<= voltaje_bateria_max+.1)
-			//{
+			
+			if(validacion <=1 )
+			{
+					syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
+					digitalWrite( 0,0 );
+					usleep(100000);
+					digitalWrite( 0,1 );
+					usleep(100000);
+					
+			}
+			else
+			{
+					validacion=mysql_voltaje_bateria_validacion();
+			}
+			
+			if(validacion<= voltaje_bateria_max+.1 && validacion>=voltaje_bateria_max-.4)
+			{
 			syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 			digitalWrite( 0,0 );
 			usleep(1000000);
 			//sleep(1);
-			/*}
+			}
 			else
 			{
 			syslog(LOG_INFO,"\n-->Reele cerrado superior a la carga panel revisar PWM de potencia de carga---\n");
 			digitalWrite( 0,1 );
 			//usleep(100000);
 			sleep(1);
-			}*/
+			}
 		}
 		else
 		{
@@ -183,6 +199,51 @@ double mysql_voltaje_bateria()
 		
 	return dato;
 }
+
+
+double mysql_voltaje_bateria_validacion()
+{
+	
+	MYSQL *con;
+	MYSQL_RES *res;
+	MYSQL_ROW row; 	 	
+
+
+	char *server="localhost";
+	char *user="TT";
+	char *pass="TT";
+	char *database="tornasol";
+	
+	con=mysql_init(NULL);
+	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
+	{
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+
+	if(mysql_query(con,"select voltaje from sensadoB where hora between (now() -INTERVAL 5 SECOND) and (now()) order by hora desc limit 1"))
+	{
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
+	}
+	res=mysql_use_result(con);
+	double dato=0.0;
+	//printf("La base de datos son :\n");
+	while((row= mysql_fetch_row(res)) !=NULL)
+		{
+			//printf("%s\n",row[0]);
+			 dato=atof(row[0]);
+			
+		}
+		
+	mysql_free_result(res);
+	mysql_close(con);
+		
+	return dato;
+}
+
+
+
 
 
 double mysql_voltaje_bateria_max()
