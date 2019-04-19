@@ -7,7 +7,7 @@ After		= syslog.target
 #demonios en UNIX
 Type		= forking
 PIDFile		= /home/pi/demonio_reeles.pid
-ExecStart	= sudo /usr/local/bin/reeles
+ExecStart	= /usr/local/bin/reeles
 #ExecReload	= kill -HUP $MAINPID
 #ExecStop	= kill -TERM $MAINPID
 

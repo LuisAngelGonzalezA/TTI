@@ -47,19 +47,35 @@ int main( )
 		voltaje_bateria_min=mysql_voltaje_bateria_min();
 		
 		
-		if(voltaje_panel>=voltaje_bateria_max)
+		if(voltaje_panel>=voltaje_bateria_max-.4)
 		{
+			//Pendiente revisar que el voltaje de la bateria no sea mayor a la carga suministrada en el pwm 
+			//
+			           
+			//			I M P O R T A N T E
+			
+			//
+			//if(voltaje_panel<= voltaje_bateria_max+.1)
+			//{
 			syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 			digitalWrite( 0,0 );
+			usleep(1000000);
+			//sleep(1);
+			/*}
+			else
+			{
+			syslog(LOG_INFO,"\n-->Reele cerrado superior a la carga panel revisar PWM de potencia de carga---\n");
+			digitalWrite( 0,1 );
 			//usleep(100000);
 			sleep(1);
+			}*/
 		}
 		else
 		{
 			syslog(LOG_INFO,"\n-->Reele abierto panel---\n");
 			digitalWrite( 0,1 );
 			//usleep(100000);
-			sleep(1);
+			usleep(1000000);
 		}
 		
 		
@@ -68,14 +84,14 @@ int main( )
 			syslog(LOG_INFO,"\n-->Reele cerrado Batería---\n");
 			digitalWrite( 2,0 );
 			//usleep(100000);
-			sleep(1);
+			usleep(1000000);
 		}
 		else
 		{
 			syslog(LOG_INFO,"\n-->Reele abierto Batería---\n");
 			digitalWrite( 2,1 );
 			//usleep(100000);
-			sleep(1);
+			usleep(1000000);
 		}
 		
 	}
@@ -100,12 +116,13 @@ double mysql_voltaje_panel()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
-	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
+	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 5 SECOND) and (now()) order by hora desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -113,7 +130,7 @@ double mysql_voltaje_panel()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[3]);
+			//printf("%s\n",row[3]);
 			 dato=atof(row[3]);
 			
 		}
@@ -142,12 +159,13 @@ double mysql_voltaje_bateria()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
-	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 10 SECOND) and (now()) order by fecha desc limit 1"))
+	if(mysql_query(con,"select voltaje_bateria from sensadocvd where fecha between (now() -INTERVAL 5 SECOND) and (now()) order by fecha desc limit 1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -155,7 +173,7 @@ double mysql_voltaje_bateria()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
@@ -183,12 +201,13 @@ double mysql_voltaje_bateria_max()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_max*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -196,7 +215,7 @@ double mysql_voltaje_bateria_max()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}
@@ -224,12 +243,14 @@ double mysql_voltaje_bateria_min()
 	con=mysql_init(NULL);
 	if(!mysql_real_connect(con,server,user,pass,database,0,NULL,0))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		//fprintf(stderr, "%s\n", mysql_error(con));
+		exit(1);
 	}
 
 	if(mysql_query(con,"select b.voltaje_min*b.nu_celdas  from historial_bateria_panel hbp,bateria b where hbp.id_bateria=b.id_bateria and hbp.activo=1"))
 	{
-		fprintf(stderr, "%s\n", mysql_error(con));
+		
+		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
 	}
 	res=mysql_use_result(con);
@@ -237,7 +258,7 @@ double mysql_voltaje_bateria_min()
 	//printf("La base de datos son :\n");
 	while((row= mysql_fetch_row(res)) !=NULL)
 		{
-			printf("%s\n",row[0]);
+			//printf("%s\n",row[0]);
 			 dato=atof(row[0]);
 			
 		}

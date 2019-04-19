@@ -40,12 +40,33 @@ int main()
 	pthread_t tids[4];
     pthread_create(&tids[0],NULL,espera,NULL);
     //pthread_create(&tids[1],NULL,carga,NULL);
-    pthread_create(&tids[1],NULL,reles_activos,NULL);
-    pthread_create(&tids[2],NULL,reiniciar,NULL);
-	pthread_create(&tids[3],NULL,datos_recibidos_uart,NULL);
-    while(EVER)
+    //pthread_create(&tids[1],NULL,reles_activos,NULL);
+    pthread_create(&tids[1],NULL,reiniciar,NULL);
+	//pthread_create(&tids[2],NULL,datos_recibidos_uart,NULL);
+    
+	int i=0;
+	while(EVER)
     { 
 		
+			i=0;
+
+			
+			
+			
+			peticion= 0xE1;
+			for(;i<2;i++)
+			 {
+				//printf("\n\n\n\t0x%X\n\n\n",peticion);
+				syslog(LOG_INFO,"\n\n\n\t0x%X\n\n\n",peticion);
+				
+				//printf("0x%X\n", peticion);
+				syslog(LOG_INFO,"Entrando");
+				recibir_valores_de_modulos(peticion);
+				
+				
+				peticion+=2;
+			 }			
+			 
 	}
 	return 0;
 }
