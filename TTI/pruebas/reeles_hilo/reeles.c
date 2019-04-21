@@ -61,9 +61,9 @@ int main( )
 			{
 					syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 					digitalWrite( 0,0 );
-					usleep(100000);
+					usleep(500000);
 					digitalWrite( 0,1 );
-					usleep(100000);
+					usleep(500000);
 					
 			}
 			else

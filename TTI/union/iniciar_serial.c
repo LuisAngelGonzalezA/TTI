@@ -333,7 +333,7 @@ void guardar_datos_voltaje(int * datos_recibidos_UART)
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);	
   strcat(datos,")");
-  insert_voltaje(datos);
+  //insert_voltaje(datos);
   
   
   
@@ -399,7 +399,7 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   strcat(datos_descaraga,temporal_descarga_corriente);
   
   strcat(datos_descaraga,")");
-  insert_voltaje(datos_descaraga);
+  //insert_voltaje(datos_descaraga);
   
   /*
   char sql_descarga[200]={};
