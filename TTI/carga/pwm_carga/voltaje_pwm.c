@@ -108,8 +108,16 @@ int main(int argc, char* argv[])
             
                 
 	    syslog(LOG_INFO,"B a usar -->%f\n",b_a_usar);
-            duty=round(pendiente*(voltaje_deseado)+b_a_usar);
-            
+            //Con cualquier IRLI diferente de el 540g
+	    //duty=round((pendiente*(voltaje_deseado))+b_a_usar);
+	    if(voltaje_ingresado <15)
+	    {
+	    duty=(pendiente*(voltaje_deseado))+b_a_usar+60;
+	    }
+	    else duty=(pendiente*(voltaje_deseado))+b_a_usar+45;
+            //COn el IRLI540g se resta un voltaje al deseado
+	    //duty=pendiente*(voltaje_deseado-1)+b_a_usar;
+	    
             if(duty >= 1024)
                 duty=1024;
 	    syslog(LOG_INFO,"Duty :-->%d\n",duty);

@@ -78,21 +78,23 @@ void * movimiento_x(void *arg)
   {
     //int posicion=posicion_panel(grado);
     syslog(LOG_INFO,"\nEmpieza servo en x con uno menor");
-    pwmWrite(19,0);
+    pwmWrite(19,307);
     sleep(1);
+    /*
     syslog(LOG_INFO,"\nEmpieza servo en x con uno medio");
     pwmWrite(19,512);
-    sleep(1);
+    sleep(5);
     syslog(LOG_INFO,"\nEmpieza servo en x con uno mayor");
-    pwmWrite(19,1024);
-    sleep(1);
     pwmWrite(19,0);
-    sleep(1);
+    sleep(5);
+    pwmWrite(19,0);
+    sleep(5);
     pwmWrite(19,512);
-    sleep(1);
+    sleep(5);
     pwmWrite(19,1024);
-    sleep(1);
-    sleep(10);
+    sleep(5);
+    */
+    //sleep(10);
   }
 }
 void * movimiento_y(void *arg)
