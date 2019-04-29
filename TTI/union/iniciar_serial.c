@@ -328,13 +328,15 @@ void guardar_datos_voltaje(int * datos_recibidos_UART)
    * ->   insert into sensadoP values(null,select id_panel from historial_bateria_panel where activo=1,now(),V)
    * 
    * */
+  if(voltaje_mysql>=1)
+  {
   char temporal[100]={};
   char datos[200]="insert into sensadoP values(null,(select id_panel from historial_bateria_panel where activo=1),now(),";
   sprintf(temporal,"%lf",voltaje_mysql);
   strcat(datos,temporal);	
   strcat(datos,")");
-  //insert_voltaje(datos);
-  
+  insert_voltaje(datos);
+  }
   
   
   
@@ -357,6 +359,8 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
 
   
   */
+  if(voltaje_mysql>=1)
+  {
   char temporal[200]={};
   char temporal1[200]={};
   char temporal2[200]={};
@@ -399,9 +403,9 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   strcat(datos_descaraga,temporal_descarga_corriente);
   
   strcat(datos_descaraga,")");
-  //insert_voltaje(datos_descaraga);
+  insert_voltaje(datos_descaraga);
   
-  /*
+  
   char sql_descarga[200]={};
   char sql_temporal1[200]={};
   char datos1[200]="insert into fase_bateria values(null,1,";
@@ -416,7 +420,7 @@ void guardar_datos_bateria(int * datos_recibidos_UART)
   
   
   insert_voltaje(datos1);
-  */
+  }
   
   
   

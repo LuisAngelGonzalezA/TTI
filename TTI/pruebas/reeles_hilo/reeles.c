@@ -57,7 +57,7 @@ int main( )
 			
 			//
 			
-			if(validacion <=1 )
+			/*if(validacion <=1 )
 			{
 					syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 					digitalWrite( 0,0 );
@@ -69,22 +69,23 @@ int main( )
 			else
 			{
 					validacion=mysql_voltaje_bateria_validacion();
-			}
+			}*/
 			
-			if(validacion<= voltaje_bateria_max+.1 && validacion>=voltaje_bateria_max-.4)
-			{
+			//if(validacion<= voltaje_bateria_max+.1 && validacion>=voltaje_bateria_max-.4)
+			//{
 			syslog(LOG_INFO,"\n-->Reele cerrado panel---\n");
 			digitalWrite( 0,0 );
 			usleep(1000000);
 			//sleep(1);
-			}
-			else
+			//}
+			/*else
 			{
 			syslog(LOG_INFO,"\n-->Reele cerrado superior a la carga panel revisar PWM de potencia de carga---\n");
 			digitalWrite( 0,1 );
 			//usleep(100000);
 			sleep(1);
-			}
+			
+			}*/
 		}
 		else
 		{
