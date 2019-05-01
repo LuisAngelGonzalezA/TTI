@@ -35,7 +35,7 @@ int config_serial( char *dispositivo_serial, speed_t baudios )
   	fd = open( dispositivo_serial, (O_RDWR | O_NOCTTY) & ~O_NONBLOCK );
 	if( fd == -1 )
 	{
-		printf("Error al abrir el dispositivo tty \n");
+		//printf("Error al abrir el dispositivo tty \n");
 		exit( EXIT_FAILURE );
   	}
 /*
@@ -226,14 +226,14 @@ void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
   
   corriente_mysql=(double)corriente_alto;
   corriente_mysql+=(double) corriente_bajo/1000;
-  corriente_mysql_descarga_temporal=corriente_mysql;
+  //corriente_mysql_descarga_temporal=corriente_mysql;
    
   
   
- /* int valor;
+  int valor;
   valor=corriente_alto;
   
-  
+  /*
   En la parte de corriemiento para que unamos la parte alta y baja de los datos leídos del modulo RS-232
   atraves del módulo UART de la raspberry el cual se va a agregar los siguientes 8 bits .
   
@@ -241,18 +241,20 @@ void hexadecimal_a_corriente(int corriente_alto,int corriente_bajo)
   ¿Porque se usa un or?
 	Bueno principalmente para que nuestros datos de corrimiento no se vean afectados ademas que la operacion 
 	booleana de or es una suma de numero.
-	
+	*/  
   valor=valor | corriente_bajo;
   //valor=valor & BAJO;
   if(valor <=9)
   {
-    printf("0.00%d A\n",valor);
+    //printf("0.00%d A\n",valor);
+    syslog(LOG_INFO,"0.00%d A\n",valor);
   }
   else if(valor <=99)
   {
-    printf("0.0%d A\n",valor);
+    syslog(LOG_INFO,"0.0%d A\n",valor);
+    //printf("0.0%d A\n",valor);
   }
-  
+  /*
   Se hace en el envio de el PIC16F876A es enviar todo el valor pero lo que se hace es mandar
   el dato en hexadecima para despues solo convertirlo en decimal y ese valor sea nuestra corriente
   como en el caso del voltaje.| estado_fase             |
@@ -267,6 +269,7 @@ void hexadecimal_a_corriente_descarga(int corriente_alto,int corriente_bajo)
   
   corriente_mysql_descarga=(double)corriente_alto;
   corriente_mysql_descarga+=(double) corriente_bajo/1000;
+  corriente_mysql_descarga_temporal=corriente_mysql;
    //printf("\nCorriente médida  :  %lf\n",corriente_mysql);
    syslog(LOG_INFO,"\nCorriente médida  :  %lf\n",corriente_mysql);
 
