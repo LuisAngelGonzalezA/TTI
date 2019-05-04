@@ -214,7 +214,7 @@ def vista_gfrafica(self):
 		boton_regresar = Tk.Button(self.dialogo, text='Regresar',command=self.dialogo.destroy,relief=Tk.SOLID,font="Times 12",bd=4,width=20, height=1,activebackground="red")
 		Boton_PANEL=Tk.Button(self.dialogo, text ="Gráfica de Panel", command =mostrar_grafica.panel, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 		Boton_Baterias=Tk.Button(self.dialogo, text ="Gráficar de Bateria", command = mostrar_grafica.bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
-		Boton_Baterias_descarga=Tk.Button(self.dialogo, text ="Gráficar de Bateria descarga", command = action_insert_ventana_bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
+		#Boton_Baterias_descarga=Tk.Button(self.dialogo, text ="Gráficar de Bateria descarga", command = action_insert_ventana_bateria, activebackground="yellow",relief=Tk.SOLID,bg="green",font="Times 12",bd=4)
 
 
 
@@ -486,7 +486,7 @@ def usar_panel_bateria_vista(self):
 		resultado=cursor.execute(consulta)
 		mysql.commit()
 		mysql.close
-		consulta="insert into historial_bateria_panel values(null,(select id_panel from panel_solar where nombre='{nombre_panel}'),(select id_bateria from bateria where nombre='{nombre_bateria}'),now(),1)".format(nombre_panel=self.panel_eliminado.get(),nombre_bateria=self.bateria_eliminado.get())
+		consulta="insert into historial_bateria_panel values(null,(select id_panel from panel_solar where nombre='{nombre_panel}' and isEliminado=1),(select id_bateria from bateria where nombre='{nombre_bateria}' and isEliminado=1),now(),1)".format(nombre_panel=self.panel_eliminado.get(),nombre_bateria=self.bateria_eliminado.get())
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()
