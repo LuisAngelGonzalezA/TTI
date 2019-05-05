@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+GenericName=TT
+Encoding=UTF-8
+Name=vincular
+Comment=vincular
+Exec=python3 /home/luis/TTI/TTI/vincular/vincular.py %f
+Icon=/home/luis/TTI/TTI/vincular/vincular.jpg
+Terminal=false
+Categories=Development;
+StartupNotify=true
