@@ -1,4 +1,4 @@
-PROYECTO=movimiento_servo_de_servo
+PROYECTO=servo_prueba
 DESTDIR=/usr/local/bin
 CFLAGS=-Wall
 Hilo=`mysql_config --cflags` `mysql_config --libs`
