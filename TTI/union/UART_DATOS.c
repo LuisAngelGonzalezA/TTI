@@ -64,7 +64,7 @@ int main()
 				recibir_valores_de_modulos(peticion);
 				
 				
-				peticion+=2;
+				peticion++;
 			 }			
 			 
 	}
