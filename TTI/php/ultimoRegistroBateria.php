@@ -2,11 +2,12 @@
 
 include("conexion.php");
 
-	$sql = "SELECT * FROM bateria  where isEliminado=0";
+	$sql = "SELECT * FROM sensadoB  ORDER BY id_sensado_b DESC 
+	LIMIT 1";
 	$json = array();
 	$resultado = mysqli_query($conn,$sql);
 
-	$operacion["operacion"] = '4';
+	$operacion["operacion"] = '6';
 	$json['datos'][] = $operacion;
 	if($sql){
 		

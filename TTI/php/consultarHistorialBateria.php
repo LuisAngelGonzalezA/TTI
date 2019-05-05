@@ -2,7 +2,7 @@
 
 include("conexion.php");
 
-	$sql = "SELECT * FROM bateria  where isEliminado=0";
+	$sql = "SELECT * FROM bateria";
 	$json = array();
 	$resultado = mysqli_query($conn,$sql);
 

@@ -1,8 +1,8 @@
 
 <?php
 $servername = "localhost";
-$username = "root2";
-$password = "1234";
+$username = "root";
+$password = "root";
 $dbname = "tornasol";
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
