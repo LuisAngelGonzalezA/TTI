@@ -16,7 +16,7 @@ from tkinter import messagebox
 
 def eliminar_panel(self):
 	
-		consulta="update panel_solar set isEliminado=0 where nombre ='{nombre}'".format(nombre=self.panel_eliminado.get())
+		consulta="update panel_solar set isEliminado=1 where nombre ='{nombre}'".format(nombre=self.panel_eliminado.get())
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()
@@ -32,7 +32,7 @@ def eliminar_panel(self):
 		
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar where isEliminado=1")
+		cursor.execute("select nombre from panel_solar where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -73,7 +73,7 @@ def eliminar_panel(self):
 		"""
 
 def eliminar_bateria(self):
-		consulta="update bateria set isEliminado=0 where nombre ='{nombre}'".format(nombre=self.bateria_eliminado.get())
+		consulta="update bateria set isEliminado=1 where nombre ='{nombre}'".format(nombre=self.bateria_eliminado.get())
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()
@@ -88,7 +88,7 @@ def eliminar_bateria(self):
 	
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria where isEliminado=1")
+		cursor.execute("select nombre from bateria where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()

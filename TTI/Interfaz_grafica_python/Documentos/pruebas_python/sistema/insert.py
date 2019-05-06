@@ -95,14 +95,14 @@ def nombre_tener(self):
 		messagebox.showinfo("Error","Nombre excede tamaño")
 	elif bandera1==0 and bandera2==0:
 		
-		consulta="select * from panel_solar where nombre ='{nombre}' and isEliminado=1".format(nombre=var)
+		consulta="select * from panel_solar where nombre ='{nombre}' and isEliminado=0".format(nombre=var)
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()
 		resultado=cursor.execute(consulta)
 		if resultado == 0:
 		
-			consulta="insert into panel_solar values(null,1,'{nombre}',{voltaje},{corriente},1)".format(nombre=var,voltaje=var1,corriente=var2)
+			consulta="insert into panel_solar values(null,1,'{nombre}',{voltaje},{corriente},0)".format(nombre=var,voltaje=var1,corriente=var2)
 			print(consulta)
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
@@ -274,13 +274,13 @@ def nombre_tener_bateria(self):
 		messagebox.showinfo("Error","Nombre excede el tamaño")
 	elif bandera1==0 and bandera2==0 and bandera3==0 and bandera4==0 and bandera5==0 and bandera6==0:
 		
-		consulta="select * from bateria where nombre ='{nombre}' and isEliminado=1".format(nombre=var)
+		consulta="select * from bateria where nombre ='{nombre}' and isEliminado=0".format(nombre=var)
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()
 		resultado=cursor.execute(consulta)
 		if resultado == 0:
-			consulta="insert into bateria values(null,1,'{nombre}',{voltaje},{vol_min},{corriente},{nu_celdas},{temperatura},{has_mem},1)".format(nombre=var,voltaje=var1,vol_min=var2,corriente=var3,nu_celdas=var4,temperatura=var5,has_mem=var6)
+			consulta="insert into bateria values(null,1,'{nombre}',{voltaje},{vol_min},{corriente},{nu_celdas},{temperatura},{has_mem},0)".format(nombre=var,voltaje=var1,vol_min=var2,corriente=var3,nu_celdas=var4,temperatura=var5,has_mem=var6)
 			print(consulta)
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()

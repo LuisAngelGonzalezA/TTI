@@ -1,7 +1,7 @@
 PROYECTO=servo_prueba
 DESTDIR=/usr/local/bin
-CFLAGS=-Wall
-Hilo=`mysql_config --cflags` `mysql_config --libs`
+CFLAGS=
+Hilo=`mysql_config --cflags` `mysql_config --libs` -lwiringPi -lpthread
 CC=gcc
 FILES := $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -32,7 +32,7 @@ install: all
 		sudo mkdir $(DESTDIR) ; \
 	fi; \
 	sudo cp $(PROYECTO) $(DESTDIR)
-	sudo $(PROYECTO)
+	#sudo $(PROYECTO)
 
 
 uninstall:

@@ -46,7 +46,7 @@ def vista_select_tabla(self):
 
 		tabla_baterias = table.Table(self.dialogo, title="Baterias registradas", headers=lista)
 		lista=tuple()
-		cursor.execute("select*from bateria where isEliminado=1")
+		cursor.execute("select*from bateria where isEliminado=0")
 		for row in cursor:
 			lista=list(row)
 			del lista[0]
@@ -72,7 +72,7 @@ def vista_select_tabla(self):
 
 		tabla_panel = table.Table(self.dialogo, title="Paneles Fotovoltaicos registradas", headers=lista)
 		lista=tuple()
-		cursor.execute("select*from panel_solar where isEliminado=1")
+		cursor.execute("select*from panel_solar where isEliminado=0")
 		for row in cursor:
 			lista=list(row)
 			del lista[0]
@@ -269,7 +269,7 @@ def vista_eliminar(self):
 		imagen_inicio = Tk.Label(self.dialogo, image=img)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar where isEliminado=1")
+		cursor.execute("select nombre from panel_solar where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -291,7 +291,7 @@ def vista_eliminar(self):
 		
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria where isEliminado=1")
+		cursor.execute("select nombre from bateria where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -369,7 +369,7 @@ def usar_panel_bateria(self):
 		imagen_inicio = Tk.Label(self.dialogo, image=img)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar where isEliminado=1")
+		cursor.execute("select nombre from panel_solar where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -405,7 +405,7 @@ def usar_panel_bateria(self):
 		
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria where isEliminado=1")
+		cursor.execute("select nombre from bateria where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -486,7 +486,7 @@ def usar_panel_bateria_vista(self):
 		resultado=cursor.execute(consulta)
 		mysql.commit()
 		mysql.close
-		consulta="insert into historial_bateria_panel values(null,(select id_panel from panel_solar where nombre='{nombre_panel}' and isEliminado=1),(select id_bateria from bateria where nombre='{nombre_bateria}' and isEliminado=1),now(),1)".format(nombre_panel=self.panel_eliminado.get(),nombre_bateria=self.bateria_eliminado.get())
+		consulta="insert into historial_bateria_panel values(null,(select id_panel from panel_solar where nombre='{nombre_panel}' and isEliminado=0),(select id_bateria from bateria where nombre='{nombre_bateria}' and isEliminado=0),now(),1)".format(nombre_panel=self.panel_eliminado.get(),nombre_bateria=self.bateria_eliminado.get())
 		print(consulta)
 		mysql=mysql_conection.mysql_conexion_tornasol()
 		cursor = mysql.cursor()

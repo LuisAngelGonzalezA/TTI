@@ -27,7 +27,9 @@
 #include <mysql/mysql.h>
 #include <wiringPi.h>
 #include <pthread.h>
-
+#include <syslog.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /*---------Funciones de lógica de servo-----------*/
 short existe(char *fname);
@@ -43,7 +45,7 @@ void * movimiento_x(void *arg);
 void * movimiento_y(void *arg);
 
 
-void demonio()
+void demonio();
 
 double voltaje_mayor_y,voltaje_mayor_x;
 int grados_dados=10;
