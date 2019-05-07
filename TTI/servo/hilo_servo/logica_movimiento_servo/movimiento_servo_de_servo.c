@@ -52,7 +52,7 @@ int grados_dados=10;
 int grado_x,grados_y;
 int divisor = 390;
 int range = 1024;
-int tiempo_espera=4;
+int tiempo_espera=1;
 
 
 int main()
@@ -87,11 +87,12 @@ int main()
 			syslog(LOG_INFO,"	File Open\n");
 			int i=0;
 			char lectura[100]={};
-			
+			syslog(LOG_INFO,"	File Open2\n");
 		
 			while(!feof(fichero)){//Esperamos el fin del fichero
 				//Leemos el fichero y lo printamos
 				//printf("-->%s", fgets(lectura, 99, fichero));
+				syslog(LOG_INFO,("-->%s", fgets(lectura, 99, fichero)));
 				if(i==0)
 				{
 					//sscanf(lectura,"%f",&voltaje_ingresado);
@@ -105,7 +106,8 @@ int main()
 	
 	
 					i++;
-				}	
+				}
+				syslog(LOG_INFO,"	File Open3\n");	
 			}
 			if(i<2)
 			{
@@ -124,6 +126,7 @@ int main()
 	
 	//printf("\nValores obtenidos del archvio son %d\n",posicion_servo_x);
 	//printf("\nValores obtenidos del archvio son %d\n",posicion_servo_y);
+	syslog(LOG_INFO,"\nvalores grados   %d:%d",grado_x,grados_y);
 	grado_x=posicion_servo_x;
 	grados_y=posicion_servo_y;
 	sleep(1);
@@ -172,7 +175,7 @@ double mysql_voltaje()
 		exit(1);
 	}
 
-	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 10 SECOND) and (now()) order by hora desc limit 1"))
+	if(mysql_query(con,"select *,now()from sensadoP where hora between (now() -INTERVAL 40 SECOND) and (now()) order by hora desc limit 1"))
 	{
 		//fprintf(stderr, "%s\n", mysql_error(con));
 		exit(1);
@@ -664,7 +667,7 @@ void * movimiento_x(void *arg)
   {
     int posicion=posicion_panel(grado_x);
     pwmWrite(13,posicion);
-    usleep(50);
+    usleep(1000000);
   }
 }
 void * movimiento_y(void *arg)
@@ -674,7 +677,7 @@ void * movimiento_y(void *arg)
     int posicion=posicion_panel(grados_y);
     //syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
     pwmWrite(19,posicion);
-    usleep(50);
+    usleep(1000000);
   }
 }
  
@@ -739,7 +742,7 @@ FILE *apArch;
     if( pid )
     {
 		printf("PID del segundo proceso hijo %d \n", pid);
-		apArch = fopen("/home/pi/UARTDATOS.pid", "w");
+		apArch = fopen("/home/pi/servo_prueba.pid", "w");
 		fprintf(apArch, "%d", pid);
 		fclose(apArch);
 
@@ -767,7 +770,7 @@ FILE *apArch;
     close( STDOUT_FILENO );
     close( STDERR_FILENO );
 // Se abre un archivo log en modo de escritura.
-    openlog( "UARTDATOS", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
+    openlog( "servo_prueba", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
 
     
     closelog( );
