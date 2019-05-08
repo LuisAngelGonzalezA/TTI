@@ -1,19 +1,286 @@
 \chapter{Glosario}
 
-\textbf{Circuito integrado : } Un circuito integrado es una pequeña es una estructura de pequeñas dimensiones que pueden contener miles de transistores, resistencias y capacitores. Estos pequeños componentes electrónicos pueden realizar cálculos y almacenar datos.
+
+
+\textbf{ Ampere : }
+Unidad de medición de la corriente eléctrica (A).
+
+\\
+
+\textbf{Amperímetro: }
+Instrumento de medición utilizado para medir la corriente que atraviesa un dispositivo. Este instrumento se coloca en serie con el dispositivo. 
+
+\\
+
+\textbf{Ánodo : }
+Es la terminal positiva.
+\\
+
+\textbf{Atenuación : }
+El valor por el cual la potencia de una señal disminuye en un filtro o una red de 2 puertos. Usualmente se expresa en decibeles (dB).
+
+\\
+
+
+
+\textbf{Batería : }
+Es un dispositivo que consiste en una o más celdas electroquímicas que pueden convertir la energía química almacenada en corriente eléctrica.
+
+\\
+
+
+\textbf{BIOS : }
+B Input Output System. Sistema básico de entrada y salida.
+\\
+
+\textbf{Bipolar : }
+Transistor que utiliza tanto portadores de carga positiva como negativa, en la transmisión de la corriente. 
+\\
+
+
+\textbf{Byte : }
+Unidad de información compuesta de 8 bits (“1” o “0”). Esta unidad de información es suficiente para representar un número o una letra entre otros.
+\\
+
+
+
+\textbf{Capacidad : }
+Es la propiedad de almacenar cargas eléctricas al estar sometidos a una tensión.
+\\
+
+
+\textbf{Carga negativa :}
+Es el exceso de electrones en un cuerpo o en el caso de la electrónica en los átomos.
+\\
+
+
+
+\textbf{Carga positiva : }
+Se define como carga positiva a la falta de electrones en un cuerpo o para el caso de la electrónica un átomo.}
+\\
+
+
+\textbf{Cátodo : }
+Polo positivo.
+
+\\
+
+
+\textbf{Circuito integrado : } 
+Un circuito integrado es una pequeña estructura de pequeñas dimensiones que pueden contener miles de transistores, resistencias y capacitores. Estos pequeños componentes electrónicos pueden realizar cálculos y almacenar datos.
+\\
+
+
+\textbf{Circuito paralelo : }
+Circuito que permite más de un paso posible para la corriente, cada paso o camino con diferentes elementos.
+\\
+
+\textbf{Circuito Serie : }
+Circuito que sólo permite un solo paso posible para la corriente, el paso o camino con uno o más elementos.
 \\
 
 \textbf{Corriente : } Desplazamiento de electrones portadores de carga eléctrica a lo largo de un conductor entre cuyos extremos se aplica una diferencia de potencial. 
 \\
 
+
+
+\textbf{Corriente alterna : }
+Es aquella cuya intensidad varía periódicamente y cambia de dirección, pasando alternativamente por valores positivos y negativos.
+\\
+
+
+\textbf{Corriente directa : }
+Esta corriente es la que siempre fluye en el mismo sentido y posee una intensidad generalmente variable de ahí el hecho de que se pueda variar el voltaje directo sin generar una onda sinusoidal.
+\\
+
+\textbf{Corte : }Estado en que la tensión base – emisor en un transistor, no es suficiente para polarizar el transistor en su union base-emisor. Como consecuencia no hay corriente en el emisor del transistor. Se dice que el transistor no conduce o está abierto.
+\\
+
+
+\textbf{Diodos : }
+Los diodos son válvulas de dos elementos o electrodos;que constan de un cátodo(K) negativo(-) y un ánodo(A) o placa positiva; Su funcionamiento consiste en lo siguiente: El catodo al ser calentado por la corriente de la fuente de voltaje, la cual libera electrones que son atraidos por la placa positiva. Su principal aplicacion radica en la rectificación.
+\\
+
+
+\textbf{Diodos led: }
+Consisten en la emisión de una radiación luminosa por un elemento en estado sólido cuando se le somete a una determinada polarización, no siendo por elevación de temperatura de filamento.
+\\
+
+
+\textbf{Efecto fotoeléctrico: }
+Es aquel fenomeno que se presenta cuando las radiaciones luminosas leegan a un material sencible a la luz y producen un efecto con el cual se produce eléctricidad, este efecto se puede obtener con materiales tales como las fotoceldas.
+\\
+
+\textbf{Electrónica : }
+Campo de la tecnología que trata sobre aparatos electrónicos.
+\\
+
+\textbf{Ganancia: }
+Se denomina ganancia al coeficiente de amplificación de corriente.
+\\
+
 \textbf{Gas de efecto invernadero : } Es un fenómeno por el cual ciertos gases retienen parte de la energía emitida por el suelo tras haber sido calentado por la irradiación solar. 
 \\
 
-\textbf{Hidrocarburos : } Son todos aquellos compuestos que resultan de la combinación de los elementos químicos carbono e hidrógeno.
+\textbf{Hardware : }
+Es todo aquello que se puede tocar, es tangible, y se puede entender como la máquina que realizan el trabajo controlado por un software (programa).
+\\
+
+\textbf{Hidrocarburos : } 
+Son todos aquellos compuestos que resultan de la combinación de los elementos químicos carbono e hidrógeno.
+\\
+
+\textbf{Impedancia : }
+
+Es la oposición al paso de la corriente eléctrica en elementos capacitivos o inductivos.
+\\
+
+
+\textbf{Intensidad : }
+Es la cantidad de corriente que fluye a través de los cables y está medida en amperios.
+
+\\
+
+
+\textbf{Inversor : }
+Dispositivo que convierte tensión c.d. a tensión c.a.
 \\
 
 \textbf{Irradiación solar : }  Es la magnitud que mide la energía por unidad de área de radiación solar incidente en una superficie colocada en un lugar y rango de tiempo bien especificados.
 \\
 
-\textbf{Voltaje : } Es la cantidad de voltios que actúan en un aparato o sistemas eléctrico.
+
+
+\textbf{LED : }
+Light Emitting Diode. Diodo emisor de Luz.
 \\
+
+\textbf{Ley de Ohm : }
+Ley que afirma que en un conductor, el cociente entre la tensión (voltaje) y la intensidad (corriente) es una constante conocida con la resistencia.
+\\
+
+\textbf{Lumen : }
+Unidad de medida del flujo luminoso.
+\\
+
+\textbf{Luz : }
+Es una combinación de tonos (colores) que dan diferentes frecuencias. La luz es entonces una combinación de colores.
+\\
+
+
+\textbf{Multímetro : }
+Instrumento de múltiples propósitos, que se puede usar para medir resistencias, voltajes, corrientes, etc.
+\\
+
+
+\textbf{Ohm (Ohmio) : }
+Unidad de medición de la resistencia eléctrica, representada por la letra griega Ω.
+\\
+
+\textbf{Panel fotovoltaico : }
+Es un dispositivo electrónico que permite transformar la energía lumínica (fotones) en energía eléctrica (flujo de electrones libres) mediante el efecto fotoeléctrico, generando energía solar fotovoltaica.
+\\
+
+
+\textbf{Pilas primarias :}
+Son el tipo de baterías que son no recargables.
+
+\\
+
+\textbf{Pila seca : }
+Son lamadas así por el aspecto casi seco de su electrólito. Se usan en equipos que se requieran poca corriente y puedan trasnladarse de un sitio a otro para su operación, como en linternas, calculadoras y otros apartas utilizados en la vida cotidiana. 
+\\
+
+\textbf{Pilas secundarias : }
+Son todas aquellas que se pueden recargar.
+\\
+
+
+\textbf{Polarización :}
+Son tensiones adecuadas a los componentes para obtener óptimos funcionamientos.
+
+\\
+
+\textbf{Potencia : }
+La velocidad con la que se consume o suministra energía de un sistema. Potencia = Voltaje x Corriente. La unidad de medición de la potencia es el Watt o Vatio (W).
+\\
+
+
+\textbf{Puente de Wheatstone : }
+Circuito muy sensitivo que sirve para medir resistencias.
+\\
+
+\textbf{Rectificación : }
+Se denomina rectificación en le eléctronica al efecto de obtener tensión continua a partir de otra alterna.
+\\
+
+\textbf{Regulación de tensión : }
+Es la capacidad de mantener una tensión dada, aún con cambios en la carga.
+\\
+
+\textbf{Regulador conmutado : }
+Regulador que usa técnicas de formado de ondas para proveer regulación en CC, incrementando la eficiencia de la fuente de alimentación.
+\\
+
+
+\textbf{Regulador de tensión : }
+Circuito diseñado para mantener una tensión constante, independientemente del valor de la carga.
+\\
+
+
+
+
+
+
+
+\textbf{Resistencia : }
+Es la oposición al fluido de electrones, se mide en ohmios.
+\\
+
+
+\textbf{Semiconductor : }
+Son cuerpos que permiten el paso de corriente con mucha dificultad y en determinadas condiciones.
+\\
+
+\textbf{Señal eléctrica : }
+Se explica como una magnitud de origen electrico que puede ser de dos tipos análogo y digital.
+\\
+
+\textbf{Serial : }
+Manejo de datos en forma secuencial y no simultánea.
+\\
+
+\textbf{Tensión : }
+Es la fuerza producida por la fuente de alimentación que hace mover los electrones.
+\\
+
+\textbf{Termistor : }Dispositivo sensible a la temperatura, que tiene una resistencia con coeficiente de temperatura negativa. Si la temperatura se incrementa su valor de resistencia disminuye.
+\\
+
+\textbf{Tolerancia : }
+Es la diferencia de valor entre el máximo y el mínimo que permite el fabricante, dado en tanto por ciento.
+\\
+
+\textbf{ Unidad de carga eléctrica : }
+A la unidad de la carga eléctrica se le da el nombre de Coulomb en honor al físico Francés Charles Augustín Coulomb(1736-1806), y se representa con la letra C. Como definición un Coulomb es la cantidad de electricidad que pasa en un segundo cuando la intensidad de corriente es de un Ampere, su equivalente numérico es de 6.25 millones de millones de eléctrones en aproximación.
+
+
+\textbf{Voltaje : } 
+Es la cantidad de voltios que actúan en un aparato o sistemas eléctrico.
+\\
+
+
+\textbf{Voltímetro : }Instrumento de medición que mide la tensión (voltaje) en un componente. El instrumento se coloca en paralelo con el elemento al que hay que medir la tensión.
+\\
+
+
+\textbf{Watt : }
+Medida de potencia. 
+\\
+
+
+
+
+
+
+
