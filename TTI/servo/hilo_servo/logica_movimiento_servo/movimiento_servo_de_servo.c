@@ -631,10 +631,23 @@ void recalcular()
 	while(1)
 	{
 
-		recalcular_y();
+		//recalcular_y();
+		//sleep(tiempo_espera);
+		//recalcular_x();
 		sleep(tiempo_espera);
-		recalcular_x();
+		grado_x=0;
+		grados_y=0;
 		guardar_datos(grado_x,grados_y);
+		sleep(tiempo_espera);
+		grado_x=90;
+		grados_y=90;
+		guardar_datos(grado_x,grados_y);
+		sleep(tiempo_espera);
+		grado_x=180;
+		grados_y=180;
+		guardar_datos(grado_x,grados_y);
+
+
 	}
 	
 	
