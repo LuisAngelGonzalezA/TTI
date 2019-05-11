@@ -129,6 +129,7 @@ int main()
 	syslog(LOG_INFO,"\nvalores grados   %d:%d",grado_x,grados_y);
 	grado_x=posicion_servo_x;
 	grados_y=posicion_servo_y;
+	fclose(fichero);
 	sleep(1);
 	recalcular();
 	}
@@ -667,7 +668,8 @@ void * movimiento_x(void *arg)
   {
     int posicion=posicion_panel(grado_x);
     pwmWrite(13,posicion);
-    usleep(1000000);
+    //usleep(1000000);
+    sleep(1);
   }
 }
 void * movimiento_y(void *arg)
@@ -678,6 +680,7 @@ void * movimiento_y(void *arg)
     //syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
     pwmWrite(19,posicion);
     usleep(1000000);
+    sleep(1);
   }
 }
  
