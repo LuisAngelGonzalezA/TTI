@@ -48,11 +48,11 @@ void * movimiento_y(void *arg);
 void demonio();
 
 double voltaje_mayor_y,voltaje_mayor_x;
-int grados_dados=15;
+int grados_dados=20;
 int grado_x,grados_y;
 int divisor = 390;
 int range = 1024;
-int tiempo_espera=5;
+int tiempo_espera=1;
 
 
 int main()
@@ -61,7 +61,7 @@ int main()
 	
 	wiringPiSetupGpio();
 
-	//pinMode(18,PWM_OUTPUT);
+	pinMode(18,PWM_OUTPUT);
 	pinMode(19,PWM_OUTPUT);
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(divisor);
@@ -623,7 +623,7 @@ void recalcular_x()
 
 	sleep(tiempo_espera);
 	//printf("\n\n ----------------Los valores que se obtuvieron son x : %d    y : %d\n\n",grado_x,grado_x);
-	syslog(LOG_INFO,"\n\n ----------------Los valores que se obtuvieron son x :  %d\n\n",,grado_x);
+	syslog(LOG_INFO,"\n\n ----------------Los valores que se obtuvieron son x :  %d\n\n",grado_x);
 	
 	
 }
@@ -640,13 +640,14 @@ void  recalcular()
 
 		recalcular_y();
 		//sleep(tiempo_espera);
-		usleep(3000000);
+		//usleep(1000000);
 		recalcular_x();
 		//grado_x=90;
 		//sleep(tiempo_espera);
-		usleep(3000000);
+		//usleep(1000000);
 		guardar_datos(grado_x,grados_y);
-		sleep(tiempo_espera);
+		usleep(1000000);
+		//sleep(tiempo_espera);
 		
 	}
 	
@@ -680,10 +681,10 @@ void * movimiento_x(void *arg)
   while(1)
   {
     int posicion=posicion_panel(grado_x);
-    sleep(2);
+    //sleep(2);
     pwmWrite(18,posicion);
-    usleep(2000000);
-    sleep(2);
+    //usleep(2000000);
+    sleep(1);
   }
 }
 void * movimiento_y(void *arg)
@@ -692,10 +693,10 @@ void * movimiento_y(void *arg)
   {
     int posicion=posicion_panel(grados_y);
     //syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
-    sleep(2);
+    //sleep(2);
     pwmWrite(19,posicion);
-    usleep(2000000);
-    sleep(5);
+    //usleep(2000000);
+    sleep(1);
   }
 }
  
