@@ -34,7 +34,7 @@
 /*---------Funciones de lógica de servo-----------*/
 short existe(char *fname);
 double mysql_voltaje();
-void * recalcular(void *arg);
+void recalcular();
 void guardar_datos(int x,int y);
 void recalcular_y();
 void recalcular_x();
@@ -61,18 +61,18 @@ int main()
 	
 	wiringPiSetupGpio();
 
-	//pinMode(18,PWM_OUTPUT);
-	pinMode(19,PWM_OUTPUT);
+	pinMode(18,PWM_OUTPUT);
+	//pinMode(19,PWM_OUTPUT);
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(divisor);
 	pwmSetRange(range);
 	pthread_t tids[2];
 
-	pthread_create(&tids[0],NULL,recalcular,NULL);
-	//pthread_create(&tids[0],NULL,movimiento_x,NULL);
+	//pthread_create(&tids[0],NULL,recalcular,NULL);
+	pthread_create(&tids[0],NULL,movimiento_x,NULL);
 	//pthread_create(&tids[1],NULL,movimiento_y,NULL);
 
-	char *archivo="/home/pi/TTI/TTI/servo/hilo_servo/logica_movimiento_servo/archivo.txt";
+	char *archivo="/home/pi/TTI/TTI/servo/hilo_servo/logica_movimiento_servo/movimiento_en_x/archivo.txt";
 	int archivo_exixte=existe(archivo);
 
 	
@@ -132,17 +132,16 @@ int main()
 	grados_y=posicion_servo_y;
 	fclose(fichero);
 	sleep(1);
-	while(1)
-	{
-	//recalcular();
-	usleep(4000000);
+	
+	recalcular();
+	//usleep(4000000);
 	//pwmWrite(18,posicion_panel(grado_x));
-    usleep(2000000);
+    //usleep(2000000);
     //sleep(1);
-    pwmWrite(19,posicion_panel(grados_y));
-    usleep(2000000);
+    //pwmWrite(19,posicion_panel(grados_y));
+    //usleep(2000000);
     //sleep(1);
-	}
+	
 	}
 	return 1;
 	
@@ -637,23 +636,21 @@ void recalcular_x()
 	syslog(LOG_INFO,"\n\n ----------------Los valores que se obtuvieron son x : %d    y : %d\n\n",grado_x,grados_y);
 	
 }
-void * recalcular(void *arg)
+void recalcular()
 {
+	
 	while(1)
 	{
-
 		recalcular_y();
-		//sleep(tiempo_espera);
+		sleep(tiempo_espera);
 		usleep(3000000);
 		//recalcular_x();
-		grado_x=90;
+		//grado_x=90;
 		//sleep(tiempo_espera);
 		usleep(3000000);
 		guardar_datos(grado_x,grados_y);
 		sleep(tiempo_espera);
-		
-	}
-	
+	}	
 	
 	
 }
@@ -663,7 +660,7 @@ void guardar_datos(int x,int y)
 	//printf("\nGuardando\n");
 	FILE *fichero;
 	char lectura[100];
-	fichero=fopen("/home/pi/TTI/TTI/servo/hilo_servo/logica_movimiento_servo/archivo.txt","wt"); //Abrimos el fichero para solo lectura
+	fichero=fopen("/home/pi/TTI/TTI/servo/hilo_servo/logica_movimiento_servo/movimiento_en_x/archivo.txt","wt"); //Abrimos el fichero para solo lectura
 	sprintf(lectura,"%d\n%d",x,y);
 	fputs(lectura,fichero);
 	fclose(fichero);
@@ -683,7 +680,7 @@ void * movimiento_x(void *arg)
 {
   while(1)
   {
-    int posicion=posicion_panel(grado_x);
+    int posicion=posicion_panel(grados_y);
     sleep(2);
     pwmWrite(18,posicion);
     usleep(2000000);
@@ -764,7 +761,7 @@ FILE *apArch;
     if( pid )
     {
 		printf("PID del segundo proceso hijo %d \n", pid);
-		apArch = fopen("/home/pi/servo_prueba.pid", "w");
+		apArch = fopen("/home/pi/servo_pruebax.pid", "w");
 		fprintf(apArch, "%d", pid);
 		fclose(apArch);
 
@@ -792,7 +789,7 @@ FILE *apArch;
     close( STDOUT_FILENO );
     close( STDERR_FILENO );
 // Se abre un archivo log en modo de escritura.
-    openlog( "servo_prueba", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
+    openlog( "servo_pruebax", LOG_NDELAY | LOG_PID, LOG_LOCAL0 );
 
     
     closelog( );

@@ -43,7 +43,7 @@ int main( )
 			{
 				if(estado==0)
 				{
-					guardar_datos(0,90);
+					guardar_datos(170,90);
 					estado=1;	
 				}
 				else

@@ -1,4 +1,4 @@
-PROYECTO=servo_prueba
+PROYECTO=servo_pruebax
 DESTDIR=/usr/local/bin
 CFLAGS=
 Hilo=`mysql_config --cflags` `mysql_config --libs` -lwiringPi -lpthread
