@@ -435,21 +435,23 @@ void recalcular_x()
 		posicion_temporal_x_positiva=posicion_temporal_x_positiva+grados_dados;
 		if(posicion_temporal_x_positiva>=180)
 		{
-			posicion_temporal_x_positiva=180;
 			bandera2=1;
+			posicion_temporal_x_positiva=180;
+			
 		}
 	}
 	else
 	{
-		posicion_temporal_x_positiva=180;
 		bandera1=1;
+		posicion_temporal_x_positiva=180;
+		
 	}
 	grado_x=posicion_temporal_x_positiva;
 	sleep(tiempo_espera);
 	while(1)
 	{
 		voltaje_temporal=mysql_voltaje();
-		sleep(1);
+		sleep(tiempo_espera);
 		//printf("\nValore de comparación   %f :: %f\n",voltaje_temporal,voltaje_referencia);
 		
 		if(voltaje_temporal>voltaje_referencia )
@@ -463,7 +465,7 @@ void recalcular_x()
 				posicion_temporal_x_positiva=180;
 				grado_x=posicion_temporal_x_positiva;
 				bandera3=1;
-				sleep(tiempo_espera);
+				
 			}
 			else
 			{
@@ -520,7 +522,7 @@ void recalcular_x()
 	}//while de positivo
 	bandera1=0;bandera2=0;bandera3=0;bandera4=0;
 	//printf("\nCensando parte negativa\n");
-	syslog(LOG_INFO,"\nCensando parte negativa\n");
+	//syslog(LOG_INFO,"\nCensando parte negativa\n");
 	grado_x=posicion_temporal_x_negativa;
 	sleep(tiempo_espera);
 	voltaje_referencia=mysql_voltaje();
@@ -537,11 +539,12 @@ void recalcular_x()
 	}
 	else
 	{
-		bandera1=1;
+
 		posicion_temporal_x_negativa=0;
+		bandera1=1;
 	}
 	grado_x=posicion_temporal_x_negativa;
-	sleep(tiempo_espera);
+	sleep(1);
 	while(1)
 	{
 		voltaje_temporal=mysql_voltaje();
