@@ -48,7 +48,7 @@ void * movimiento_y(void *arg);
 void demonio();
 
 double voltaje_mayor_y,voltaje_mayor_x;
-int grados_dados=15;
+int grados_dados=10;
 int grado_x,grados_y;
 int divisor = 390;
 int range = 1024;
@@ -646,11 +646,11 @@ void recalcular()
 	{
 		recalcular_y();
 		sleep(tiempo_espera);
-		usleep(3000000);
+		//usleep(3000000);
 		//recalcular_x();
 		//grado_x=90;
 		//sleep(tiempo_espera);
-		usleep(3000000);
+		usleep(1000000);
 		guardar_datos(grado_x,grados_y);
 		sleep(tiempo_espera);
 	}	
