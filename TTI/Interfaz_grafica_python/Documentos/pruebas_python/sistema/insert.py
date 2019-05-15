@@ -162,8 +162,8 @@ def insert_bateria(self):
 		num_celda=Tk.Entry(self.ventana_insert_panel, textvariable=self.numero_de_celdas,justify=Tk.CENTER)
 		tem=Tk.Label(self.ventana_insert_panel, text="Temperatura Máxima (°C):",font="Arial 14",justify=Tk.CENTER) 
 		tem_max=Tk.Entry(self.ventana_insert_panel, textvariable=self.temperatura,justify=Tk.CENTER)
-		has_mem=Tk.Label(self.ventana_insert_panel, text="Memoria de bateria:",font="Arial 14",justify=Tk.CENTER) 
-		has_memo= Spinbox(self.ventana_insert_panel, from_=0, to=1, wrap=True,textvariable=self.has_memoria, state='readonly',justify=Tk.CENTER)
+		#has_mem=Tk.Label(self.ventana_insert_panel, text="Memoria de bateria:",font="Arial 14",justify=Tk.CENTER) 
+		#has_memo= Spinbox(self.ventana_insert_panel, from_=0, to=1, wrap=True,textvariable=self.has_memoria, state='readonly',justify=Tk.CENTER)
 
 		boton_regresar = Tk.Button(self.ventana_insert_panel, text='Regresar',command=self.ventana_insert_panel.destroy,relief=Tk.SOLID,font="Arial 12",bd=4,width=20, height=1,activebackground="red")
 		boton_Aceptar = Tk.Button(self.ventana_insert_panel, text='Aceptar',command=action_with_arg,relief=Tk.SOLID,font="Arial 12",bd=4,width=20, height=1,activebackground="green")
@@ -184,8 +184,8 @@ def insert_bateria(self):
 		num_celda.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		tem.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		tem_max.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
-		has_mem.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
-		has_memo.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		#has_mem.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		#has_memo.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 
 
 		boton_Aceptar.pack(side=LEFT,padx=10, pady=5)
@@ -261,7 +261,7 @@ def nombre_tener_bateria(self):
 		bandera5=1
 
 	try:
-		var6=int(self.has_memoria.get())
+		var6=0
 		bandera6=0
 	except Exception as e:
 		bandera6=1

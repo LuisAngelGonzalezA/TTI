@@ -60,7 +60,7 @@ int grados_dados=10;
 int grado_x=90,grados_y=90;
 int divisor = 390;
 int range = 1024;
-int tiempo_espera=2;
+int tiempo_espera=4;
 
 
 int main()
@@ -69,14 +69,18 @@ int main()
 	
 	wiringPiSetupGpio();
 
-	pinMode(13,PWM_OUTPUT);
+	pinMode(18,PWM_OUTPUT);
 	pinMode(19,PWM_OUTPUT);
 	pinMode(12,PWM_OUTPUT);
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(divisor);
 	pwmSetRange(range);
 	pthread_t tids[3];
-	pwmWrite(18,78);
+	pwmWrite(18,100);
+    delay(1000);
+    pwmWrite(18,82);
+    delay(1000);
+    pwmWrite(18,80);
     delay(1000);
 	//pthread_create(&tids[0],NULL,recalcular,NULL);
 	//pthread_create(&tids[0],NULL,movimiento_x,NULL);
@@ -173,6 +177,8 @@ void * calcular_pwm(void *arg)
 
     while(1)
     {
+		pwmWrite(18,85);
+    		delay(2000);
 		punto_x=posicion_panelx(grado_x);
 		posicion=posicion_panel(grados_y);
 	
@@ -182,7 +188,7 @@ void * calcular_pwm(void *arg)
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-    voltaje_deseado=mysql_voltaje_bateria_pwm()-3.2;
+    voltaje_deseado=mysql_voltaje_bateria_pwm()+.65;
 
 
 
@@ -250,55 +256,78 @@ void * calcular_pwm(void *arg)
             {   
 			    duty=1024;
 			}
-			/*syslog(LOG_INFO,"Duty :-->%d\n",duty);
-            pwmWrite(12,duty);
-            delay(1000);
-            */
+			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             
-            syslog(LOG_INFO,"Duty :-->%d\n",duty);
+            pwmWrite(18,70);
+    		delay(2000);
+            
             pwmWrite(12,duty);
             delay(1000);
-			
-				
-			pwmWrite(13,punto_x);
+            
+            pwmWrite(18,65);
+    		delay(2000);
+    		
+    		pwmWrite(18,60);
+    		delay(2000);
+    		
+    		pwmWrite(18,55);
+    		delay(2000);
+    		
+    		pwmWrite(18,60);
+    		delay(2000);
+    		
+    		pwmWrite(18,65);
     		delay(2000);
 			
-			pwmWrite(19,posicion);
+			
+			pwmWrite(18,70);
+    		delay(2000);
+			
+				
+			pwmWrite(19,70);
 			delay(2000);
+				
+			pwmWrite(19,75);
+			delay(2000);
+			
+			pwmWrite(19,80);
+			delay(2000);
+			
+			pwmWrite(19,75);
+			delay(2000);
+			
+			
+			pwmWrite(19,70);
+			delay(2000);
+			
 			
 			
 	        syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,duty);
             delay(1000);             
 			
+			pwmWrite(18,80);
+    		delay(2000);
     
 			
 		
             }
         else
 	{
-			/*
 			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
             delay(1000);
             
-	        syslog(LOG_INFO,"No se puede entregar un voltaje superior al de la fuente\n");
+	        /*syslog(LOG_INFO,"No se puede entregar un voltaje superior al de la fuente\n");
 	        pwmWrite(18,punto_x);
     		delay(1000);
 			*/
-			syslog(LOG_INFO,"Duty :-->%d\n",duty);
+			pwmWrite(19,posicion);
+			delay(1000);
+			
+	        syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
             delay(1000);
-			
-			
-			pwmWrite(19,posicion);
-			delay(2000);
-			
-			pwmWrite(19,posicion);
-			delay(2000);
-			
-			
-	        
     		
          
     	}

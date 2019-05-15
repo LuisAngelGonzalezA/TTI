@@ -32,7 +32,7 @@ def update_ven(self):
 		ver = partial(ver_lista, self)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from panel_solar where isEliminado=1")
+		cursor.execute("select nombre from panel_solar where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -107,7 +107,7 @@ def ver_lista(self,*args):
 	print("--->",a)
 	db =mysql_conection.mysql_conexion_tornasol()
 	cursor = db.cursor()
-	consulta="select * from panel_solar where nombre= '{datos}' and isEliminado=1".format(datos=a)
+	consulta="select * from panel_solar where nombre= '{datos}' and isEliminado=0".format(datos=a)
 	print(consulta)
 	cursor.execute(consulta)
 	print("--->",type(cursor))
@@ -151,7 +151,7 @@ def update_datos_panel(self):
 	else :
 		status=validar(self.nombre_insergrado.get(),self.voltaje_ingresado.get(),self.corriente_ingresado.get())
 		if self.nombre_insergrado.get()!=self.respaldo.get() and status==True:
-			consulta="select * from panel_solar where nombre ='{nombre}' and isEliminado=1".format(nombre=self.nombre_insergrado.get())
+			consulta="select * from panel_solar where nombre ='{nombre}' and isEliminado=0".format(nombre=self.nombre_insergrado.get())
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
 			resultado=cursor.execute(consulta)
@@ -183,7 +183,7 @@ def update_datos_panel(self):
 				
 				db =mysql_conection.mysql_conexion_tornasol()
 				cursor = db.cursor()
-				cursor.execute("select nombre from panel_solar where isEliminado=1")
+				cursor.execute("select nombre from panel_solar where isEliminado=0")
 				print("--->",type(cursor))
 				print("\n\n")
 				lista=tuple()
@@ -293,7 +293,7 @@ def update_ven_bateria(self):
 		ver = partial(ver_lista_bateria, self)
 		db =mysql_conection.mysql_conexion_tornasol()
 		cursor = db.cursor()
-		cursor.execute("select nombre from bateria where isEliminado=1")
+		cursor.execute("select nombre from bateria where isEliminado=0")
 		print("--->",type(cursor))
 		print("\n\n")
 		lista=tuple()
@@ -331,8 +331,8 @@ def update_ven_bateria(self):
 		self.temperatura = Tk.Label(self.dialogo, text="Temperatura:",font="Arial 14",justify=Tk.CENTER) 
 		self.temperatura_entry = Tk.Entry(self.dialogo, textvariable=self.temperatura_ingresada,justify=Tk.CENTER,font="Arial 12")
 		
-		self.memoria=Tk.Label(self.dialogo, text="Memoria:",font="Arial 14",justify=Tk.CENTER) 
-		self.memoria_entry= Spinbox(self.dialogo, from_=0, to=1, wrap=True,textvariable=self.memoria_ingresada, state='readonly',justify=Tk.CENTER)
+		#self.memoria=Tk.Label(self.dialogo, text="Memoria:",font="Arial 14",justify=Tk.CENTER) 
+		#self.memoria_entry= Spinbox(self.dialogo, from_=0, to=1, wrap=True,textvariable=self.memoria_ingresada, state='readonly',justify=Tk.CENTER)
 		
 		
 		
@@ -360,8 +360,8 @@ def update_ven_bateria(self):
 		self.temperatura.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		self.temperatura_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 		
-		self.memoria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
-		self.memoria_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		#self.memoria.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
+		#self.memoria_entry.pack(side=TOP, fill=BOTH, expand=True,padx=10, pady=5)
 
 		boton_aceptar.pack(side=LEFT,padx=10, pady=5)
 		boton_regresar.pack(side=RIGHT,padx=10, pady=5)
@@ -397,7 +397,7 @@ def ver_lista_bateria(self,*args):
 	print("--->",a)
 	db =mysql_conection.mysql_conexion_tornasol()
 	cursor = db.cursor()
-	consulta="select * from bateria where nombre= '{datos}' and isEliminado=1".format(datos=a)
+	consulta="select * from bateria where nombre= '{datos}' and isEliminado=0".format(datos=a)
 	print(consulta)
 	cursor.execute(consulta)
 	print("--->",type(cursor))
@@ -427,7 +427,7 @@ def ver_lista_bateria(self,*args):
 	self.corriente_ingresado.set(lista[5])
 	self.num_celdas.set(lista[6])
 	self.temperatura_ingresada.set(lista[7])
-	self.memoria_ingresada.set(lista[8])
+	#self.memoria_ingresada.set(lista[8])
 	
 	self.nombre_insergrado_entry.configure(textvariable=self.nombre_insergrado)
 	self.voltaje_insergrado_entry.configure(textvariable=self.voltaje_ingresado)
@@ -435,7 +435,7 @@ def ver_lista_bateria(self,*args):
 	self.corriente_insergrado_entry.configure(textvariable=self.corriente_ingresado)
 	self.numero_de_celdas_entry.configure(textvariable=self.num_celdas)
 	self.temperatura_entry.configure(textvariable=self.temperatura_ingresada)
-	self.memoria_entry.configure(textvariable=self.memoria_ingresada)	
+	#self.memoria_entry.configure(textvariable=self.memoria_ingresada)	
 	
 
 def update_datos_bateria(self):
@@ -448,7 +448,7 @@ def update_datos_bateria(self):
 	else :
 		status=validar_bateria(self.nombre_insergrado.get(),self.voltaje_ingresado.get(),self.voltaje_minima.get(),self.corriente_ingresado.get(),self.num_celdas.get(),self.temperatura_ingresada.get(),self.memoria_ingresada.get())
 		if self.nombre_insergrado.get()!=self.respaldo.get() and status==True:
-			consulta="select * from bateria where nombre ='{nombre}' and isEliminado=1".format(nombre=self.nombre_insergrado.get())
+			consulta="select * from bateria where nombre ='{nombre}' and isEliminado=0".format(nombre=self.nombre_insergrado.get())
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
 			resultado=cursor.execute(consulta)
@@ -456,7 +456,7 @@ def update_datos_bateria(self):
 	
 		if resultado == 0 and status==True:
 
-			consulta="update bateria set nombre ='{nombre}',voltaje_max={voltaje},voltaje_min={vol_min},corriente={corriente},nu_celdas={celd},temperatura_max={tm},hasMemoria={hm} where nombre = '{rempazado}'".format(nombre=self.nombre_insergrado_entry.get(),voltaje=self.voltaje_ingresado.get(),vol_min=self.voltaje_insergrado_min_entry.get(),corriente=self.corriente_insergrado_entry.get(),celd=self.num_celdas.get(),tm=self.temperatura_ingresada.get(),hm=self.memoria_ingresada.get(),rempazado=self.respaldo.get())
+			consulta="update bateria set nombre ='{nombre}',voltaje_max={voltaje},voltaje_min={vol_min},corriente={corriente},nu_celdas={celd},temperatura_max={tm},hasMemoria={hm} where nombre = '{rempazado}'".format(nombre=self.nombre_insergrado_entry.get(),voltaje=self.voltaje_ingresado.get(),vol_min=self.voltaje_insergrado_min_entry.get(),corriente=self.corriente_insergrado_entry.get(),celd=self.num_celdas.get(),tm=self.temperatura_ingresada.get(),hm=0,rempazado=self.respaldo.get())
 			print(consulta)
 			mysql=mysql_conection.mysql_conexion_tornasol()
 			cursor = mysql.cursor()
@@ -483,7 +483,7 @@ def update_datos_bateria(self):
 				
 				db =mysql_conection.mysql_conexion_tornasol()
 				cursor = db.cursor()
-				cursor.execute("select nombre from bateria where isEliminado=1")
+				cursor.execute("select nombre from bateria where isEliminado=0")
 				print("--->",type(cursor))
 				print("\n\n")
 				lista=tuple()
@@ -525,7 +525,7 @@ def validar_bateria(nombre_insergrado,voltaje_ingresado,voltaje_minimo,corriente
 	var3=corriente_ingresado
 	var4=num_celdas
 	var5=temperatura_ingresada
-	var6=memoria_ingresada
+	var6=0
 	
 
 	bandera1=0

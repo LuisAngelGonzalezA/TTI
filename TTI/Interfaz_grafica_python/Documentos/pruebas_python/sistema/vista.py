@@ -41,6 +41,8 @@ def vista_select_tabla(self):
 		lista=list(lista)
 		del lista[0]
 		del lista[0]
+		del lista[6]
+		del lista[6]
 		lista=tuple(lista)
 		print(lista)
 
@@ -51,6 +53,8 @@ def vista_select_tabla(self):
 			lista=list(row)
 			del lista[0]
 			del lista[0]
+			del lista[6]
+			del lista[6]
 			lista=tuple(lista)
 			tabla_baterias.add_row(lista)
 
@@ -67,6 +71,7 @@ def vista_select_tabla(self):
 		lista=list(lista)
 		del lista[0]
 		del lista[0]
+		del lista[3]
 		lista=tuple(lista)
 		print(lista)
 
@@ -77,6 +82,7 @@ def vista_select_tabla(self):
 			lista=list(row)
 			del lista[0]
 			del lista[0]
+			del lista[3]
 			lista=tuple(lista)
 			tabla_panel.add_row(lista)
 	
