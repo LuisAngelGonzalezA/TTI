@@ -1,7 +1,7 @@
 PROYECTO=servo_prueba
 DESTDIR=/usr/local/bin
 CFLAGS=
-Hilo=`mysql_config --cflags` `mysql_config --libs` -lwiringPi -lpthread
+Hilo=`mysql_config --cflags` `mysql_config --libs` -lwiringPi -lpthread -Wall
 CC=gcc
 FILES := $(patsubst %.c, %.o, $(wildcard *.c))
 

@@ -40,6 +40,7 @@ void recalcular_y();
 void recalcular_x();
 
 /*---------Funciones de servo---------------------*/
+int posicion_panelx(int grado);
 int posicion_panel(int grado);
 void * movimiento_x(void *arg);
 void * movimiento_y(void *arg);
@@ -48,11 +49,11 @@ void * movimiento_y(void *arg);
 void demonio();
 
 double voltaje_mayor_y,voltaje_mayor_x;
-int grados_dados=15;
-int grado_x,grados_y;
+int grados_dados=5;
+int grado_x=90,grados_y=90;
 int divisor = 390;
 int range = 1024;
-int tiempo_espera=3;
+int tiempo_espera=1;
 
 
 int main()
@@ -127,9 +128,10 @@ int main()
 	
 	//printf("\nValores obtenidos del archvio son %d\n",posicion_servo_x);
 	//printf("\nValores obtenidos del archvio son %d\n",posicion_servo_y);
-	syslog(LOG_INFO,"\nvalores grados   %d:%d",grado_x,grados_y);
+	
 	grado_x=posicion_servo_x;
 	grados_y=posicion_servo_y;
+	syslog(LOG_INFO,"\nvalores grados   %d:%d",grado_x,grados_y);
 	fclose(fichero);
 	sleep(1);
 	recalcular();
@@ -669,10 +671,16 @@ void guardar_datos(int x,int y)
 }
 
 
+int posicion_panelx(int grado)
+{
+	int posicion=(int)(0.48888*grado)+30;
+	return posicion;
+	
+}
 
 int posicion_panel(int grado)
 {
-	int posicion=(.522*grado)+29;
+	int posicion=(int)(.522*grado)+29;
 	return posicion;
 }
 
@@ -680,11 +688,13 @@ void * movimiento_x(void *arg)
 {
   while(1)
   {
-    int posicion=posicion_panel(grado_x);
+    int punto_x=posicion_panelx(grado_x);
+    syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  \n",punto_x);
     //sleep(2);
-    pwmWrite(18,posicion);
+    pwmWrite(18,punto_x);
     //usleep(2000000);
-    sleep(1);
+    usleep(1000000);
+    //sleep(4);
   }
 }
 void * movimiento_y(void *arg)
@@ -695,8 +705,8 @@ void * movimiento_y(void *arg)
     //syslog(LOG_INFO,"\tRecalcular la ecuacion: \tgrados=%d  --  pwm %d\n",posicion,grados_y);
     //sleep(2);
     pwmWrite(19,posicion);
-    //usleep(2000000);
-    sleep(1);
+    usleep(2000000);
+    //sleep(4);
   }
 }
  
