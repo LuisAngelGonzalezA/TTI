@@ -72,6 +72,7 @@ int main()
 	pinMode(13,PWM_OUTPUT);
 	pinMode(19,PWM_OUTPUT);
 	pinMode(12,PWM_OUTPUT);
+	pinMode(26,OUTPUT);
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(divisor);
 	pwmSetRange(range);
@@ -182,7 +183,7 @@ void * calcular_pwm(void *arg)
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-    voltaje_deseado=mysql_voltaje_bateria_pwm()-3.2;
+    voltaje_deseado=4;//mysql_voltaje_bateria_pwm();
 
 
 
@@ -254,7 +255,7 @@ void * calcular_pwm(void *arg)
             pwmWrite(12,duty);
             delay(1000);
             */
-            
+            posicion=120;
             syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,duty);
             delay(1000);
@@ -266,10 +267,14 @@ void * calcular_pwm(void *arg)
 			pwmWrite(19,posicion);
 			delay(2000);
 			
-			
-	        syslog(LOG_INFO,"Duty :-->%d\n",duty);
-            pwmWrite(12,duty);
-            delay(1000);             
+			syslog(LOG_INFO,"\n-->servo---\n");
+		
+		digitalWrite( 26,0 );
+		usleep(2000000);
+		syslog(LOG_INFO,"\n-->servo2 ---\n");
+		digitalWrite( 26,1 );
+		usleep(2000000);
+			             
 			
     
 			
@@ -286,18 +291,26 @@ void * calcular_pwm(void *arg)
 	        pwmWrite(18,punto_x);
     		delay(1000);
 			*/
+			posicion=120;
 			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
             delay(1000);
 			
 			
-			pwmWrite(19,posicion);
+			pwmWrite(13,punto_x);
 			delay(2000);
 			
 			pwmWrite(19,posicion);
 			delay(2000);
 			
-			
+				syslog(LOG_INFO,"\n-->servo---\n");
+		
+		digitalWrite( 26,0 );
+		usleep(2000000);
+		syslog(LOG_INFO,"\n-->servo2 ---\n");
+		digitalWrite( 26,1 );
+		usleep(2000000);
+			             
 	        
     		
          
@@ -807,7 +820,8 @@ void  recalcular()
 	while(1)
 	{
 
-		recalcular_y();
+		//recalcular_y();
+		grados_y=90;
 		//sleep(tiempo_espera);
 		//grados_y=90;
 		delay(1000);
@@ -818,6 +832,9 @@ void  recalcular()
 		guardar_datos(grado_x,grados_y);
 		delay(1000);
 		//sleep(tiempo_espera);
+		grados_y+=90;
+		
+	
 		
 	}
 	

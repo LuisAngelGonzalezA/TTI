@@ -36,6 +36,8 @@ int main( )
 //Se configura el GPIO 17 como salida
 	pinMode( 0, OUTPUT );
 	pinMode( 2, OUTPUT );
+	//pinMode( 3, OUTPUT );
+	
 //Se escribe un valor digital al GPIO
 	
 	double voltaje_panel=0.0,voltaje_bateria=0.0,voltaje_bateria_max=0.0,voltaje_bateria_min=0.0,validacion=0.0;
@@ -111,6 +113,15 @@ int main( )
 			usleep(1000000);
 		}
 		
+		/*
+		syslog(LOG_INFO,"\n-->servo---\n");
+		
+		digitalWrite( 3,0 );
+		usleep(2000000);
+		syslog(LOG_INFO,"\n-->servo2 ---\n");
+		digitalWrite( 3,1 );
+		usleep(2000000);
+		*/
 	}
 	
 }
