@@ -73,6 +73,7 @@ int main()
 	pinMode(19,PWM_OUTPUT);
 	pinMode(12,PWM_OUTPUT);
 	pinMode(26,OUTPUT);
+	pinMode(22,OUTPUT);
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(divisor);
 	pwmSetRange(range);
@@ -183,7 +184,7 @@ void * calcular_pwm(void *arg)
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-    voltaje_deseado=4;//mysql_voltaje_bateria_pwm();
+    voltaje_deseado=mysql_voltaje_bateria_pwm()-2.9;//mysql_voltaje_bateria_pwm();
 
 
 
@@ -260,20 +261,30 @@ void * calcular_pwm(void *arg)
             pwmWrite(12,duty);
             delay(1000);
 			
-				
-			pwmWrite(13,punto_x);
-    		delay(2000);
 			
-			pwmWrite(19,posicion);
-			delay(2000);
 			
-			syslog(LOG_INFO,"\n-->servo---\n");
-		
-		digitalWrite( 26,0 );
-		usleep(2000000);
-		syslog(LOG_INFO,"\n-->servo2 ---\n");
-		digitalWrite( 26,1 );
-		usleep(2000000);
+			digitalWrite( 22,1 );
+			//usleep(1000000);
+			pwmWrite(13,posicion_panelx(0));
+			usleep(1000000);
+    		digitalWrite( 22,0 );
+			//usleep(1000000);
+			delay(1000);
+
+			digitalWrite( 26,1 );
+//			usleep(1000000);
+			pwmWrite(19,35);
+			usleep(1000000);
+//			delay(2000);
+			digitalWrite( 26,0 );
+//			usleep(1000000);
+			delay(1000);
+			
+			
+			
+			
+			
+			             
 			             
 			
     
@@ -297,19 +308,26 @@ void * calcular_pwm(void *arg)
             delay(1000);
 			
 			
-			pwmWrite(13,punto_x);
-			delay(2000);
 			
-			pwmWrite(19,posicion);
-			delay(2000);
 			
-				syslog(LOG_INFO,"\n-->servo---\n");
-		
-		digitalWrite( 26,0 );
-		usleep(2000000);
-		syslog(LOG_INFO,"\n-->servo2 ---\n");
-		digitalWrite( 26,1 );
-		usleep(2000000);
+			digitalWrite( 22,1 );
+			//usleep(1000000);
+			pwmWrite(13,posicion_panelx(0));
+			usleep(1000000);
+    		digitalWrite( 22,0 );
+			//usleep(1000000);
+			delay(1000);
+
+			digitalWrite( 26,1 );
+//			usleep(1000000);
+			pwmWrite(19,35);
+			usleep(1000000);
+//			delay(2000);
+			digitalWrite( 26,0 );
+//			usleep(1000000);
+			delay(1000);
+			
+			
 			             
 	        
     		
@@ -820,8 +838,8 @@ void  recalcular()
 	while(1)
 	{
 
-		//recalcular_y();
-		grados_y=90;
+		recalcular_y();
+		
 		//sleep(tiempo_espera);
 		//grados_y=90;
 		delay(1000);
@@ -830,9 +848,9 @@ void  recalcular()
 		//sleep(tiempo_espera);
 		delay(1000);
 		guardar_datos(grado_x,grados_y);
-		delay(1000);
+		//delay(1000);
 		//sleep(tiempo_espera);
-		grados_y+=90;
+		//grados_y+=90;
 		
 	
 		
