@@ -169,22 +169,19 @@ void * calcular_pwm(void *arg)
   float voltaje_deseado=0.0;
   float voltaje_min=0.0;
   
-  int posicion,punto_x;
-
     
 
     while(1)
     {
-		punto_x=posicion_panelx(grado_x);
-		posicion=posicion_panel(grados_y);
+		
 	
-	voltaje_ingresado=mysql_voltaje_pwm();
-	voltaje_deseado=mysql_voltaje_bateria_pwm();
+		voltaje_ingresado=mysql_voltaje_pwm();
+		voltaje_deseado=mysql_voltaje_bateria_pwm();
 	
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-    voltaje_deseado=mysql_voltaje_bateria_pwm()-2.9;//mysql_voltaje_bateria_pwm();
+    	voltaje_deseado=mysql_voltaje_bateria_pwm()-2.9;//mysql_voltaje_bateria_pwm();
 
 
 
@@ -265,20 +262,20 @@ void * calcular_pwm(void *arg)
 			
 			digitalWrite( 22,1 );
 			//usleep(1000000);
-			pwmWrite(13,posicion_panelx(0));
-			usleep(1000000);
+			pwmWrite(13,posicion_panelx(grado_x));
+			delay(1000);
     		digitalWrite( 22,0 );
 			//usleep(1000000);
-			delay(1000);
+			//delay(1000);
 
 			digitalWrite( 26,1 );
 //			usleep(1000000);
-			pwmWrite(19,35);
-			usleep(1000000);
+			pwmWrite(19,posicion_panel(grados_y));
+			delay(1000);
 //			delay(2000);
 			digitalWrite( 26,0 );
 //			usleep(1000000);
-			delay(1000);
+			//delay(1000);
 			
 			
 			
@@ -312,20 +309,20 @@ void * calcular_pwm(void *arg)
 			
 			digitalWrite( 22,1 );
 			//usleep(1000000);
-			pwmWrite(13,posicion_panelx(0));
-			usleep(1000000);
+			pwmWrite(13,posicion_panelx(grado_x));
+			delay(1000);
     		digitalWrite( 22,0 );
 			//usleep(1000000);
-			delay(1000);
+			//delay(1000);
 
 			digitalWrite( 26,1 );
 //			usleep(1000000);
-			pwmWrite(19,35);
-			usleep(1000000);
+			pwmWrite(19,posicion_panel(grados_y));
+			delay(1000);
 //			delay(2000);
 			digitalWrite( 26,0 );
 //			usleep(1000000);
-			delay(1000);
+			//delay(1000);
 			
 			
 			             
@@ -883,7 +880,7 @@ int posicion_panelx(int grado)
 
 int posicion_panel(int grado)
 {
-	int posicion=(int)(.522*grado)+29;
+	int posicion=(int)(-0.47222222222*grado)+120;
 	return posicion;
 }
 
