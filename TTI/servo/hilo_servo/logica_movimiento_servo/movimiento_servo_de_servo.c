@@ -56,11 +56,11 @@ double mysql_voltaje_bateria_pwm();
 void demonio();
 
 double voltaje_mayor_y,voltaje_mayor_x;
-int grados_dados=10;
+int grados_dados=15;
 int grado_x=90,grados_y=90;
 int divisor = 390;
 int range = 1024;
-int tiempo_espera=2;
+int tiempo_espera=1;
 
 
 int main()
@@ -253,29 +253,35 @@ void * calcular_pwm(void *arg)
             pwmWrite(12,duty);
             delay(1000);
             */
-            posicion=120;
+            //posicion=120;
             syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,duty);
-            delay(1000);
+           usleep(1000000);
+			
+			
+			
+			
+			digitalWrite( 26,1 );
+//			usleep(1000000);
+			pwmWrite(19,posicion_panel(grados_y));
+			usleep(1000000);
+//			delay(2000);
+			digitalWrite( 26,0 );
+//			usleep(1000000);
+			delay(100);
+			
+			
 			
 			
 			
 			digitalWrite( 22,1 );
 			//usleep(1000000);
 			pwmWrite(13,posicion_panelx(grado_x));
-			delay(1000);
+			usleep(1000000);
     		digitalWrite( 22,0 );
 			//usleep(1000000);
-			//delay(1000);
+			delay(100);
 
-			digitalWrite( 26,1 );
-//			usleep(1000000);
-			pwmWrite(19,posicion_panel(grados_y));
-			delay(1000);
-//			delay(2000);
-			digitalWrite( 26,0 );
-//			usleep(1000000);
-			//delay(1000);
 			
 			
 			
@@ -299,30 +305,30 @@ void * calcular_pwm(void *arg)
 	        pwmWrite(18,punto_x);
     		delay(1000);
 			*/
-			posicion=120;
+			//posicion=120;
 			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
-            delay(1000);
+           usleep(1000000);
 			
 			
+			digitalWrite( 26,1 );
+//			usleep(1000000);
+			pwmWrite(19,posicion_panel(grados_y));
+			usleep(1000000);
+//			delay(2000);
+			digitalWrite( 26,0 );
+//			usleep(1000000);
+			delay(100);
 			
 			
 			digitalWrite( 22,1 );
 			//usleep(1000000);
 			pwmWrite(13,posicion_panelx(grado_x));
-			delay(1000);
+			usleep(1000000);
     		digitalWrite( 22,0 );
 			//usleep(1000000);
-			//delay(1000);
+			delay(100);
 
-			digitalWrite( 26,1 );
-//			usleep(1000000);
-			pwmWrite(19,posicion_panel(grados_y));
-			delay(1000);
-//			delay(2000);
-			digitalWrite( 26,0 );
-//			usleep(1000000);
-			//delay(1000);
 			
 			
 			             
@@ -880,7 +886,7 @@ int posicion_panelx(int grado)
 
 int posicion_panel(int grado)
 {
-	int posicion=(int)(-0.47222222222*grado)+120;
+	int posicion=(int)(0.47222222222*grado)+35;
 	return posicion;
 }
 
