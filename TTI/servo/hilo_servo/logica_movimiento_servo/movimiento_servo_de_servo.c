@@ -181,7 +181,7 @@ void * calcular_pwm(void *arg)
 	
 		syslog(LOG_INFO,"\n-->nuevo voltaje---%f\n",voltaje_ingresado);
 		syslog(LOG_INFO,"-->nuevo voltaje---%f\n",voltaje_deseado);
-    	voltaje_deseado=mysql_voltaje_bateria_pwm()-2.9;//mysql_voltaje_bateria_pwm();
+    	
 
 
 
@@ -189,8 +189,10 @@ void * calcular_pwm(void *arg)
 
 
 
-        if (voltaje_deseado <= voltaje_ingresado)
+        if (voltaje_deseado+.8 < voltaje_ingresado)
             {
+				voltaje_deseado=mysql_voltaje_bateria_pwm()-3;//mysql_voltaje_bateria_pwm();
+				//voltaje_deseado=mysql_voltaje_bateria_pwm()+.8;//2.9;//mysql_voltaje_bateria_pwm();
             pendiente=((1024-0)/(voltaje_min-voltaje_ingresado));
             
 	    syslog(LOG_INFO,"%f\n",pendiente);
@@ -249,6 +251,13 @@ void * calcular_pwm(void *arg)
             {   
 			    duty=1024;
 			}
+			
+			
+			if(posicion_panel(grados_y)>=20)
+			{
+				grados_y=30;
+			}
+			
 			/*syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,duty);
             delay(1000);
@@ -306,6 +315,10 @@ void * calcular_pwm(void *arg)
     		delay(1000);
 			*/
 			//posicion=120;
+			if(posicion_panel(grados_y)>=20)
+			{
+				grados_y=30;
+			}
 			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
            usleep(1000000);
@@ -850,6 +863,13 @@ void  recalcular()
 		//grado_x=90;
 		//sleep(tiempo_espera);
 		delay(1000);
+		
+		if(grado_x==0)
+			grado_x=90;
+			
+		if(grados_y==0)
+			grados_y=140;
+		
 		guardar_datos(grado_x,grados_y);
 		//delay(1000);
 		//sleep(tiempo_espera);
