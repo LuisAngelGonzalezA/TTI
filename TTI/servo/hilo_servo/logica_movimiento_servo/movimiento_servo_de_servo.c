@@ -253,9 +253,9 @@ void * calcular_pwm(void *arg)
 			}
 			
 			
-			if(posicion_panel(grados_y)>=20)
+			if(posicion_panel(grados_y)>=30)
 			{
-				grados_y=30;
+				grados_y=40;
 			}
 			
 			/*syslog(LOG_INFO,"Duty :-->%d\n",duty);
@@ -315,9 +315,9 @@ void * calcular_pwm(void *arg)
     		delay(1000);
 			*/
 			//posicion=120;
-			if(posicion_panel(grados_y)>=20)
+			if(posicion_panel(grados_y)>=30)
 			{
-				grados_y=30;
+				grados_y=40;
 			}
 			syslog(LOG_INFO,"Duty :-->%d\n",duty);
             pwmWrite(12,1024);
