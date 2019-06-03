@@ -192,7 +192,7 @@ void * calcular_pwm(void *arg)
         if (voltaje_deseado+.8 < voltaje_ingresado)
             {
 				voltaje_deseado=mysql_voltaje_bateria_pwm()-3;//mysql_voltaje_bateria_pwm();
-				//voltaje_deseado=mysql_voltaje_bateria_pwm()+.8;//2.9;//mysql_voltaje_bateria_pwm();
+				//voltaje_deseado=mysql_voltaje_bateria_pwm()+.73;//2.9;//mysql_voltaje_bateria_pwm();
             pendiente=((1024-0)/(voltaje_min-voltaje_ingresado));
             
 	    syslog(LOG_INFO,"%f\n",pendiente);
