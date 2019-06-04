@@ -2,10 +2,12 @@
 
 include("conexion.php");
 $nombre=$_GET["nombre"];
+$fechaInicio=$_GET["fechaInicio"];
+$fechaFin=$_GET["fechaFin"];
 
 	$sql = "SELECT * FROM sensadoB 
-WHERE (hora >= '2019-04-30'  and hora>='2019-04-30') and id_bateria = (SELECT id_bateria FROM bateria WHERE nombre LIKE '{$nombre}')
-GROUP BY ((60/15) * HOUR((hora)) + FLOOR(MINUTE(hora)/15))";
+WHERE (hora >= '{$fechaInicio}' and hora <='{$fechaFin}') and id_bateria = (SELECT id_bateria FROM bateria WHERE nombre LIKE '{$nombre}')
+GROUP BY ((60/15) * HOUR((hora)) + FLOOR(MINUTE(hora)/15)) ORDER BY hora";
 
 
 	$json = array();

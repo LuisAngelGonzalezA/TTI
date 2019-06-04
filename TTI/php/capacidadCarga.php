@@ -2,11 +2,11 @@
 
 include("conexion.php");
 
-	$sql = "SELECT b.*, h.activo FROM bateria b, historial_bateria_panel h where  b.id_bateria = h.id_bateria and b.isEliminado=0 GROUP BY h.activo, b.nombre ORDER BY b.id_bateria, h.fecha";
+	$sql = "SELECT * FROM bateria WHERE id_bateria = (SELECT id_bateria FROM sensadoB ORDER BY id_sensado_b DESC LIMIT 1)";
 	$json = array();
 	$resultado = mysqli_query($conn,$sql);
 
-	$operacion["operacion"] = '4';
+	$operacion["operacion"] = '8';
 	$json['datos'][] = $operacion;
 	if($sql){
 		
