@@ -8,8 +8,8 @@ $idBateria=$_GET["id_bateria"];
 $activo="1";
 $json = array();
 
-$sql = "INSERT INTO historial_bateria_panel (id_bateria,fecha,activo,id_panel)
-	 values(".$idBateria.",NOW(),".$activo.",13)";
+$sql = "INSERT INTO historial_bateria_panel (id_bateria,fecha,activo)
+	 values(".$idBateria.",NOW(),".$activo.")";
 
 $sqlUpdate="UPDATE historial_bateria_panel SET activo = 0 WHERE id_bateria !='{$idBateria}'";	
 	
@@ -23,7 +23,6 @@ $sqlUpdate="UPDATE historial_bateria_panel SET activo = 0 WHERE id_bateria !='{$
 	} else {
 		$result["nombre"] = '';
 		$json['datos'][] = $result;
-		echo $sql;
 	    echo json_encode($json);
 	}	
 

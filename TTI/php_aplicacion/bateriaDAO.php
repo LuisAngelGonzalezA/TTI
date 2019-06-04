@@ -2,9 +2,7 @@
 
 include("conexion.php");
 
-	$sql = "SELECT b.*, h.activo FROM bateria b
-	left join  historial_bateria_panel h on b.id_bateria = h.id_bateria
-	where b.isEliminado=0 GROUP BY b.nombre";
+	$sql = "SELECT b.*, h.activo FROM bateria b left join  historial_bateria_panel h on b.id_bateria = h.id_bateria where b.isEliminado=0 GROUP BY h.activo, b.nombre ORDER BY b.id_bateria, h.fecha";
 	$json = array();
 	$resultado = mysqli_query($conn,$sql);
 
